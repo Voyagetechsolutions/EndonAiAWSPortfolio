@@ -8,6 +8,7 @@ testpaths = [
     "endon-core/tests",
     "01-threat-detection-response/tests",
     "02-iam-security-analyzer/tests",
+    "03-security-posture-scanner/tests",
     "tests",
 ]
 pythonpath = [
@@ -19,6 +20,9 @@ pythonpath = [
     "02-iam-security-analyzer/src",
     "02-iam-security-analyzer/infrastructure",
     "02-iam-security-analyzer/tests",
+    "03-security-posture-scanner/src",
+    "03-security-posture-scanner/infrastructure",
+    "03-security-posture-scanner/tests",
 ]
 
 [tool.ruff]
@@ -36,12 +40,15 @@ known-first-party = [
     "endon_core",
     "endon_detection",
     "endon_iam_analyzer",
+    "endon_posture",
     "detection_testkit",
     "iam_testkit",
+    "posture_testkit",
     "lambda_bundle",
     "platform_stack",
     "detection_stack",
     "iam_analyzer_stack",
+    "posture_scanner_stack",
 ]
 
 [tool.ruff.lint.per-file-ignores]

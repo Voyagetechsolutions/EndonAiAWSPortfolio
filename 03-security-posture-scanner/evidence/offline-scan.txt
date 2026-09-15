@@ -1,0 +1,118 @@
+ENDON AI - CLOUD SECURITY POSTURE  (123456789012 / us-east-1)
+=============================================================
+Findings: CRITICAL 1   HIGH 10   MEDIUM 19   LOW 1
+Posture score: 0/100
+
+CRITICAL
+--------
+[S3-001] S3 bucket is publicly accessible: endon-public
+    - arn:aws:s3:::endon-public
+    fix: Enable all four S3 Block Public Access settings and remove public ACL grants and wildcard-principal policy statements.
+
+HIGH
+----
+[CT-001] No multi-region CloudTrail trail is configured
+    - AWS::::Account:123456789012
+    fix: Create an organization or account multi-region trail that logs all management events.
+[CT-004] CloudTrail trail is not logging: endon-vuln-trail
+    - arn:aws:cloudtrail:us-east-1:123456789012:trail/endon-vuln-trail
+    fix: Start logging on the trail and alert on StopLogging (Project 1 does this).
+[EC2-001] Security group allows SSH from the internet: sg-becefb773bf7a7776
+    - arn:aws:ec2:us-east-1:123456789012:security-group/sg-becefb773bf7a7776
+    fix: Restrict port 22 to specific admin CIDRs, or use SSM Session Manager instead of SSH.
+[EC2-002] Security group allows RDP from the internet: sg-becefb773bf7a7776
+    - arn:aws:ec2:us-east-1:123456789012:security-group/sg-becefb773bf7a7776
+    fix: Restrict port 3389 to specific admin CIDRs, or use SSM Session Manager.
+[EC2-003] Security group allows all traffic from the internet: sg-f66acbdb90fd0d087
+    - arn:aws:ec2:us-east-1:123456789012:security-group/sg-f66acbdb90fd0d087
+    fix: Replace the open rule with least-privilege rules scoped to required ports and sources.
+[IAM-003] Root user does not have MFA enabled
+    - AWS::::Account:123456789012
+    fix: Enable a hardware or virtual MFA device on the root user.
+[KMS-002] KMS key policy allows any principal: 9351261c-5543-4b98-afe9-7e52194083d8
+    - arn:aws:kms:us-east-1:123456789012:key/9351261c-5543-4b98-afe9-7e52194083d8
+    fix: Scope the key policy to specific principals; never use Principal '*' without tight conditions.
+[RDS-001] RDS instance is publicly accessible: endon-vuln-db
+    - arn:aws:rds:us-east-1:123456789012:db:endon-vuln-db
+    fix: Set PubliclyAccessible to false and reach the database through private networking.
+[RDS-002] RDS storage is not encrypted: endon-vuln-db
+    - arn:aws:rds:us-east-1:123456789012:db:endon-vuln-db
+    fix: Recreate the instance from an encrypted snapshot with StorageEncrypted enabled.
+[S3-002] S3 Block Public Access is not fully enabled: endon-public
+    - arn:aws:s3:::endon-public
+    fix: Enable BlockPublicAcls, IgnorePublicAcls, BlockPublicPolicy and RestrictPublicBuckets.
+
+MEDIUM
+------
+[CT-002] CloudTrail log file validation is disabled: endon-vuln-trail
+    - arn:aws:cloudtrail:us-east-1:123456789012:trail/endon-vuln-trail
+    fix: Enable log file validation on the trail.
+[CT-003] CloudTrail logs are not encrypted with KMS: endon-vuln-trail
+    - arn:aws:cloudtrail:us-east-1:123456789012:trail/endon-vuln-trail
+    fix: Configure the trail with a customer-managed KMS key.
+[DET-001] GuardDuty is not enabled
+    - AWS::::Account:123456789012
+    fix: Enable GuardDuty in every region (the Project 6 landing zone does this org-wide).
+[DET-002] AWS Config is not recording
+    - AWS::::Account:123456789012
+    fix: Enable an AWS Config recorder covering all resource types.
+[EC2-004] Default security group is not locked down: sg-630deb28570c6c730
+    - arn:aws:ec2:us-east-1:123456789012:security-group/sg-630deb28570c6c730
+    fix: Remove all ingress and egress rules from every default security group.
+[EC2-004] Default security group is not locked down: sg-ab6ebff55e7a180e5
+    - arn:aws:ec2:us-east-1:123456789012:security-group/sg-ab6ebff55e7a180e5
+    fix: Remove all ingress and egress rules from every default security group.
+[EC2-005] EBS volume is not encrypted: vol-f3393b3b48130ab0d
+    - arn:aws:ec2:us-east-1:123456789012:volume/vol-f3393b3b48130ab0d
+    fix: Recreate the volume from an encrypted snapshot, and enable EBS encryption by default.
+[EC2-005] EBS volume is not encrypted: vol-5817e12bffc9a66f4
+    - arn:aws:ec2:us-east-1:123456789012:volume/vol-5817e12bffc9a66f4
+    fix: Recreate the volume from an encrypted snapshot, and enable EBS encryption by default.
+[EC2-005] EBS volume is not encrypted: vol-b58875d1785b992f0
+    - arn:aws:ec2:us-east-1:123456789012:volume/vol-b58875d1785b992f0
+    fix: Recreate the volume from an encrypted snapshot, and enable EBS encryption by default.
+[EC2-006] EBS encryption by default is disabled
+    - AWS::::Account:123456789012
+    fix: Enable EBS encryption by default for the region.
+[EC2-007] EC2 instance does not require IMDSv2: i-e887de9b593895488
+    - arn:aws:ec2:us-east-1:123456789012:instance/i-e887de9b593895488
+    fix: Set MetadataOptions HttpTokens to 'required' to enforce IMDSv2.
+[IAM-001] Account password policy is missing or weak
+    - AWS::::Account:123456789012
+    fix: Set a password policy requiring at least 14 characters and complexity.
+[KMS-001] KMS key rotation is disabled: cb6355f2-7d80-4321-9d0a-1c71be421f2b
+    - arn:aws:kms:us-east-1:123456789012:key/cb6355f2-7d80-4321-9d0a-1c71be421f2b
+    fix: Enable automatic key rotation on the customer-managed key.
+[KMS-001] KMS key rotation is disabled: 8683d9ad-b5a5-4813-be5b-57f1c9970fe0
+    - arn:aws:kms:us-east-1:123456789012:key/8683d9ad-b5a5-4813-be5b-57f1c9970fe0
+    fix: Enable automatic key rotation on the customer-managed key.
+[KMS-001] KMS key rotation is disabled: 9351261c-5543-4b98-afe9-7e52194083d8
+    - arn:aws:kms:us-east-1:123456789012:key/9351261c-5543-4b98-afe9-7e52194083d8
+    fix: Enable automatic key rotation on the customer-managed key.
+[RDS-003] RDS automated backups are disabled: endon-vuln-db
+    - arn:aws:rds:us-east-1:123456789012:db:endon-vuln-db
+    fix: Set a backup retention period of at least 7 days.
+[S3-003] S3 bucket has no default encryption configured: endon-public
+    - arn:aws:s3:::endon-public
+    fix: Set default encryption to SSE-KMS (or at least SSE-S3) on the bucket.
+[S3-004] S3 bucket does not enforce TLS: endon-public
+    - arn:aws:s3:::endon-public
+    fix: Add a bucket policy statement denying s3:* when aws:SecureTransport is false.
+[S3-005] S3 bucket versioning is disabled: endon-public
+    - arn:aws:s3:::endon-public
+    fix: Enable versioning, and consider MFA delete for critical buckets.
+
+LOW
+---
+[S3-006] S3 bucket has no server access logging: endon-public
+    - arn:aws:s3:::endon-public
+    fix: Enable server access logging to a dedicated log bucket.
+
+DETECTION BENCHMARK
+-------------------
+  Planted misconfigurations : 26 controls across 8 services
+  Detected                  : 26/26 (100%)
+  Missed                    : none
+  Additional (baseline)     : none
+
+Wrote HTML report to 03-security-posture-scanner\evidence\posture-assessment.html

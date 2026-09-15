@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-posture-scanner"
+version = "0.1.0"
+description = "Endon AI cloud security posture scanner"
+requires-python = ">=3.11"
+dependencies = ["endon-core", "boto3>=1.35"]
+
+[project.scripts]
+endon-posture-scanner = "endon_posture.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

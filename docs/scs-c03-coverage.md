@@ -14,7 +14,9 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Normalize findings from multiple detectors into one model (ASFF-compatible) | endon-core, Project 1 | **Built** |
 | Distinguish attacker (ACTOR) from victim (TARGET) resources | Project 1 | **Built** |
 | Alert on failures of the detection pipeline itself (errors, DLQ) | Project 1 | **Built** |
-| Detect misconfigurations across S3, EC2, IAM, CloudTrail, KMS, RDS | Project 3 | *Planned* |
+| Detect misconfigurations across S3, EC2, RDS, CloudTrail, KMS, IAM (26 controls) | Project 3 | **Built** |
+| Detection-rate benchmark against a known-vulnerable environment | Project 3 | **Built** |
+| Detect disabled detective controls (GuardDuty, Config) | Project 3 | **Built** |
 | Central SOC view of findings and incidents | Project 8 | *Planned* |
 
 ## 2. Incident Response
@@ -34,7 +36,9 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Capability | Component | Status |
 |------------|-----------|--------|
 | Quarantine security group enforcement (re-verified on every use) | Project 1 | **Built** |
-| Network exposure checks (0.0.0.0/0 on admin ports, default SGs) | Project 3 | *Planned* |
+| Network exposure checks (0.0.0.0/0 on admin ports, default SGs) | Project 3 | **Built** |
+| Encryption-at-rest checks (EBS, RDS, S3, KMS rotation) | Project 3 | **Built** |
+| IMDSv2 enforcement check | Project 3 | **Built** |
 | Region and service restrictions through SCPs | Project 6 | *Planned* |
 
 ## 4. Identity and Access Management

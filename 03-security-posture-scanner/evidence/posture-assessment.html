@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Endon AI - Cloud Security Posture</title>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; background: #f4f5f7; color: #1a202c; }
+  header { background: #0f1e33; color: #fff; padding: 28px 32px; }
+  header h1 { margin: 0 0 6px; font-size: 22px; }
+  header .meta { opacity: .8; font-size: 13px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 24px 16px 64px; }
+  .summary { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 24px 0; }
+  .score { font-size: 40px; font-weight: 700; color: #b3123b; }
+  .cards { display: flex; gap: 12px; flex-wrap: wrap; margin-left: auto; }
+  .card { background: #fff; border-radius: 8px; padding: 12px 18px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .card .num { font-size: 24px; font-weight: 700; }
+  .card .lbl { font-size: 12px; color: #4a5568; }
+  .scanned { color: #4a5568; font-size: 13px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #edf0f3; vertical-align: top; }
+  th { background: #f0f2f5; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #4a5568; }
+  .pill { color: #fff; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  code { background: #eef1f4; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+  .desc { color: #2d3748; font-size: 13px; margin: 6px 0; }
+  .res { color: #4a5568; font-size: 12px; font-family: ui-monospace, monospace; }
+  .fix { color: #1a202c; font-size: 13px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Endon AI &middot; Cloud Security Posture</h1>
+  <div class="meta">Account 123456789012 &middot; us-east-1 &middot; generated 2026-09-15T09:53:49.479Z</div>
+</header>
+<div class="wrap">
+  <div class="summary">
+    <div class="score">0<span style="font-size:15px;color:#4a5568">/100</span>
+      <div style="font-size:13px;color:#4a5568;font-weight:400">Posture score</div></div>
+    <div class="cards"><div class="card"><div class="num" style="color:#b3123b">1</div><div class="lbl">Critical</div></div><div class="card"><div class="num" style="color:#d1531f">10</div><div class="lbl">High</div></div><div class="card"><div class="num" style="color:#b8860b">19</div><div class="lbl">Medium</div></div><div class="card"><div class="num" style="color:#2a7d5f">1</div><div class="lbl">Low</div></div><div class="card"><div class="num" style="color:#4a5568">0</div><div class="lbl">Informational</div></div></div>
+  </div>
+  <div class="scanned">Services scanned: CloudTrail, Config, EC2, GuardDuty, IAM, KMS, RDS, S3</div>
+  <table>
+    <thead><tr><th>Severity</th><th>Control</th><th>Finding</th></tr></thead>
+    <tbody>
+    <tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>S3-001</code></td>
+      <td><strong>S3 bucket is publicly accessible: endon-public</strong>
+          <div class="desc">A bucket ACL or bucket policy grants access to everyone, and Block Public Access is not fully enabled to neutralize it. Public buckets are a leading cause of data breaches. Exposed via a public ACL.</div>
+          <div class="res">arn:aws:s3:::endon-public</div>
+          <div class="fix"><em>Fix:</em> Enable all four S3 Block Public Access settings and remove public ACL grants and wildcard-principal policy statements.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>S3-002</code></td>
+      <td><strong>S3 Block Public Access is not fully enabled: endon-public</strong>
+          <div class="desc">One or more of the four Block Public Access settings is off, so a future ACL or policy change could expose the bucket without warning. Missing settings: BlockPublicAcls, BlockPublicPolicy, IgnorePublicAcls, RestrictPublicBuckets.</div>
+          <div class="res">arn:aws:s3:::endon-public</div>
+          <div class="fix"><em>Fix:</em> Enable BlockPublicAcls, IgnorePublicAcls, BlockPublicPolicy and RestrictPublicBuckets.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>RDS-002</code></td>
+      <td><strong>RDS storage is not encrypted: endon-vuln-db</strong>
+          <div class="desc">The database&#x27;s storage is not encrypted at rest.</div>
+          <div class="res">arn:aws:rds:us-east-1:123456789012:db:endon-vuln-db</div>
+          <div class="fix"><em>Fix:</em> Recreate the instance from an encrypted snapshot with StorageEncrypted enabled.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>RDS-001</code></td>
+      <td><strong>RDS instance is publicly accessible: endon-vuln-db</strong>
+          <div class="desc">The database instance has a public endpoint, exposing it beyond the VPC.</div>
+          <div class="res">arn:aws:rds:us-east-1:123456789012:db:endon-vuln-db</div>
+          <div class="fix"><em>Fix:</em> Set PubliclyAccessible to false and reach the database through private networking.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>KMS-002</code></td>
+      <td><strong>KMS key policy allows any principal: 9351261c-5543-4b98-afe9-7e52194083d8</strong>
+          <div class="desc">The key policy grants use of the key to Principal &#x27;*&#x27;, which can expose encrypted data to any principal that can reach the key.</div>
+          <div class="res">arn:aws:kms:us-east-1:123456789012:key/9351261c-5543-4b98-afe9-7e52194083d8</div>
+          <div class="fix"><em>Fix:</em> Scope the key policy to specific principals; never use Principal &#x27;*&#x27; without tight conditions.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-003</code></td>
+      <td><strong>Root user does not have MFA enabled</strong>
+          <div class="desc">MFA is not enabled on the root user, the most privileged identity in the account.</div>
+          <div class="res">AWS::::Account:123456789012</div>
+          <div class="fix"><em>Fix:</em> Enable a hardware or virtual MFA device on the root user.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>EC2-001</code></td>
+      <td><strong>Security group allows SSH from the internet: sg-becefb773bf7a7776</strong>
+          <div class="desc">A security group allows inbound TCP 22 from 0.0.0.0/0 or ::/0, exposing SSH to the whole internet for brute forcing and exploitation.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:security-group/sg-becefb773bf7a7776</div>
+          <div class="fix"><em>Fix:</em> Restrict port 22 to specific admin CIDRs, or use SSM Session Manager instead of SSH.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>EC2-002</code></td>
+      <td><strong>Security group allows RDP from the internet: sg-becefb773bf7a7776</strong>
+          <div class="desc">A security group allows inbound TCP 3389 from 0.0.0.0/0 or ::/0, exposing RDP to the whole internet.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:security-group/sg-becefb773bf7a7776</div>
+          <div class="fix"><em>Fix:</em> Restrict port 3389 to specific admin CIDRs, or use SSM Session Manager.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>EC2-003</code></td>
+      <td><strong>Security group allows all traffic from the internet: sg-f66acbdb90fd0d087</strong>
+          <div class="desc">A security group allows all protocols/ports from 0.0.0.0/0, effectively placing the attached resources directly on the public internet.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:security-group/sg-f66acbdb90fd0d087</div>
+          <div class="fix"><em>Fix:</em> Replace the open rule with least-privilege rules scoped to required ports and sources.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>CT-004</code></td>
+      <td><strong>CloudTrail trail is not logging: endon-vuln-trail</strong>
+          <div class="desc">The trail exists but logging is turned off, so no events are being recorded.</div>
+          <div class="res">arn:aws:cloudtrail:us-east-1:123456789012:trail/endon-vuln-trail</div>
+          <div class="fix"><em>Fix:</em> Start logging on the trail and alert on StopLogging (Project 1 does this).</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>CT-001</code></td>
+      <td><strong>No multi-region CloudTrail trail is configured</strong>
+          <div class="desc">There is no multi-region CloudTrail trail, so API activity in some regions is not recorded. Attackers operate in unused regions precisely because they are unmonitored.</div>
+          <div class="res">AWS::::Account:123456789012</div>
+          <div class="fix"><em>Fix:</em> Create an organization or account multi-region trail that logs all management events.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>S3-005</code></td>
+      <td><strong>S3 bucket versioning is disabled: endon-public</strong>
+          <div class="desc">Without versioning, an overwrite or delete (accidental or malicious, e.g. ransomware) is unrecoverable.</div>
+          <div class="res">arn:aws:s3:::endon-public</div>
+          <div class="fix"><em>Fix:</em> Enable versioning, and consider MFA delete for critical buckets.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>S3-004</code></td>
+      <td><strong>S3 bucket does not enforce TLS: endon-public</strong>
+          <div class="desc">The bucket policy does not deny requests made over plain HTTP (aws:SecureTransport = false), so data can be read or written in the clear.</div>
+          <div class="res">arn:aws:s3:::endon-public</div>
+          <div class="fix"><em>Fix:</em> Add a bucket policy statement denying s3:* when aws:SecureTransport is false.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>S3-003</code></td>
+      <td><strong>S3 bucket has no default encryption configured: endon-public</strong>
+          <div class="desc">The bucket has no default server-side encryption configuration; objects rely on per-request settings rather than an enforced default.</div>
+          <div class="res">arn:aws:s3:::endon-public</div>
+          <div class="fix"><em>Fix:</em> Set default encryption to SSE-KMS (or at least SSE-S3) on the bucket.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>RDS-003</code></td>
+      <td><strong>RDS automated backups are disabled: endon-vuln-db</strong>
+          <div class="desc">The backup retention period is 0, so there is no point-in-time recovery.</div>
+          <div class="res">arn:aws:rds:us-east-1:123456789012:db:endon-vuln-db</div>
+          <div class="fix"><em>Fix:</em> Set a backup retention period of at least 7 days.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>KMS-001</code></td>
+      <td><strong>KMS key rotation is disabled: cb6355f2-7d80-4321-9d0a-1c71be421f2b</strong>
+          <div class="desc">Automatic annual rotation is off for a customer-managed key, so a compromised key protects data indefinitely.</div>
+          <div class="res">arn:aws:kms:us-east-1:123456789012:key/cb6355f2-7d80-4321-9d0a-1c71be421f2b</div>
+          <div class="fix"><em>Fix:</em> Enable automatic key rotation on the customer-managed key.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>KMS-001</code></td>
+      <td><strong>KMS key rotation is disabled: 8683d9ad-b5a5-4813-be5b-57f1c9970fe0</strong>
+          <div class="desc">Automatic annual rotation is off for a customer-managed key, so a compromised key protects data indefinitely.</div>
+          <div class="res">arn:aws:kms:us-east-1:123456789012:key/8683d9ad-b5a5-4813-be5b-57f1c9970fe0</div>
+          <div class="fix"><em>Fix:</em> Enable automatic key rotation on the customer-managed key.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>KMS-001</code></td>
+      <td><strong>KMS key rotation is disabled: 9351261c-5543-4b98-afe9-7e52194083d8</strong>
+          <div class="desc">Automatic annual rotation is off for a customer-managed key, so a compromised key protects data indefinitely.</div>
+          <div class="res">arn:aws:kms:us-east-1:123456789012:key/9351261c-5543-4b98-afe9-7e52194083d8</div>
+          <div class="fix"><em>Fix:</em> Enable automatic key rotation on the customer-managed key.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>IAM-001</code></td>
+      <td><strong>Account password policy is missing or weak</strong>
+          <div class="desc">The account has no password policy, or one weaker than a 14-character minimum, so console passwords may be easy to guess.</div>
+          <div class="res">AWS::::Account:123456789012</div>
+          <div class="fix"><em>Fix:</em> Set a password policy requiring at least 14 characters and complexity.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>DET-001</code></td>
+      <td><strong>GuardDuty is not enabled</strong>
+          <div class="desc">GuardDuty is not enabled in this region, so there is no managed threat detection feeding the Endon response engine.</div>
+          <div class="res">AWS::::Account:123456789012</div>
+          <div class="fix"><em>Fix:</em> Enable GuardDuty in every region (the Project 6 landing zone does this org-wide).</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>EC2-007</code></td>
+      <td><strong>EC2 instance does not require IMDSv2: i-e887de9b593895488</strong>
+          <div class="desc">The instance metadata service accepts IMDSv1 (HttpTokens != required), which makes instance-role credential theft via SSRF far easier.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:instance/i-e887de9b593895488</div>
+          <div class="fix"><em>Fix:</em> Set MetadataOptions HttpTokens to &#x27;required&#x27; to enforce IMDSv2.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>EC2-005</code></td>
+      <td><strong>EBS volume is not encrypted: vol-f3393b3b48130ab0d</strong>
+          <div class="desc">An EBS volume stores data at rest without encryption.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:volume/vol-f3393b3b48130ab0d</div>
+          <div class="fix"><em>Fix:</em> Recreate the volume from an encrypted snapshot, and enable EBS encryption by default.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>EC2-005</code></td>
+      <td><strong>EBS volume is not encrypted: vol-5817e12bffc9a66f4</strong>
+          <div class="desc">An EBS volume stores data at rest without encryption.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:volume/vol-5817e12bffc9a66f4</div>
+          <div class="fix"><em>Fix:</em> Recreate the volume from an encrypted snapshot, and enable EBS encryption by default.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>EC2-005</code></td>
+      <td><strong>EBS volume is not encrypted: vol-b58875d1785b992f0</strong>
+          <div class="desc">An EBS volume stores data at rest without encryption.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:volume/vol-b58875d1785b992f0</div>
+          <div class="fix"><em>Fix:</em> Recreate the volume from an encrypted snapshot, and enable EBS encryption by default.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>EC2-006</code></td>
+      <td><strong>EBS encryption by default is disabled</strong>
+          <div class="desc">New EBS volumes in this region are created unencrypted unless the caller opts in.</div>
+          <div class="res">AWS::::Account:123456789012</div>
+          <div class="fix"><em>Fix:</em> Enable EBS encryption by default for the region.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>EC2-004</code></td>
+      <td><strong>Default security group is not locked down: sg-630deb28570c6c730</strong>
+          <div class="desc">The VPC default security group has ingress rules. It should permit no traffic, so that resources placed in it by mistake are not silently reachable. VPC vpc-b1e4790a8e7514cf2.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:security-group/sg-630deb28570c6c730</div>
+          <div class="fix"><em>Fix:</em> Remove all ingress and egress rules from every default security group.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>EC2-004</code></td>
+      <td><strong>Default security group is not locked down: sg-ab6ebff55e7a180e5</strong>
+          <div class="desc">The VPC default security group has ingress rules. It should permit no traffic, so that resources placed in it by mistake are not silently reachable. VPC vpc-6683bf98858985705.</div>
+          <div class="res">arn:aws:ec2:us-east-1:123456789012:security-group/sg-ab6ebff55e7a180e5</div>
+          <div class="fix"><em>Fix:</em> Remove all ingress and egress rules from every default security group.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>DET-002</code></td>
+      <td><strong>AWS Config is not recording</strong>
+          <div class="desc">AWS Config has no active recorder, so resource configuration changes are not tracked and compliance cannot be evaluated over time.</div>
+          <div class="res">AWS::::Account:123456789012</div>
+          <div class="fix"><em>Fix:</em> Enable an AWS Config recorder covering all resource types.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>CT-003</code></td>
+      <td><strong>CloudTrail logs are not encrypted with KMS: endon-vuln-trail</strong>
+          <div class="desc">The trail does not use an SSE-KMS key, so log access is not gated by a key policy.</div>
+          <div class="res">arn:aws:cloudtrail:us-east-1:123456789012:trail/endon-vuln-trail</div>
+          <div class="fix"><em>Fix:</em> Configure the trail with a customer-managed KMS key.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>CT-002</code></td>
+      <td><strong>CloudTrail log file validation is disabled: endon-vuln-trail</strong>
+          <div class="desc">Without log file validation, tampering with delivered CloudTrail logs cannot be detected.</div>
+          <div class="res">arn:aws:cloudtrail:us-east-1:123456789012:trail/endon-vuln-trail</div>
+          <div class="fix"><em>Fix:</em> Enable log file validation on the trail.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#2a7d5f">LOW</span></td>
+      <td><code>S3-006</code></td>
+      <td><strong>S3 bucket has no server access logging: endon-public</strong>
+          <div class="desc">Server access logging is off, so reads and writes to the bucket are not recorded.</div>
+          <div class="res">arn:aws:s3:::endon-public</div>
+          <div class="fix"><em>Fix:</em> Enable server access logging to a dedicated log bucket.</div></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

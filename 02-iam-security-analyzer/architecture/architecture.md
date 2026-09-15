@@ -8,7 +8,7 @@ IAM's real evaluation rule is simple to state and easy to get subtly wrong: an e
 a security analyzer actually asks.
 
 ```python
-access = permission_set.evaluate("iam:PassRole")          # requires Resource:"*"
+access = permission_set.evaluate("iam:PassRole")  # requires Resource:"*"
 access = permission_set.evaluate("s3:GetObject", bucket)  # a specific resource
 access = permission_set.evaluate_action("iam:PutUserPolicy")  # any resource, graded
 ```
