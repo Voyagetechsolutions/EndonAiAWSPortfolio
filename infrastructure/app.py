@@ -17,12 +17,15 @@ COMPONENT_PATHS = (
     "endon-core/infrastructure",
     "01-threat-detection-response/src",
     "01-threat-detection-response/infrastructure",
+    "02-iam-security-analyzer/src",
+    "02-iam-security-analyzer/infrastructure",
 )
 sys.path[:0] = [str(ROOT / path) for path in COMPONENT_PATHS]
 
 from aws_cdk import App, Environment, Tags  # noqa: E402
 
 from detection_stack import DetectionResponseStack  # noqa: E402
+from iam_analyzer_stack import IamAnalyzerStack  # noqa: E402
 from platform_stack import PlatformStack  # noqa: E402
 
 
@@ -46,6 +49,7 @@ def main() -> None:
         response_mode=app.node.try_get_context("endon:responseMode") or "dry_run",
         env=env,
     )
+    IamAnalyzerStack(app, "EndonIamAnalyzer", platform=platform, env=env)
 
     Tags.of(app).add("project", "endon-ai")
     Tags.of(app).add("managed-by", "aws-cdk")

@@ -7,6 +7,7 @@ addopts = "--import-mode=importlib -q"
 testpaths = [
     "endon-core/tests",
     "01-threat-detection-response/tests",
+    "02-iam-security-analyzer/tests",
     "tests",
 ]
 pythonpath = [
@@ -15,6 +16,9 @@ pythonpath = [
     "01-threat-detection-response/src",
     "01-threat-detection-response/infrastructure",
     "01-threat-detection-response/tests",
+    "02-iam-security-analyzer/src",
+    "02-iam-security-analyzer/infrastructure",
+    "02-iam-security-analyzer/tests",
 ]
 
 [tool.ruff]
@@ -31,10 +35,13 @@ ignore = ["E501"]
 known-first-party = [
     "endon_core",
     "endon_detection",
+    "endon_iam_analyzer",
     "detection_testkit",
+    "iam_testkit",
     "lambda_bundle",
     "platform_stack",
     "detection_stack",
+    "iam_analyzer_stack",
 ]
 
 [tool.ruff.lint.per-file-ignores]

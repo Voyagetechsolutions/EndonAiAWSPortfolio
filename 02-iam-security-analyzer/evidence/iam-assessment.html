@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Endon AI - IAM Security Assessment</title>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; background: #f4f5f7; color: #1a202c; }
+  header { background: #0f1e33; color: #fff; padding: 28px 32px; }
+  header h1 { margin: 0 0 6px; font-size: 22px; }
+  header .meta { opacity: .8; font-size: 13px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 24px 16px 64px; }
+  .summary { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 24px 0; }
+  .score { font-size: 40px; font-weight: 700; color: #b3123b; }
+  .score small { font-size: 15px; color: #4a5568; font-weight: 400; }
+  .cards { display: flex; gap: 12px; flex-wrap: wrap; margin-left: auto; }
+  .card { background: #fff; border-radius: 8px; padding: 12px 18px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .card .num { font-size: 24px; font-weight: 700; }
+  .card .lbl { font-size: 12px; color: #4a5568; }
+  .scanned { color: #4a5568; font-size: 13px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #edf0f3; vertical-align: top; }
+  th { background: #f0f2f5; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #4a5568; }
+  .pill { color: #fff; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  code { background: #eef1f4; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+  .desc { color: #2d3748; font-size: 13px; margin: 6px 0; }
+  .res { color: #4a5568; font-size: 12px; font-family: ui-monospace, monospace; }
+  .fix { color: #1a202c; font-size: 13px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Endon AI &middot; IAM Security Assessment</h1>
+  <div class="meta">Account 111122223333 &middot; us-east-1 &middot; generated 2026-09-15T00:00:00.000Z</div>
+</header>
+<div class="wrap">
+  <div class="summary">
+    <div class="score">0<small>/100</small><div style="font-size:13px;color:#4a5568;font-weight:400">IAM security score</div></div>
+    <div class="cards"><div class="card"><div class="num" style="color:#b3123b">8</div><div class="lbl">Critical</div></div><div class="card"><div class="num" style="color:#d1531f">8</div><div class="lbl">High</div></div><div class="card"><div class="num" style="color:#b8860b">3</div><div class="lbl">Medium</div></div><div class="card"><div class="num" style="color:#2a7d5f">0</div><div class="lbl">Low</div></div><div class="card"><div class="num" style="color:#4a5568">0</div><div class="lbl">Informational</div></div></div>
+  </div>
+  <div class="scanned">Scanned 8 users, 5 roles and 8 managed policies.</div>
+  <table>
+    <thead><tr><th>Severity</th><th>Control</th><th>Finding</th></tr></thead>
+    <tbody>
+    <tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>IAM-ESCALATION-001</code></td>
+      <td><strong>User bob-escalator can escalate to administrator</strong>
+          <div class="desc">The user &#x27;bob-escalator&#x27; holds permissions that let it grant itself further access, reaching administrator-equivalent power. Direct techniques: AttachUserPolicy (via iam:attachuserpolicy)</div>
+          <div class="res">arn:aws:iam::111122223333:user/bob-escalator</div>
+          <div class="fix"><em>Fix:</em> Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>IAM-ESCALATION-001</code></td>
+      <td><strong>User dave-wildcard can escalate to administrator</strong>
+          <div class="desc">The user &#x27;dave-wildcard&#x27; holds permissions that let it grant itself further access, reaching administrator-equivalent power. Direct techniques: CreateNewPolicyVersion (via iam:createpolicyversion), SetExistingDefaultPolicyVersion (via iam:setdefaultpolicyversion), CreateAccessKey (via iam:createaccesskey), CreateLoginProfile (via iam:createloginprofile), UpdateLoginProfile (via iam:updateloginprofile), AttachUserPolicy (via iam:attachuserpolicy), AttachGroupPolicy (via iam:attachgrouppolicy), AttachRolePolicy (via iam:attachrolepolicy), PutUserPolicy (via iam:putuserpolicy), PutGroupPolicy (via iam:putgrouppolicy), PutRolePolicy (via iam:putrolepolicy), AddUserToGroup (via iam:addusertogroup), UpdateAssumeRolePolicy (via iam:updateassumerolepolicy+sts:assumerole), PassRoleToLambda (via iam:passrole+lambda:createfunction+lambda:invokefunction), PassRoleToEc2 (via iam:passrole+ec2:runinstances), PassRoleToCloudFormation (via iam:passrole+cloudformation:createstack), PassRoleToGlue (via iam:passrole+glue:createdevendpoint), PassRoleToSageMaker (via iam:passrole+sagemaker:createnotebookinstance), UpdateLambdaCode (via lambda:updatefunctioncode)</div>
+          <div class="res">arn:aws:iam::111122223333:user/dave-wildcard</div>
+          <div class="fix"><em>Fix:</em> Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>IAM-ESCALATION-001</code></td>
+      <td><strong>User mallory can escalate to administrator</strong>
+          <div class="desc">The user &#x27;mallory&#x27; holds permissions that let it grant itself further access, reaching administrator-equivalent power. Via assumable role &#x27;escalation-target-role&#x27; (user:mallory -&gt; role:escalation-target-role): AttachUserPolicy</div>
+          <div class="res">arn:aws:iam::111122223333:user/mallory</div>
+          <div class="fix"><em>Fix:</em> Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>IAM-ADMIN-001</code></td>
+      <td><strong>User alice-admin has administrator-equivalent access</strong>
+          <div class="desc">The user &#x27;alice-admin&#x27; effectively has Action:&#x27;*&#x27; on Resource:&#x27;*&#x27; with no condition. A single compromised credential for this principal is a full account takeover.</div>
+          <div class="res">arn:aws:iam::111122223333:user/alice-admin</div>
+          <div class="fix"><em>Fix:</em> Replace the wildcard grant with the specific actions this principal uses (see the least-privilege policy generated from Access Advisor). Require MFA, and prefer short-lived role sessions over long-lived admin users.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>IAM-ROOT-001</code></td>
+      <td><strong>The account root user has active access keys</strong>
+          <div class="desc">The root user has one or more active access keys. Root cannot be scoped or constrained by IAM policy, so a leaked root key is unlimited and unrecoverable.</div>
+          <div class="res">AWS::::Account:111122223333</div>
+          <div class="fix"><em>Fix:</em> Delete all root access keys. Operate through IAM roles and users instead.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>IAM-TRUST-001</code></td>
+      <td><strong>Role public-role can be assumed by any AWS principal</strong>
+          <div class="desc">Role &#x27;public-role&#x27; has a trust policy with Principal:&#x27;*&#x27;. Any AWS account can attempt to assume this role.</div>
+          <div class="res">arn:aws:iam::111122223333:role/public-role</div>
+          <div class="fix"><em>Fix:</em> Restrict the trust policy Principal to specific role or account ARNs.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>IAM-ESCALATION-001</code></td>
+      <td><strong>Role escalation-target-role can escalate to administrator</strong>
+          <div class="desc">The role &#x27;escalation-target-role&#x27; holds permissions that let it grant itself further access, reaching administrator-equivalent power. Direct techniques: AttachUserPolicy (via iam:attachuserpolicy)</div>
+          <div class="res">arn:aws:iam::111122223333:role/escalation-target-role</div>
+          <div class="fix"><em>Fix:</em> Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b3123b">CRITICAL</span></td>
+      <td><code>IAM-ADMIN-001</code></td>
+      <td><strong>Role deployer-role has administrator-equivalent access</strong>
+          <div class="desc">The role &#x27;deployer-role&#x27; effectively has Action:&#x27;*&#x27; on Resource:&#x27;*&#x27; with no condition. A single compromised credential for this principal is a full account takeover.</div>
+          <div class="res">arn:aws:iam::111122223333:role/deployer-role</div>
+          <div class="fix"><em>Fix:</em> Replace the wildcard grant with the specific actions this principal uses (see the least-privilege policy generated from Access Advisor). Require MFA, and prefer short-lived role sessions over long-lived admin users.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-ESCALATION-001</code></td>
+      <td><strong>User carol-passrole can escalate to administrator</strong>
+          <div class="desc">The user &#x27;carol-passrole&#x27; holds permissions that let it grant itself further access, reaching administrator-equivalent power. Direct techniques: PassRoleToLambda (via iam:passrole+lambda:createfunction+lambda:invokefunction)</div>
+          <div class="res">arn:aws:iam::111122223333:user/carol-passrole</div>
+          <div class="fix"><em>Fix:</em> Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-CRED-001</code></td>
+      <td><strong>User alice-admin has console access without MFA</strong>
+          <div class="desc">User &#x27;alice-admin&#x27; can sign in to the console but has no MFA device.</div>
+          <div class="res">arn:aws:iam::111122223333:user/alice-admin</div>
+          <div class="fix"><em>Fix:</em> Enforce MFA with an IAM policy condition (aws:MultiFactorAuthPresent).</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-ADMIN-001</code></td>
+      <td><strong>User break-glass has administrator-equivalent access (tagged endon:protected)</strong>
+          <div class="desc">The user &#x27;break-glass&#x27; effectively has Action:&#x27;*&#x27; on Resource:&#x27;*&#x27; with no condition. A single compromised credential for this principal is a full account takeover.</div>
+          <div class="res">arn:aws:iam::111122223333:user/break-glass</div>
+          <div class="fix"><em>Fix:</em> Replace the wildcard grant with the specific actions this principal uses (see the least-privilege policy generated from Access Advisor). Require MFA, and prefer short-lived role sessions over long-lived admin users.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-ROOT-002</code></td>
+      <td><strong>The account root user does not have MFA enabled</strong>
+          <div class="desc">MFA is not enabled on the root user, the most privileged identity in the account.</div>
+          <div class="res">AWS::::Account:111122223333</div>
+          <div class="fix"><em>Fix:</em> Enable a hardware or virtual MFA device on the root user.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-TRUST-002</code></td>
+      <td><strong>Role deployer-role trusts an external account without an ExternalId</strong>
+          <div class="desc">Role &#x27;deployer-role&#x27; trusts &#x27;arn:aws:iam::999888777666:root&#x27;, which is outside this account, with no sts:ExternalId condition. This is the confused-deputy pattern: a third party can be tricked into assuming the role on an attacker&#x27;s behalf.</div>
+          <div class="res">arn:aws:iam::111122223333:role/deployer-role</div>
+          <div class="fix"><em>Fix:</em> Add a Condition on sts:ExternalId (a shared secret), or remove the external trust.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-WILDCARD-001</code></td>
+      <td><strong>Policy dave-wildcard:InlineIamAdmin allows iam:* on any resource</strong>
+          <div class="desc">Statement 0 in policy &#x27;dave-wildcard:InlineIamAdmin&#x27; allows the wildcard action &#x27;iam:*&#x27;. Wildcard grants accumulate unintended permissions as AWS adds APIs.</div>
+          <div class="res">arn:aws:iam::111122223333:user/dave-wildcard</div>
+          <div class="fix"><em>Fix:</em> List the specific actions in use. Access Advisor shows which services are actually called.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-NOTACTION-001</code></td>
+      <td><strong>Policy NotActionAdmin allows all actions except a few (NotAction)</strong>
+          <div class="desc">Statement 0 in policy &#x27;NotActionAdmin&#x27; uses Allow with NotAction, granting every action except: s3:getobject. This grants far more than it appears to.</div>
+          <div class="res">arn:aws:iam::111122223333:policy/NotActionAdmin</div>
+          <div class="fix"><em>Fix:</em> Rewrite as an explicit Allow of the actions that are needed.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#d1531f">HIGH</span></td>
+      <td><code>IAM-CRED-003</code></td>
+      <td><strong>User alice-admin access key 1 is 257 days old</strong>
+          <div class="desc">Access key 1 for &#x27;alice-admin&#x27; has not been rotated in 257 days.</div>
+          <div class="res">arn:aws:iam::111122223333:user/alice-admin/accesskey/1</div>
+          <div class="fix"><em>Fix:</em> Rotate access key 1 and delete the old one once dependents are updated.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>IAM-CRED-002</code></td>
+      <td><strong>User alice-admin has 2 active access keys</strong>
+          <div class="desc">User &#x27;alice-admin&#x27; has more than one active access key, doubling the exposure.</div>
+          <div class="res">arn:aws:iam::111122223333:user/alice-admin</div>
+          <div class="fix"><em>Fix:</em> Keep a single active key and delete the extra one after rotating dependents.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>IAM-WILDCARD-001</code></td>
+      <td><strong>Policy DeveloperWildcard allows s3:* on any resource</strong>
+          <div class="desc">Statement 0 in policy &#x27;DeveloperWildcard&#x27; allows the wildcard action &#x27;s3:*&#x27;. Wildcard grants accumulate unintended permissions as AWS adds APIs.</div>
+          <div class="res">arn:aws:iam::111122223333:policy/DeveloperWildcard</div>
+          <div class="fix"><em>Fix:</em> List the specific actions in use. Access Advisor shows which services are actually called.</div></td>
+    </tr>
+<tr>
+      <td><span class="pill" style="background:#b8860b">MEDIUM</span></td>
+      <td><code>IAM-CRED-004</code></td>
+      <td><strong>User alice-admin access key 2 appears unused</strong>
+          <div class="desc">Access key 2 for &#x27;alice-admin&#x27; has never been used. Unused keys are pure risk.</div>
+          <div class="res">arn:aws:iam::111122223333:user/alice-admin/accesskey/2</div>
+          <div class="fix"><em>Fix:</em> Delete access key 2 if it is no longer needed.</div></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

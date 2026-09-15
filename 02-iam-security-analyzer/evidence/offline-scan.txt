@@ -1,0 +1,81 @@
+ENDON AI - IAM SECURITY ASSESSMENT  (111122223333 / us-east-1)
+==============================================================
+Users scanned: 8   Roles scanned: 5   Policies scanned: 8
+Findings: CRITICAL 8   HIGH 8   MEDIUM 3
+IAM security score: 0/100
+
+CRITICAL
+--------
+[IAM-ADMIN-001] Role deployer-role has administrator-equivalent access
+    - arn:aws:iam::111122223333:role/deployer-role
+    fix: Replace the wildcard grant with the specific actions this principal uses (see the least-privilege policy generated from Access Advisor). Require MFA, and prefer short-lived role sessions over long-lived admin users.
+[IAM-ESCALATION-001] Role escalation-target-role can escalate to administrator
+    - arn:aws:iam::111122223333:role/escalation-target-role
+    fix: Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.
+[IAM-TRUST-001] Role public-role can be assumed by any AWS principal
+    - arn:aws:iam::111122223333:role/public-role
+    fix: Restrict the trust policy Principal to specific role or account ARNs.
+[IAM-ROOT-001] The account root user has active access keys
+    - AWS::::Account:111122223333
+    fix: Delete all root access keys. Operate through IAM roles and users instead.
+[IAM-ADMIN-001] User alice-admin has administrator-equivalent access
+    - arn:aws:iam::111122223333:user/alice-admin
+    fix: Replace the wildcard grant with the specific actions this principal uses (see the least-privilege policy generated from Access Advisor). Require MFA, and prefer short-lived role sessions over long-lived admin users.
+[IAM-ESCALATION-001] User bob-escalator can escalate to administrator
+    - arn:aws:iam::111122223333:user/bob-escalator
+    fix: Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.
+[IAM-ESCALATION-001] User dave-wildcard can escalate to administrator
+    - arn:aws:iam::111122223333:user/dave-wildcard
+    fix: Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.
+[IAM-ESCALATION-001] User mallory can escalate to administrator
+    - arn:aws:iam::111122223333:user/mallory
+    fix: Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.
+
+HIGH
+----
+[IAM-CRED-003] User alice-admin access key 1 is 257 days old
+    - arn:aws:iam::111122223333:user/alice-admin/accesskey/1
+    fix: Rotate access key 1 and delete the old one once dependents are updated.
+[IAM-NOTACTION-001] Policy NotActionAdmin allows all actions except a few (NotAction)
+    - arn:aws:iam::111122223333:policy/NotActionAdmin
+    fix: Rewrite as an explicit Allow of the actions that are needed.
+[IAM-WILDCARD-001] Policy dave-wildcard:InlineIamAdmin allows iam:* on any resource
+    - arn:aws:iam::111122223333:user/dave-wildcard
+    fix: List the specific actions in use. Access Advisor shows which services are actually called.
+[IAM-TRUST-002] Role deployer-role trusts an external account without an ExternalId
+    - arn:aws:iam::111122223333:role/deployer-role
+    fix: Add a Condition on sts:ExternalId (a shared secret), or remove the external trust.
+[IAM-ROOT-002] The account root user does not have MFA enabled
+    - AWS::::Account:111122223333
+    fix: Enable a hardware or virtual MFA device on the root user.
+[IAM-ADMIN-001] User break-glass has administrator-equivalent access (tagged endon:protected)
+    - arn:aws:iam::111122223333:user/break-glass
+    fix: Replace the wildcard grant with the specific actions this principal uses (see the least-privilege policy generated from Access Advisor). Require MFA, and prefer short-lived role sessions over long-lived admin users.
+[IAM-CRED-001] User alice-admin has console access without MFA
+    - arn:aws:iam::111122223333:user/alice-admin
+    fix: Enforce MFA with an IAM policy condition (aws:MultiFactorAuthPresent).
+[IAM-ESCALATION-001] User carol-passrole can escalate to administrator
+    - arn:aws:iam::111122223333:user/carol-passrole
+    fix: Remove or scope the escalation permissions listed above. Where the permission is needed, add a PermissionsBoundary or a condition that prevents self-elevation.
+
+MEDIUM
+------
+[IAM-CRED-004] User alice-admin access key 2 appears unused
+    - arn:aws:iam::111122223333:user/alice-admin/accesskey/2
+    fix: Delete access key 2 if it is no longer needed.
+[IAM-WILDCARD-001] Policy DeveloperWildcard allows s3:* on any resource
+    - arn:aws:iam::111122223333:policy/DeveloperWildcard
+    fix: List the specific actions in use. Access Advisor shows which services are actually called.
+[IAM-CRED-002] User alice-admin has 2 active access keys
+    - arn:aws:iam::111122223333:user/alice-admin
+    fix: Keep a single active key and delete the extra one after rotating dependents.
+
+PRIVILEGE-ESCALATION PATHS
+--------------------------
+  user bob-escalator: direct via AttachUserPolicy
+  user carol-passrole: direct via PassRoleToLambda
+  user dave-wildcard: direct via CreateNewPolicyVersion, SetExistingDefaultPolicyVersion, CreateAccessKey, CreateLoginProfile, UpdateLoginProfile, AttachUserPolicy, AttachGroupPolicy, AttachRolePolicy, PutUserPolicy, PutGroupPolicy, PutRolePolicy, AddUserToGroup, UpdateAssumeRolePolicy, PassRoleToLambda, PassRoleToEc2, PassRoleToCloudFormation, PassRoleToGlue, PassRoleToSageMaker, UpdateLambdaCode
+  user mallory: user:mallory -> role:escalation-target-role then AttachUserPolicy
+  role escalation-target-role: direct via AttachUserPolicy
+
+Wrote HTML report to 02-iam-security-analyzer\evidence\iam-assessment.html

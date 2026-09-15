@@ -43,8 +43,13 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 |------------|-----------|--------|
 | Least-privilege response role, verified by synthesized-template tests | Project 1 | **Built** |
 | Explicit deny to stop the responder from modifying itself | Project 1 | **Built** |
-| Wildcard permissions, stale credentials and unused permissions | Project 2 | *Planned* |
-| Privilege-escalation path detection (e.g. `iam:PassRole` + `lambda:CreateFunction`) | Project 2 | *Planned* |
+| Effective-permission evaluation engine (deny-wins, wildcard, NotAction) | Project 2 | **Built** |
+| Administrator-equivalent detection from policy documents | Project 2 | **Built** |
+| Privilege-escalation path detection (e.g. `iam:PassRole` + `lambda:CreateFunction`) | Project 2 | **Built** |
+| Transitive escalation through the assume-role graph | Project 2 | **Built** |
+| Dangerous role trust policies (external account, `Principal:"*"`) | Project 2 | **Built** |
+| Credential hygiene: root keys, no-MFA console users, stale/unused keys | Project 2 | **Built** |
+| Least-privilege policy generation from Access Advisor | Project 2 | **Built** |
 | Keyless CI/CD with GitHub OIDC and scoped deployment roles | Project 7 | *Planned* |
 
 ## 5. Data Protection
