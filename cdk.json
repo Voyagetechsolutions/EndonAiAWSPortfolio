@@ -1,0 +1,8 @@
+{
+  "app": "python infrastructure/app.py",
+  "context": {
+    "endon:responseMode": "dry_run",
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/core:enablePartitionLiterals": true
+  }
+}

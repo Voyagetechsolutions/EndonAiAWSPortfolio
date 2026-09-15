@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-core"
+version = "0.1.0"
+description = "Shared contracts for Endon AI: findings, incidents, events and storage"
+requires-python = ">=3.11"
+dependencies = ["boto3>=1.35"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-detection-response"
+version = "0.1.0"
+description = "Endon AI automated threat detection and response engine for AWS"
+requires-python = ">=3.11"
+dependencies = ["endon-core", "boto3>=1.35"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

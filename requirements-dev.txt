@@ -1,0 +1,13 @@
+# Runtime (Lambda provides boto3; everything else in Endon AI is standard library)
+boto3>=1.35
+
+# Testing - moto emulates AWS so the whole platform runs offline
+moto>=5.1
+pytest>=8.3
+
+# Infrastructure as code (AWS CDK for Python)
+aws-cdk-lib>=2.170
+constructs>=10.4
+
+# Linting
+ruff>=0.8

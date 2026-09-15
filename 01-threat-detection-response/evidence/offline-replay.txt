@@ -1,0 +1,70 @@
+$ python 01-threat-detection-response/attack-simulation/offline_replay.py
+
+ENDON AI - OFFLINE ATTACK REPLAY
+Simulated account 123456789012 (us-east-1). No real AWS resources are used.
+
+PHASE 1 - ATTACK (the attacker moves before any alert fires)
+------------------------------------------------------------
+  [1] Stolen access key AKIARZPUZDIKHYCOD6EB used from 198.51.100.23 to enumerate S3 buckets
+      found: acme-customer-exports, acme-audit-logs
+  [2] Second access key AKIARZPUZDIKLSHQ3G7H created for persistence
+  [3] SSH opened to the internet on security group sg-8c43fbf734fa6c5d2
+  [4] CloudTrail trail acme-audit-trail stopped to hide further activity
+  [5] S3 Block Public Access removed from acme-customer-exports
+  [6] Cryptominer started on web-01 (i-202acdc0556f3e614)
+
+PHASE 2 - DETECTION AND AUTOMATED RESPONSE
+------------------------------------------
+
+  INC-B26D17E722FF  MONITORING  MEDIUM   Recon:IAMUser/MaliciousIPCaller.Custom
+  playbook: triage
+    + 0.000s  Incident opened - Recon:IAMUser/MaliciousIPCaller.Custom [MEDIUM] matched playbook 'triage'
+    + 0.005s  notify: SUCCEEDED - Alert sent to endon-security-alerts
+
+  INC-AA5A8FD82ACF  CONTAINED   MEDIUM   UnauthorizedAccess:IAMUser/MaliciousIPCaller.Custom
+  playbook: compromised-credentials
+    + 0.000s  Incident opened - UnauthorizedAccess:IAMUser/MaliciousIPCaller.Custom [MEDIUM] matched playbook 'compromised-credentials'
+    + 0.078s  disable_access_keys: SUCCEEDED - Deactivated 2 access key(s) for IAM user ci-deploy-bot
+    + 0.087s  quarantine_iam_user: SUCCEEDED - Quarantined IAM user ci-deploy-bot with explicit deny-all policy
+    + 0.087s  Containment complete - 0.3s after the activity was first observed
+    + 0.090s  notify: SUCCEEDED - Alert sent to endon-security-alerts
+
+  INC-0B747BEB9F54  CONTAINED   LOW      Stealth:IAMUser/CloudTrailLoggingDisabled
+  playbook: logging-tampering
+    + 0.000s  Incident opened - Stealth:IAMUser/CloudTrailLoggingDisabled [LOW] matched playbook 'logging-tampering'
+    + 0.007s  restore_cloudtrail_logging: SUCCEEDED - Restarted logging on CloudTrail trail(s): acme-audit-trail
+    + 0.007s  Containment complete - 0.3s after the activity was first observed
+    + 0.010s  notify: SUCCEEDED - Alert sent to endon-security-alerts
+
+  INC-19C5C6D006AF  CONTAINED   LOW      Policy:S3/BucketBlockPublicAccessDisabled
+  playbook: s3-public-exposure
+    + 0.000s  Incident opened - Policy:S3/BucketBlockPublicAccessDisabled [LOW] matched playbook 's3-public-exposure'
+    + 0.103s  block_s3_public_access: SUCCEEDED - Enabled S3 Block Public Access on bucket acme-customer-exports
+    + 0.103s  Containment complete - 0.4s after the activity was first observed
+    + 0.106s  notify: SUCCEEDED - Alert sent to endon-security-alerts
+
+  INC-F6D385D7A1F4  CONTAINED   HIGH     CryptoCurrency:EC2/BitcoinTool.B!DNS
+  playbook: compromised-ec2
+    + 0.000s  Incident opened - CryptoCurrency:EC2/BitcoinTool.B!DNS [HIGH] matched playbook 'compromised-ec2'
+    + 0.412s  isolate_instance: SUCCEEDED - Isolated EC2 instance i-202acdc0556f3e614 in quarantine security group sg-97b150aed092ef901
+    + 0.412s  request_forensics: SUCCEEDED - Forensics requested for EC2 instance i-202acdc0556f3e614
+    + 0.412s  Containment complete - 0.8s after the activity was first observed
+    + 0.415s  notify: SUCCEEDED - Alert sent to endon-security-alerts
+
+PHASE 3 - VERIFY THE ACCOUNT STATE THROUGH THE AWS APIs
+-------------------------------------------------------
+  Access keys for ci-deploy-bot.................. COD6EB=Inactive, HQ3G7H=Inactive
+  Quarantine deny-all policy..................... attached
+  CloudTrail acme-audit-trail.................... logging
+  Block Public Access on acme-customer-exports... all four settings on
+  web-01 security groups......................... endon-quarantine
+  web-01 termination protection.................. on
+  web-01 state................................... running (memory preserved for forensics)
+  Forensics requests on the Endon bus............ 1
+  Alerts delivered to the SOC queue.............. 5
+  SSH rule on sg-8c43fbf734fa6c5d2............... still open - a posture issue for the Posture Scanner (Project 3)
+
+SUMMARY
+-------
+  5 findings -> 5 incidents (4 CONTAINED, 1 MONITORING)
+  Engine processing time for all findings: 0.63s (local, emulated AWS APIs)

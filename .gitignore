@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# CDK
+cdk.out/
+cdk.context.json
+build/
+
+# Local secrets and credentials - never commit these
+.env
+.env.*
+*.pem
+*.key
+credentials
+**/lab-credentials*.json
+
+# Generated reports and evidence exports
+reports/
+*.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

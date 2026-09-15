@@ -1,0 +1,42 @@
+# Workspace-level tooling for the Endon AI monorepo.
+# Each component is its own installable package (see */pyproject.toml);
+# this file only configures tests and linting across all of them.
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib -q"
+testpaths = [
+    "endon-core/tests",
+    "01-threat-detection-response/tests",
+    "tests",
+]
+pythonpath = [
+    "endon-core/src",
+    "endon-core/infrastructure",
+    "01-threat-detection-response/src",
+    "01-threat-detection-response/infrastructure",
+    "01-threat-detection-response/tests",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["cdk.out", "build"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM"]
+# Line length is handled by `ruff format`; the lint rule would only flag long strings.
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "endon_core",
+    "endon_detection",
+    "detection_testkit",
+    "lambda_bundle",
+    "platform_stack",
+    "detection_stack",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["S101", "S105", "S106"]
+"tests/**" = ["S101"]
