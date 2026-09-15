@@ -1,0 +1,197 @@
+{# Inner page markup only (no <head>/<body>). build.py wraps this for the standalone
+   site and for the Artifact target, inlining the CSS and JS. #}
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Endon AI — home">
+      <span class="dot" aria-hidden="true"></span>
+      <span>ENDON<span style="color:var(--accent-2)">·</span>AI</span>
+      <small>SECURITY</small>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#platform">Platform</a>
+      <a href="#projects">Projects</a>
+      <a href="#cases">Case Studies</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle colour theme" data-theme-toggle>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a class="btn btn-ghost" href="{{ links.github }}" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">{{ profile.eyebrow }}</p>
+      <h1>{{ profile.name }}</h1>
+      <p class="role-line">{{ profile.role }} · {{ profile.role_line }}</p>
+      <p class="thesis">{{ profile.thesis | safe }}</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#cases">Read the case studies</a>
+        <a class="btn btn-ghost" href="{{ links.github }}" target="_blank" rel="noopener">View source on GitHub</a>
+        <span class="chip"><span class="pulse" aria-hidden="true"></span>{{ profile.cert }}</span>
+      </div>
+      <div class="stats reveal">
+        {% for value, label, note in stats %}
+        <div class="stat">
+          <div class="v">{{ value }}</div>
+          <div class="l">{{ label }}</div>
+          <div class="n">{{ note }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM -->
+  <section id="platform">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The platform</p>
+        <h2>One system, not eight tools</h2>
+        <p>{{ platform_intro }}</p>
+      </div>
+      <div class="diagram-card reveal" role="img" aria-label="Endon AI architecture: detection sources and scanners publish findings to the Endon security bus, which feeds a response engine that acts on IAM, EC2, S3 and CloudTrail, records incidents and alerts, and surfaces to a SOC dashboard.">
+        {% include "diagram.svg" %}
+      </div>
+      <div class="domains">
+        {% for name, where in domains %}
+        <div class="domain"><b>{{ name }}</b><span>{{ where }}</span></div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The build · 3 shipped, 5 designed</p>
+        <h2>Projects</h2>
+        <p>Each maps to a domain of the AWS Security Specialty exam. The shipped systems are
+          tested and deployable; the rest are designed and in progress.</p>
+      </div>
+      <div class="projects">
+        {% for p in projects %}
+        <article class="project">
+          <div class="project-top">
+            <span class="num">{{ p.num }}</span>
+            <span class="status {{ p.status }}">{{ "Shipped" if p.status == "shipped" else "Designed" }}</span>
+          </div>
+          <h3>{{ p.title }}</h3>
+          <div class="skill">{{ p.skill }}</div>
+          <p>{{ p.problem }}</p>
+          <div class="project-foot">
+            {% if p.case %}
+            <a class="project-link" href="#{{ p.case }}">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            {% else %}
+            <span class="mono" style="font-size:.74rem;color:var(--muted)">in progress</span>
+            {% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section id="cases">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Evidence, not claims</p>
+        <h2>Case studies</h2>
+        <p>Each shipped system, written up the way I build it: the security problem, the threat
+          model, the architecture, the attack, the response, and the measured result — limitations
+          included. Expand a case to read the full write-up.</p>
+      </div>
+      <div class="cases">
+        {% for c in cases %}
+        <details class="case reveal" id="{{ c.id }}"{% if loop.first %} open{% endif %}>
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">{{ c.code }}</span>
+              <span class="case-domain">{{ c.domain }}</span>
+            </div>
+            <h3>{{ c.title }}</h3>
+            <p class="hook">{{ c.hook }}</p>
+            <div class="case-metrics">
+              {% for value, label in c.metrics %}
+              <div class="case-metric"><div class="v">{{ value }}</div><div class="l">{{ label }}</div></div>
+              {% endfor %}
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            {% for s in c.sections %}
+            <div class="cs-section">
+              <h4>{{ s.h }}</h4>
+              {% for para in s.body | default([]) %}<p>{{ para | safe }}</p>{% endfor %}
+              {% if s.pre %}<div class="terminal">{{ s.pre }}</div>{% endif %}
+              {% if s.points %}<ul>{% for pt in s.points %}<li>{{ pt | safe }}</li>{% endfor %}</ul>{% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </details>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">About</p>
+        <h2>How I work</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-body reveal">
+          {% for para in about.body %}<p>{{ para | safe }}</p>{% endfor %}
+        </div>
+        <div class="reveal">
+          {% for group, items in about.skills.items() %}
+          <div class="skill-group">
+            <h4>{{ group }}</h4>
+            <div class="tags">
+              {% for item in items %}<span class="tag">{{ item }}</span>{% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-card reveal">
+        <p class="eyebrow" style="justify-content:center">Contact</p>
+        <h2>Open to Cloud Security Engineer roles</h2>
+        <p>Happy to walk through the architecture, the threat models, or any design decision in
+          these projects. The full source is on GitHub.</p>
+        <div class="contact-links">
+          <a class="btn btn-primary" href="mailto:{{ links.email }}">{{ links.email }}</a>
+          <a class="btn btn-ghost" href="{{ links.github }}" target="_blank" rel="noopener">{{ links.github_label }}</a>
+          <a class="btn btn-ghost" href="{{ links.linkedin }}" target="_blank" rel="noopener">{{ links.linkedin_label }}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span class="brand" style="font-size:.95rem"><span class="dot" aria-hidden="true"></span>ENDON<span style="color:var(--accent-2)">·</span>AI</span>
+    <span class="mono">Built with Python · deployed on AWS · © {{ year }} {{ profile.name }}</span>
+    <a class="mono" href="{{ links.repo }}" target="_blank" rel="noopener">Source →</a>
+  </div>
+</footer>

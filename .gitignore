@@ -26,6 +26,9 @@ credentials
 reports/
 *.log
 
+# Portfolio site build output (regenerate with portfolio-site/build.py)
+portfolio-site/dist/
+
 # Editors / OS
 .vscode/
 .idea/

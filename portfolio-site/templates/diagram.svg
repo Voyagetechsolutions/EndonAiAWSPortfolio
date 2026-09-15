@@ -1,0 +1,55 @@
+<svg viewBox="0 0 880 290" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- flow lines: sources -> bus -->
+  <path class="dg-flow" d="M192 56 H232"/>
+  <path class="dg-flow" d="M192 144 H232"/>
+  <path class="dg-flow" d="M192 232 H232"/>
+  <!-- bus -> response engine -->
+  <path class="dg-flow" d="M258 142 H300"/>
+  <!-- response engine -> outputs -->
+  <path class="dg-line" d="M490 142 C516 142 516 69 540 69"/>
+  <path class="dg-line" d="M490 142 H540"/>
+  <path class="dg-line" d="M490 142 C516 142 516 225 540 225"/>
+  <!-- incidents -> SOC -->
+  <path class="dg-line" d="M716 147 H728"/>
+
+  <!-- source boxes -->
+  <rect class="dg-box-accent" x="16" y="24" width="176" height="64" rx="10"/>
+  <text class="dg-label" x="32" y="52">Detection</text>
+  <text class="dg-sub" x="32" y="70">GuardDuty · Security Hub</text>
+
+  <rect class="dg-box" x="16" y="112" width="176" height="64" rx="10"/>
+  <text class="dg-label" x="32" y="140">IAM Analyzer</text>
+  <text class="dg-sub" x="32" y="158">endon.iam-analyzer</text>
+
+  <rect class="dg-box" x="16" y="200" width="176" height="64" rx="10"/>
+  <text class="dg-label" x="32" y="228">Posture Scanner</text>
+  <text class="dg-sub" x="32" y="246">endon.posture-scanner</text>
+
+  <!-- event bus -->
+  <rect class="dg-bus" x="232" y="16" width="26" height="248" rx="8"/>
+  <text class="dg-bus-label" x="245" y="140" transform="rotate(-90 245 140)" text-anchor="middle">ENDON-SECURITY-BUS</text>
+
+  <!-- response engine -->
+  <rect class="dg-box-accent" x="300" y="90" width="190" height="104" rx="12"/>
+  <text class="dg-label" x="318" y="128" style="font-size:15px">Response Engine</text>
+  <text class="dg-sub" x="318" y="150">Python Lambda</text>
+  <text class="dg-sub" x="318" y="166">playbooks · guardrails</text>
+
+  <!-- outputs -->
+  <rect class="dg-box" x="540" y="40" width="176" height="58" rx="10"/>
+  <text class="dg-label" x="556" y="65">Contain / Remediate</text>
+  <text class="dg-sub" x="556" y="82">IAM · EC2 · S3 · CloudTrail</text>
+
+  <rect class="dg-box" x="540" y="118" width="176" height="58" rx="10"/>
+  <text class="dg-label" x="556" y="143">Incidents + Alerts</text>
+  <text class="dg-sub" x="556" y="160">DynamoDB · SNS</text>
+
+  <rect class="dg-box" x="540" y="196" width="176" height="58" rx="10"/>
+  <text class="dg-label" x="556" y="221">Forensics</text>
+  <text class="dg-sub" x="556" y="238">evidence · Object Lock</text>
+
+  <!-- SOC -->
+  <rect class="dg-box" x="728" y="115" width="140" height="64" rx="10"/>
+  <text class="dg-label" x="744" y="143">SOC Dashboard</text>
+  <text class="dg-sub" x="744" y="161">FastAPI · one view</text>
+</svg>

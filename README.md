@@ -105,10 +105,16 @@ endon-ai/
 ├── 06-secure-landing-zone/
 ├── 07-github-oidc-cicd/
 ├── 08-security-operations-center/
+├── portfolio-site/                 the public site (endonai.com), built in Python
 ├── infrastructure/app.py           one CDK app that deploys the platform
 ├── tests/                          infrastructure security tests
 └── docs/
 ```
+
+The public-facing home for this work — the case studies, the architecture, and the
+project index — is the [portfolio site](portfolio-site/), a self-contained static page
+generated in Python and hosted at **endonai.com** (private S3 + CloudFront, deployed with
+the CDK stack in that folder).
 
 Each component follows the same layout: `src/`, `infrastructure/`, `tests/`,
 `attack-simulation/`, `architecture/`, `evidence/`, and a README that starts with the

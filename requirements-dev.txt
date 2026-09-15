@@ -9,5 +9,8 @@ pytest>=8.3
 aws-cdk-lib>=2.170
 constructs>=10.4
 
+# Portfolio site generator (portfolio-site/build.py)
+jinja2>=3.1
+
 # Linting
 ruff>=0.8
