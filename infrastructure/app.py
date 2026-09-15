@@ -21,12 +21,15 @@ COMPONENT_PATHS = (
     "02-iam-security-analyzer/infrastructure",
     "03-security-posture-scanner/src",
     "03-security-posture-scanner/infrastructure",
+    "04-ec2-incident-response/src",
+    "04-ec2-incident-response/infrastructure",
 )
 sys.path[:0] = [str(ROOT / path) for path in COMPONENT_PATHS]
 
 from aws_cdk import App, Environment, Tags  # noqa: E402
 
 from detection_stack import DetectionResponseStack  # noqa: E402
+from forensics_stack import ForensicsStack  # noqa: E402
 from iam_analyzer_stack import IamAnalyzerStack  # noqa: E402
 from platform_stack import PlatformStack  # noqa: E402
 from posture_scanner_stack import PostureScannerStack  # noqa: E402
@@ -54,6 +57,7 @@ def main() -> None:
     )
     IamAnalyzerStack(app, "EndonIamAnalyzer", platform=platform, env=env)
     PostureScannerStack(app, "EndonPostureScanner", platform=platform, env=env)
+    ForensicsStack(app, "EndonForensics", platform=platform, env=env)
 
     Tags.of(app).add("project", "endon-ai")
     Tags.of(app).add("managed-by", "aws-cdk")

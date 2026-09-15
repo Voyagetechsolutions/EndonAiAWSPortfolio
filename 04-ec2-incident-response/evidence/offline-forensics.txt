@@ -1,0 +1,41 @@
+ENDON AI - OFFLINE FORENSIC COLLECTION
+Isolated instance i-a89fb525b7c589b6d in the us-east-1 lab (emulated AWS).
+
+COLLECTION TIMELINE
+-------------------
+  + 0.000s  Forensics requested - CryptoCurrency:EC2/BitcoinTool.B!DNS on i-a89fb525b7c589b6d
+  + 0.793s  Isolation verified - contained
+  + 1.012s  volatile-data: SKIPPED - Volatile state (processes, network connections, sessions) via SSM
+  + 1.030s  instance-metadata: COLLECTED - EC2 instance configuration, network interfaces, IAM profile and volumes
+  + 1.042s  console-output: COLLECTED - EC2 serial console output
+  + 1.303s  cloudtrail-events: SKIPPED - CloudTrail events referencing the instance
+  + 1.324s  ebs-snapshots: COLLECTED - EBS snapshot of volume vol-952f5570541e7dd28
+
+ISOLATION
+---------
+  contained: True
+  state: running
+  securityGroups: ['endon-quarantine']
+  terminationProtection: True
+  inAutoScalingGroup: False
+  notes: []
+
+EVIDENCE COLLECTED (order of volatility)
+----------------------------------------
+  [SKIPPED  ] volatile-data                       -
+              reason: instance is not reachable via SSM (isolated, or SSM agent absent); volatile memory is not collectable without relaxing network isolation
+  [COLLECTED] instance-metadata                   sha256:59c6b0f285dcf07a…
+  [COLLECTED] console-output                      sha256:f7bbd9ee32b8e007…
+  [SKIPPED  ] cloudtrail-events                   -
+              reason: CloudTrail lookup unavailable: NotImplementedError
+  [COLLECTED] ebs-snapshot-vol-952f5570541e7dd28  sha256:7eb4707be96838b3…
+
+CHAIN OF CUSTODY
+----------------
+  Case status     : COLLECTED
+  Collector       : arn:aws:sts::123456789012:user/moto
+  EBS snapshots   : snap-5d3318d2025e01c33
+  Manifest        : s3://endon-evidence-forensics-test/forensics/INC-TESTCASE01/manifest.json
+  Manifest sha256 : 7f1de756ac662284a13286a2e5a911ff70455af2f61880aba977fda158c54def
+  Object Lock     : GOVERNANCE until 2026-12-14 12:57:28+00:00
+  Evidence items in manifest: 5

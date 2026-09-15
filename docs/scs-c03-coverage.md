@@ -29,7 +29,10 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Preserve evidence: termination protection, ASG detachment, no deletion | Project 1 | **Built** |
 | Restore CloudTrail logging after tampering | Project 1 | **Built** |
 | Incident timeline and time-to-contain measurement | endon-core, Project 1 | **Built** |
-| EBS snapshots, metadata capture, evidence chain of custody | Project 4 | *Planned* |
+| Automated forensic collection in order of volatility | Project 4 | **Built** |
+| EBS snapshots, metadata and console capture with SHA-256 integrity | Project 4 | **Built** |
+| Immutable chain-of-custody manifest (S3 Object Lock WORM) | Project 4 | **Built** |
+| Preserve-only forensics role (no terminate/delete), enforced by tests | Project 4 | **Built** |
 
 ## 3. Infrastructure Security
 
