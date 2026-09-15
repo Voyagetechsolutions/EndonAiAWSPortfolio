@@ -66,8 +66,11 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Automated S3 Block Public Access remediation | Project 1 | **Built** |
 | Customer-managed KMS encryption for all platform data, key rotation | endon-core | **Built** |
 | Immutable evidence storage with S3 Object Lock | endon-core | **Built** |
-| Macie sensitive-data findings with automated bucket restriction | Project 5 | *Planned* |
-| Secrets in Lambda environment variables, overly broad KMS key policies | Project 5 | *Planned* |
+| Secret-detection engine (signatures + entropy) with irreversible redaction | Project 5 | **Built** |
+| Secrets in Lambda env vars, EC2 user data; Secrets Manager rotation | Project 5 | **Built** |
+| Macie sensitive-data findings; public sensitive data auto-remediated via Project 1 | Project 5 | **Built** |
+| AWS Health exposed-credential events normalized to findings | Project 5 | **Built** |
+| Monitor never reads or emits a secret's plaintext (enforced by tests) | Project 5 | **Built** |
 
 ## 6. Security Foundations and Governance
 

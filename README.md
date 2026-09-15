@@ -8,10 +8,10 @@ and one incident record. That is what lets them work together: the posture scann
 finds a public bucket, the response engine closes it, and the SOC dashboard shows
 the incident from detection to containment.
 
-> **Status:** the shared platform and **Projects 1–4** (Threat Detection & Response, IAM
-> Analyzer, Posture Scanner, EC2 Forensics) are built, tested and deployable. The remaining
-> components are designed and are being built in order. Each component's README states
-> exactly what exists today.
+> **Status:** the shared platform and **Projects 1–5** (Threat Detection & Response, IAM
+> Analyzer, Posture Scanner, EC2 Forensics, Data Protection Monitor) are built, tested and
+> deployable. The remaining components are designed and are being built in order. Each
+> component's README states exactly what exists today.
 
 ---
 
@@ -67,7 +67,7 @@ flowchart LR
 | 2 | [IAM Least-Privilege & Privilege-Escalation Analyzer](02-iam-security-analyzer/) | Over-permissioned identities and hidden escalation paths | Identity and Access Management | **Built** |
 | 3 | [Cloud Security Posture Scanner](03-security-posture-scanner/) | Misconfigurations attackers look for first | Detection, Infrastructure Security | **Built** |
 | 4 | [EC2 Incident Response & Forensics](04-ec2-incident-response/) | Containment that preserves evidence | Incident Response | **Built** |
-| 5 | [Data Protection & Secrets Exposure Monitor](05-data-protection-monitor/) | Exposed secrets, sensitive data and weak encryption | Data Protection | Planned |
+| 5 | [Data Protection & Secrets Exposure Monitor](05-data-protection-monitor/) | Exposed secrets, sensitive data and weak encryption | Data Protection | **Built** |
 | 6 | [Secure Multi-Account Landing Zone](06-secure-landing-zone/) | Guardrails that no single account can switch off | Security Foundations and Governance | Planned |
 | 7 | [Passwordless GitHub → AWS CI/CD](07-github-oidc-cicd/) | Long-lived AWS keys in CI pipelines | IAM, Governance | Planned |
 | 8 | [Cloud Security Operations Center](08-security-operations-center/) | One view of posture, findings and incidents | Detection, Incident Response | Planned |

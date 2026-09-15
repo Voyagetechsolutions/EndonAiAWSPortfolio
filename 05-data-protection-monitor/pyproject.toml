@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-data-protection"
+version = "0.1.0"
+description = "Endon AI data protection and secrets exposure monitor"
+requires-python = ">=3.11"
+dependencies = ["endon-core", "boto3>=1.35"]
+
+[project.scripts]
+endon-data-protection = "endon_dataprotection.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

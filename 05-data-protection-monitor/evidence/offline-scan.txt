@@ -1,0 +1,33 @@
+ENDON AI - DATA PROTECTION & SECRETS  (123456789012 / us-east-1)
+================================================================
+Findings: CRITICAL 1   HIGH 1   MEDIUM 1
+Data protection score: 62/100
+(secret values are redacted; findings never contain the plaintext)
+
+CRITICAL
+--------
+[DP-EC2-001] Secret in EC2 user data: i-f5ad0d846f61607ed
+    Instance 'i-f5ad0d846f61607ed' has 2 likely secret(s) in its user data. AWS access key id: AKI...E5F (sha256:a25a3da7cec3); Private key block: ---...--- (sha256:03d104c669e3)
+    fix: Remove secrets from user data; fetch them at boot from Secrets Manager or SSM Parameter Store using the instance role, and rotate any exposed secret.
+
+HIGH
+----
+[DP-LAMBDA-001] Secret in Lambda environment variables: checkout
+    Function 'checkout' has 2 likely secret(s) in its environment variables. Database URL with password: pR0...z9x (sha256:3f1fa0c3cde5); GitHub token: ghp...7r8 (sha256:620e24b63197)
+    fix: Move secrets to AWS Secrets Manager or SSM Parameter Store (SecureString) and fetch them at runtime; rotate any exposed secret immediately.
+
+MEDIUM
+------
+[DP-SM-001] Secrets Manager secret has rotation disabled: prod/db-password
+    Secret 'prod/db-password' does not have automatic rotation enabled, so a compromised value stays valid indefinitely.
+    fix: Enable automatic rotation with a rotation Lambda and a suitable schedule.
+
+MACIE CLASSIFICATION PATH
+-------------------------
+  CRITICAL  DataProtection:S3/SensitiveDataPubliclyAccessible
+    -> routes to Project 1 s3-public-exposure (auto Block Public Access)
+
+REDACTION CHECK
+---------------
+  Raw secrets in the report: 0 (must be 0)
+  All secret values are redacted to edge characters + a sha256 fingerprint.
