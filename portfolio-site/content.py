@@ -14,14 +14,13 @@ SITE_DESCRIPTION = (
 )
 
 # --- Links --------------------------------------------------------------------------
-# NOTE: confirm these before publishing. The GitHub and LinkedIn handles are placeholders.
 LINKS = {
     "email": "mthokochaza@gmail.com",
-    "github": "https://github.com/mthokozisi-chaza",
-    "github_label": "github.com/mthokozisi-chaza",
-    "linkedin": "https://www.linkedin.com/in/mthokozisi-chaza",
-    "linkedin_label": "linkedin.com/in/mthokozisi-chaza",
-    "repo": "https://github.com/mthokozisi-chaza/endon-ai",
+    "github": "https://github.com/Voyagetechsolutions",
+    "github_label": "github.com/Voyagetechsolutions",
+    "linkedin": "https://www.linkedin.com/in/mthokozisi-chaza-2bb07a20b",
+    "linkedin_label": "linkedin.com/in/mthokozisi-chaza-2bb07a20b",
+    "repo": "https://github.com/Voyagetechsolutions/endon-ai",
 }
 
 PROFILE = {
