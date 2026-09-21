@@ -27,7 +27,7 @@ See the repository-wide [SECURITY.md](../SECURITY.md) for vulnerability reportin
 | Claim | Operator | Value |
 |---|---|---|
 | `token.actions.githubusercontent.com:aud` | StringEquals | `sts.amazonaws.com` |
-| `token.actions.githubusercontent.com:sub` | StringLike | `repo:mthokozisi-chaza/endon-ai:ref:refs/heads/main` (and any configured environments) |
+| `token.actions.githubusercontent.com:sub` | StringLike | `repo:Voyagetechsolutions/EndonAiAWSPortfolio:ref:refs/heads/main` (and any configured environments) |
 
 A run whose token does not match both conditions is refused by AWS STS, before any workflow
 step touches the account.

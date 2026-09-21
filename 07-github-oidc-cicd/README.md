@@ -35,8 +35,8 @@ provider**, and the deploy role trusts it through `sts:AssumeRoleWithWebIdentity
 conditions on the GitHub-issued token:
 
 - `...:aud` **StringEquals** `sts.amazonaws.com` — the token was minted for AWS STS, and
-- `...:sub` **StringLike** `repo:mthokozisi-chaza/endon-ai:ref:refs/heads/main` — it came
-  from a push to `main` of *this exact repository*.
+- `...:sub` **StringLike** `repo:Voyagetechsolutions/EndonAiAWSPortfolio:ref:refs/heads/main` — it
+  came from a push to `main` of *this exact repository*.
 
 A fork, a feature branch, a pull request, a tag, or any other repository produces a different
 `sub` claim and is refused by STS. The token is valid for minutes, not forever.
@@ -125,7 +125,7 @@ escalation actions, and that the identity policy grants nothing but `sts:AssumeR
 
 ```bash
 cd 07-github-oidc-cicd/infrastructure
-cdk deploy -c endon:githubOwner=mthokozisi-chaza -c endon:githubRepo=endon-ai
+cdk deploy -c github:owner=Voyagetechsolutions -c github:repo=EndonAiAWSPortfolio
 ```
 
 The reference workflow is [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): it

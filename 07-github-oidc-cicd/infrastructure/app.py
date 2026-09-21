@@ -2,7 +2,7 @@
 
 Deployed once per account that GitHub Actions deploys into.
 
-    cdk deploy -c github:owner=mthokozisi-chaza -c github:repo=endon-ai
+    cdk deploy -c github:owner=Voyagetechsolutions -c github:repo=EndonAiAWSPortfolio
 """
 
 from __future__ import annotations
@@ -31,8 +31,8 @@ def main() -> None:
     PipelineStack(
         app,
         "EndonPipeline",
-        github_owner=app.node.try_get_context("github:owner") or "mthokozisi-chaza",
-        github_repo=app.node.try_get_context("github:repo") or "endon-ai",
+        github_owner=app.node.try_get_context("github:owner") or "Voyagetechsolutions",
+        github_repo=app.node.try_get_context("github:repo") or "EndonAiAWSPortfolio",
         env=Environment(
             account=os.environ.get("CDK_DEFAULT_ACCOUNT"),
             region=os.environ.get("CDK_DEFAULT_REGION"),

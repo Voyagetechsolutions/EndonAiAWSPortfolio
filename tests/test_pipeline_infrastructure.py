@@ -16,8 +16,8 @@ def template():
     stack = PipelineStack(
         app,
         "EndonPipeline",
-        github_owner="mthokozisi-chaza",
-        github_repo="endon-ai",
+        github_owner="Voyagetechsolutions",
+        github_repo="EndonAiAWSPortfolio",
         env=Environment(account="111111111111", region="us-east-1"),
     )
     return Template.from_stack(stack)
@@ -59,7 +59,9 @@ def test_deploy_role_trusts_only_via_web_identity_with_conditions(template):
         condition["StringEquals"]["token.actions.githubusercontent.com:aud"] == "sts.amazonaws.com"
     )
     subs = condition["StringLike"]["token.actions.githubusercontent.com:sub"]
-    assert any("mthokozisi-chaza/endon-ai:ref:refs/heads/main" in s for s in as_list(subs))
+    assert any(
+        "Voyagetechsolutions/EndonAiAWSPortfolio:ref:refs/heads/main" in s for s in as_list(subs)
+    )
 
 
 def test_deploy_role_has_a_permissions_boundary(template):

@@ -9,7 +9,9 @@ from endon_pipeline.oidc import (
     build_trust_policy,
 )
 
-CONFIG = GitHubOidcConfig(owner="mthokozisi-chaza", repo="endon-ai", allowed_branches=("main",))
+CONFIG = GitHubOidcConfig(
+    owner="Voyagetechsolutions", repo="EndonAiAWSPortfolio", allowed_branches=("main",)
+)
 REPO = CONFIG.repository
 
 
@@ -29,9 +31,11 @@ def test_push_to_main_of_the_exact_repo_is_allowed(simulator):
     "claims",
     [
         GitHubClaims(repository=REPO, ref="refs/heads/feature-x"),  # a different branch
-        GitHubClaims(repository="attacker/endon-ai", ref="refs/heads/main"),  # a fork / other owner
         GitHubClaims(
-            repository="mthokozisi-chaza/other-repo", ref="refs/heads/main"
+            repository="attacker/EndonAiAWSPortfolio", ref="refs/heads/main"
+        ),  # a fork / other owner
+        GitHubClaims(
+            repository="Voyagetechsolutions/other-repo", ref="refs/heads/main"
         ),  # a different repo
         GitHubClaims(repository=REPO, event_name="pull_request"),  # a pull request
         GitHubClaims(repository=REPO, ref="refs/tags/v1.0"),  # a tag
@@ -52,7 +56,9 @@ def test_wrong_audience_is_denied(simulator):
 
 def test_environment_deployments_can_be_allowed_explicitly():
     config = GitHubOidcConfig(
-        owner="mthokozisi-chaza", repo="endon-ai", allowed_environments=("production",)
+        owner="Voyagetechsolutions",
+        repo="EndonAiAWSPortfolio",
+        allowed_environments=("production",),
     )
     simulator = OidcTrustSimulator(build_trust_policy(config))
     allowed = simulator.can_assume(

@@ -20,7 +20,7 @@ LINKS = {
     "github_label": "github.com/Voyagetechsolutions",
     "linkedin": "https://www.linkedin.com/in/mthokozisi-chaza-2bb07a20b",
     "linkedin_label": "linkedin.com/in/mthokozisi-chaza-2bb07a20b",
-    "repo": "https://github.com/Voyagetechsolutions/endon-ai",
+    "repo": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
 }
 
 PROFILE = {

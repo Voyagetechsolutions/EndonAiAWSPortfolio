@@ -1,6 +1,6 @@
 ENDON AI - PASSWORDLESS CI/CD PIPELINE
 ======================================
-Repository: mthokozisi-chaza/endon-ai   Deploy branch: main
+Repository: Voyagetechsolutions/EndonAiAWSPortfolio   Deploy branch: main
 No long-lived AWS keys. GitHub Actions -> OIDC -> STS -> scoped deploy role.
 
 WHO CAN ASSUME THE DEPLOY ROLE (GitHub OIDC trust)

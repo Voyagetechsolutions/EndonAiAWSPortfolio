@@ -29,7 +29,7 @@ TRUST_CHECKS = [
     ),
     (
         "A fork / different owner",
-        lambda repo: GitHubClaims(repository="attacker/endon-ai", ref="refs/heads/main"),
+        lambda repo: GitHubClaims(repository="attacker/EndonAiAWSPortfolio", ref="refs/heads/main"),
         False,
     ),
     (
@@ -57,7 +57,7 @@ BLAST_CHECKS = [
 
 
 def render_console(config: GitHubOidcConfig | None = None) -> str:
-    config = config or GitHubOidcConfig(owner="mthokozisi-chaza", repo="endon-ai")
+    config = config or GitHubOidcConfig(owner="Voyagetechsolutions", repo="EndonAiAWSPortfolio")
     simulator = OidcTrustSimulator(build_trust_policy(config, account_id="123456789012"))
     model = build_deploy_role_model()
 
