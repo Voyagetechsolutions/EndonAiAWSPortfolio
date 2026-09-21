@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Endon AI - SOC{% endblock %}</title>
+  <style>
+    :root {
+      --ground: #080d17; --surface: #101a2e; --surface-2: #0c1322;
+      --line: #1e2a44; --line-strong: #2b3a5c; --text: #e8eefc; --muted: #8a97b3;
+      --accent: #4bd6c9; --on-accent: #04141a;
+      --crit: #ff5c6c; --high: #ff9f45; --med: #ffd24a; --low: #8a97b3; --ok: #4bd6c9;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--ground); color: var(--text);
+      font: 15px/1.5 ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 24px 16px 64px; }
+    header.bar {
+      display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 24px;
+    }
+    header.bar .brand { font-weight: 700; letter-spacing: .5px; }
+    header.bar .brand b { color: var(--accent); }
+    header.bar .tag { color: var(--muted); font-size: 13px; }
+    header.bar .spacer { flex: 1 1 auto; }
+    header.bar nav a { color: var(--muted); margin-left: 16px; font-size: 13px; }
+    h1, h2, h3 { font-family: inherit; }
+    h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted);
+         margin: 32px 0 12px; }
+    .grid { display: grid; gap: 16px; }
+    .cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .cols-4 { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 720px) { .cols-3, .cols-4 { grid-template-columns: 1fr 1fr; } }
+    .card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+      padding: 16px;
+    }
+    .score {
+      display: flex; align-items: center; gap: 24px;
+      background: var(--surface); border: 1px solid var(--line-strong); border-radius: 12px;
+      padding: 20px 24px;
+    }
+    .score .big { font-size: 52px; font-weight: 800; line-height: 1; }
+    .score .grade {
+      font-size: 22px; font-weight: 800; padding: 4px 12px; border-radius: 8px;
+      background: var(--surface-2); border: 1px solid var(--line-strong);
+    }
+    .score .meta { color: var(--muted); font-size: 13px; }
+    .grade-A, .grade-B { color: var(--ok); }
+    .grade-C, .grade-D { color: var(--high); }
+    .grade-F { color: var(--crit); }
+    .tile .n { font-size: 30px; font-weight: 800; }
+    .tile .k { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    .sev-crit { color: var(--crit); } .sev-high { color: var(--high); }
+    .sev-med  { color: var(--med);  } .sev-low  { color: var(--low); }
+    .sev-info { color: var(--muted); }
+    .pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line-strong); }
+    .pill.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); }
+    .pill.warn { color: var(--high); border-color: color-mix(in srgb, var(--high) 45%, transparent); }
+    .pill.bad { color: var(--crit); border-color: color-mix(in srgb, var(--crit) 45%, transparent); }
+    .pill.muted { color: var(--muted); }
+    .svc { display: flex; align-items: center; justify-content: space-between; padding: 8px 0;
+           border-bottom: 1px solid var(--line); }
+    .svc:last-child { border-bottom: 0; }
+    .svc .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+    .dot.ACTIVE { background: var(--ok); }
+    .dot.INACTIVE { background: var(--crit); }
+    .dot.UNKNOWN { background: var(--muted); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    td .mono { color: var(--muted); }
+    .timeline { list-style: none; margin: 0; padding: 0; }
+    .timeline li { padding: 8px 0 8px 16px; border-left: 2px solid var(--line-strong); margin-left: 6px; }
+    .timeline li .t { color: var(--muted); font-size: 12px; }
+    footer { color: var(--muted); font-size: 12px; margin-top: 48px; border-top: 1px solid var(--line);
+             padding-top: 16px; }
+    .empty { color: var(--muted); padding: 24px 8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="bar">
+      <span class="brand"><b>ENDON AI</b> Security Operations Center</span>
+      <span class="tag">{{ account_id or "" }} &middot; {{ region or "" }}</span>
+      <span class="spacer"></span>
+      <nav>
+        <a href="/">Dashboard</a>
+        <a href="/api/summary">API</a>
+      </nav>
+    </header>
+    {% block body %}{% endblock %}
+    <footer>
+      Endon AI &middot; read-only view over the incident and finding stores &middot;
+      generated {{ generated_at or "" }}
+    </footer>
+  </div>
+</body>
+</html>

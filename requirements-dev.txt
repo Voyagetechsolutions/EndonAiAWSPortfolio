@@ -9,8 +9,12 @@ pytest>=8.3
 aws-cdk-lib>=2.170
 constructs>=10.4
 
-# Portfolio site generator (portfolio-site/build.py)
+# Portfolio site generator (portfolio-site/build.py) and the SOC console (Project 8)
 jinja2>=3.1
+
+# Security Operations Center web app (Project 8); httpx drives its test client
+fastapi>=0.110
+httpx>=0.27
 
 # Linting
 ruff>=0.8

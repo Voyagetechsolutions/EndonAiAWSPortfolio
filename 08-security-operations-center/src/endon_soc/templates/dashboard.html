@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Endon AI - SOC Dashboard{% endblock %}
+{% block body %}
+  <div class="score">
+    <div class="big grade-{{ summary.grade }}">{{ summary.security_score }}<span style="font-size:22px;color:var(--muted)">/100</span></div>
+    <div class="grade grade-{{ summary.grade }}">{{ summary.grade }}</div>
+    <div class="meta">
+      Security score &middot; {{ summary.total_findings }} open finding(s),
+      {{ summary.score_breakdown.blind_services }} blind detector(s)<br>
+      &minus;{{ summary.score_breakdown.findings_penalty }} findings,
+      &minus;{{ summary.score_breakdown.blind_penalty }} blind spots
+    </div>
+  </div>
+
+  <h2>Findings by severity</h2>
+  <div class="grid cols-4">
+    {% for level, count in summary.severity_tally.items %}
+      {% if level != "INFORMATIONAL" %}
+      <div class="card tile">
+        <div class="n {{ level | severity_class }}">{{ count }}</div>
+        <div class="k">{{ level | capitalize }}</div>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <h2>Detective controls</h2>
+  <div class="card">
+    {% if summary.services %}
+      {% for svc in summary.services %}
+      <div class="svc">
+        <span><span class="dot {{ svc.status }}"></span>{{ svc.name }}</span>
+        <span class="pill {{ svc.status | status_class }}">{{ svc.status }}</span>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty">No detective-control health reported.</div>
+    {% endif %}
+  </div>
+
+  <h2>Recent incidents</h2>
+  <div class="card">
+    {% if incidents %}
+    <table>
+      <thead><tr><th>Time</th><th>Incident</th><th>Playbook</th><th>Severity</th><th>Status</th></tr></thead>
+      <tbody>
+      {% for inc in incidents %}
+        <tr>
+          <td class="mono">{{ inc.opened_at | short_time }}</td>
+          <td><a href="/incidents/{{ inc.incident_id }}">{{ inc.finding.title }}</a></td>
+          <td class="mono">{{ inc.playbook }}</td>
+          <td class="{{ inc.finding.severity | severity_class }}">{{ inc.finding.severity }}</td>
+          <td><span class="pill {{ inc.status | status_class }}">{{ inc.status }}</span></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <div class="empty">No incidents recorded.</div>
+    {% endif %}
+  </div>
+{% endblock %}

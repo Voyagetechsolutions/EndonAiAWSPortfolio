@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Endon AI - {{ incident.incident_id }}{% endblock %}
+{% block body %}
+  <p><a href="/">&larr; Dashboard</a></p>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+      <h1 style="margin:0;font-size:20px">{{ incident.finding.title }}</h1>
+      <span class="pill {{ incident.status | status_class }}">{{ incident.status }}</span>
+    </div>
+    <p class="mono" style="color:var(--muted)">
+      {{ incident.incident_id }} &middot; playbook <b>{{ incident.playbook }}</b> &middot;
+      severity <span class="{{ incident.finding.severity | severity_class }}">{{ incident.finding.severity }}</span>
+      &middot; type {{ incident.finding.type }}
+    </p>
+    {% if incident.finding.description %}<p>{{ incident.finding.description }}</p>{% endif %}
+    {% if incident.time_to_contain_seconds is not none %}
+      <p class="mono" style="color:var(--ok)">Time to contain: {{ incident.time_to_contain_seconds | round(1) }}s</p>
+    {% endif %}
+  </div>
+
+  <h2>Affected resources</h2>
+  <div class="card">
+    {% if incident.finding.resources %}
+    <table>
+      <thead><tr><th>Type</th><th>Id</th><th>Region</th></tr></thead>
+      <tbody>
+      {% for r in incident.finding.resources %}
+        <tr><td>{{ r.type }}</td><td class="mono">{{ r.id }}</td><td class="mono">{{ r.region or incident.finding.region }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty">No resources recorded.</div>{% endif %}
+  </div>
+
+  <h2>Actions taken</h2>
+  <div class="card">
+    {% if incident.actions %}
+    <table>
+      <thead><tr><th>Action</th><th>Kind</th><th>Target</th><th>Status</th><th>Detail</th></tr></thead>
+      <tbody>
+      {% for a in incident.actions %}
+        <tr>
+          <td>{{ a.action }}</td>
+          <td class="mono">{{ a.kind }}</td>
+          <td class="mono">{{ a.target }}</td>
+          <td><span class="pill {{ a.status | status_class }}">{{ a.status }}</span></td>
+          <td>{{ a.message }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty">No actions recorded.</div>{% endif %}
+  </div>
+
+  <h2>Timeline</h2>
+  <div class="card">
+    {% if incident.timeline %}
+    <ul class="timeline">
+      {% for entry in incident.timeline %}
+        <li><span class="t">{{ entry.at }}</span> &mdash; <b>{{ entry.event }}</b>{% if entry.detail %} &middot; {{ entry.detail }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+    {% else %}<div class="empty">No timeline entries.</div>{% endif %}
+  </div>
+{% endblock %}

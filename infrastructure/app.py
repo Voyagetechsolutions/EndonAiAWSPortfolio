@@ -25,6 +25,8 @@ COMPONENT_PATHS = (
     "04-ec2-incident-response/infrastructure",
     "05-data-protection-monitor/src",
     "05-data-protection-monitor/infrastructure",
+    "08-security-operations-center/src",
+    "08-security-operations-center/infrastructure",
 )
 sys.path[:0] = [str(ROOT / path) for path in COMPONENT_PATHS]
 
@@ -36,6 +38,7 @@ from forensics_stack import ForensicsStack  # noqa: E402
 from iam_analyzer_stack import IamAnalyzerStack  # noqa: E402
 from platform_stack import PlatformStack  # noqa: E402
 from posture_scanner_stack import PostureScannerStack  # noqa: E402
+from soc_stack import SocStack  # noqa: E402
 
 
 def main() -> None:
@@ -62,6 +65,7 @@ def main() -> None:
     PostureScannerStack(app, "EndonPostureScanner", platform=platform, env=env)
     ForensicsStack(app, "EndonForensics", platform=platform, env=env)
     DataProtectionStack(app, "EndonDataProtection", platform=platform, env=env)
+    SocStack(app, "EndonSoc", platform=platform, env=env)
 
     Tags.of(app).add("project", "endon-ai")
     Tags.of(app).add("managed-by", "aws-cdk")

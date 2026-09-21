@@ -17,7 +17,9 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Detect misconfigurations across S3, EC2, RDS, CloudTrail, KMS, IAM (26 controls) | Project 3 | **Built** |
 | Detection-rate benchmark against a known-vulnerable environment | Project 3 | **Built** |
 | Detect disabled detective controls (GuardDuty, Config) | Project 3 | **Built** |
-| Central SOC view of findings and incidents | Project 8 | *Planned* |
+| Central SOC view of findings and incidents (one read-only console) | Project 8 | **Built** |
+| Explainable security score from open findings + detective-control health | Project 8 | **Built** |
+| Live detective-control health panel, fail-safe (unconfirmed = blind spot) | Project 8 | **Built** |
 
 ## 2. Incident Response
 
@@ -33,6 +35,7 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | EBS snapshots, metadata and console capture with SHA-256 integrity | Project 4 | **Built** |
 | Immutable chain-of-custody manifest (S3 Object Lock WORM) | Project 4 | **Built** |
 | Preserve-only forensics role (no terminate/delete), enforced by tests | Project 4 | **Built** |
+| Incident timeline surfaced detection-to-containment in one console (Cognito-gated, read-only) | Project 8 | **Built** |
 
 ## 3. Infrastructure Security
 

@@ -1,0 +1,22 @@
+ENDON AI - SECURITY OPERATIONS CENTER
+=====================================
+
+Security Score               28/100   (grade F)
+
+Critical findings           1
+High findings               2
+Medium findings             2
+Low findings                1
+
+GuardDuty                 ACTIVE
+Security Hub              INACTIVE
+CloudTrail                ACTIVE
+AWS Config                ACTIVE
+
+Recent incidents
+--------------------------------------------------------------------
+  09:42  Role can escalate to admin via ...  iam-risk-review       MONITORING
+  09:31  Access key used from a known-ma...  compromised-iam-user  CONTAINED
+  08:17  S3 bucket is publicly readable      s3-public-exposure    CONTAINED
+
+  6 finding(s), 3 incident(s), 1 still open. -60 findings / -12 blind spots.

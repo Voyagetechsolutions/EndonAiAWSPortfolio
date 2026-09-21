@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-soc"
+version = "0.1.0"
+description = "Endon AI Security Operations Center: a read-only FastAPI console over the platform's findings and incidents"
+requires-python = ">=3.11"
+dependencies = ["endon-core", "fastapi>=0.110", "jinja2>=3.1", "boto3>=1.35"]
+
+[project.optional-dependencies]
+serve = ["uvicorn>=0.30"]
+
+[project.scripts]
+endon-soc = "endon_soc.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+endon_soc = ["templates/*.html"]
