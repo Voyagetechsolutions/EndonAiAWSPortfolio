@@ -1,8 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "pip install -r portfolio-site/requirements.txt",
-  "buildCommand": "python portfolio-site/build.py",
+  "buildCommand": "echo 'Serving prebuilt static site (run: python portfolio-site/build.py to regenerate)'",
   "outputDirectory": "portfolio-site/dist",
   "cleanUrls": true,
   "trailingSlash": false,

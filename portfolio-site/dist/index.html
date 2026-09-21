@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Cloud security engineering portfolio: Endon AI, an AWS threat-detection, IAM analysis and posture-management platform built in Python by Mthokozisi Chaza.">
+<meta property="og:title" content="Endon AI — Mthokozisi Chaza">
+<meta property="og:description" content="Cloud security engineering portfolio: Endon AI, an AWS threat-detection, IAM analysis and posture-management platform built in Python by Mthokozisi Chaza.">
+<meta property="og:type" content="website">
+<title>Endon AI — Mthokozisi Chaza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Endon AI portfolio — a security-operations console aesthetic.
+   Cool signal-teal accent = the system working; warm severities = threats.
+   Dark-first, but both themes are designed and reachable via the toggle. */
+
+/* ---- Tokens: light is the bare :root, dark redefines them ------------------ */
+:root {
+  --ground: #eef1f7;
+  --surface: #ffffff;
+  --surface-2: #f5f8fd;
+  --line: #dbe1ec;
+  --line-strong: #c4cddd;
+  --text: #0d1424;
+  --muted: #55617a;
+  --accent: #0d8a7e;
+  --accent-2: #0a6d63;
+  --on-accent: #ffffff;
+  --crit: #cc2439;
+  --high: #b7590f;
+  --med: #8a6d00;
+  --ok: #0d8a7e;
+  --shadow: 0 1px 2px rgba(13, 20, 36, .06), 0 8px 24px rgba(13, 20, 36, .06);
+  --shadow-lift: 0 2px 4px rgba(13, 20, 36, .08), 0 18px 40px rgba(13, 20, 36, .12);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #080d17;
+    --surface: #101a2e;
+    --surface-2: #0c1322;
+    --line: #1e2a44;
+    --line-strong: #2b3a5c;
+    --text: #e8eefc;
+    --muted: #8a97b3;
+    --accent: #4bd6c9;
+    --accent-2: #74e7dc;
+    --on-accent: #04141a;
+    --crit: #ff5c6c;
+    --high: #ff9f45;
+    --med: #ffd24a;
+    --ok: #4bd6c9;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 30px rgba(0, 0, 0, .35);
+    --shadow-lift: 0 2px 6px rgba(0, 0, 0, .4), 0 24px 50px rgba(0, 0, 0, .5);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #080d17;
+  --surface: #101a2e;
+  --surface-2: #0c1322;
+  --line: #1e2a44;
+  --line-strong: #2b3a5c;
+  --text: #e8eefc;
+  --muted: #8a97b3;
+  --accent: #4bd6c9;
+  --accent-2: #74e7dc;
+  --on-accent: #04141a;
+  --crit: #ff5c6c;
+  --high: #ff9f45;
+  --med: #ffd24a;
+  --ok: #4bd6c9;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 30px rgba(0, 0, 0, .35);
+  --shadow-lift: 0 2px 6px rgba(0, 0, 0, .4), 0 24px 50px rgba(0, 0, 0, .5);
+  color-scheme: dark;
+}
+
+/* ---- Base ------------------------------------------------------------------ */
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 { font-family: "Chivo", "IBM Plex Sans", system-ui, sans-serif; }
+h2, h3 { text-wrap: balance; }
+
+a { color: var(--accent-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.mono {
+  font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: 24px; }
+
+.eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin: 0;
+}
+
+section { padding-block: clamp(56px, 8vw, 104px); }
+section + section { border-top: 1px solid var(--line); }
+
+.section-head { max-width: 62ch; margin-bottom: 44px; }
+.section-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 700; margin: 12px 0 14px; letter-spacing: -.02em; line-height: 1.05; }
+.section-head p { color: var(--muted); margin: 0; font-size: 1.05rem; }
+
+/* ---- Nav ------------------------------------------------------------------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner { display: flex; align-items: center; gap: 20px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: "Chivo", sans-serif; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.brand:hover { text-decoration: none; }
+.brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+.brand small { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: .62rem; letter-spacing: .18em; color: var(--muted); }
+.nav-links { display: flex; gap: 22px; margin-left: auto; }
+.nav-links a { color: var(--muted); font-size: .9rem; font-weight: 500; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); text-decoration: none; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+
+.icon-btn {
+  display: inline-grid; place-items: center;
+  width: 38px; height: 38px;
+  border: 1px solid var(--line-strong); border-radius: 9px;
+  background: var(--surface); color: var(--text);
+  cursor: pointer;
+}
+.icon-btn:hover { border-color: var(--accent); color: var(--accent-2); }
+.icon-btn svg { width: 18px; height: 18px; }
+.theme-toggle .moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .moon { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .sun { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .moon { display: block; }
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 18px; border-radius: 10px;
+  font-weight: 600; font-size: .92rem; cursor: pointer;
+  border: 1px solid transparent; transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover { text-decoration: none; transform: translateY(-1px); }
+.btn-primary { background: var(--accent); color: var(--on-accent); box-shadow: var(--shadow); }
+.btn-primary:hover { box-shadow: var(--shadow-lift); }
+.btn-ghost { background: transparent; color: var(--text); border-color: var(--line-strong); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-2); }
+@media (max-width: 760px) { .nav-links { display: none; } }
+
+/* ---- Hero ------------------------------------------------------------------ */
+.hero { padding-block: clamp(52px, 9vw, 96px); position: relative; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(680px 380px at 78% -8%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+    linear-gradient(transparent 0 96%, color-mix(in srgb, var(--line) 60%, transparent) 100%) 0 0 / 100% 34px,
+    linear-gradient(90deg, transparent 0 96%, color-mix(in srgb, var(--line) 60%, transparent) 100%) 0 0 / 34px 100%;
+  mask-image: radial-gradient(120% 90% at 70% 0, #000 40%, transparent 92%);
+  opacity: .5; pointer-events: none;
+}
+.hero-inner { position: relative; }
+.hero h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 800; line-height: .98; letter-spacing: -.03em; margin: 16px 0 0; }
+.hero .role-line { font-family: "IBM Plex Mono", monospace; color: var(--muted); font-size: .92rem; letter-spacing: .02em; margin-top: 14px; }
+.hero .thesis { max-width: 62ch; color: var(--text); font-size: 1.12rem; margin: 26px 0 0; }
+.hero .thesis strong { color: var(--accent-2); }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px; border-radius: 999px;
+  border: 1px solid var(--line-strong); background: var(--surface);
+  font-size: .8rem; color: var(--muted); font-weight: 500;
+}
+.chip .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .chip .pulse { animation: none; } }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 30px; }
+
+/* ---- Stat strip ------------------------------------------------------------ */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 48px; }
+.stat {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 18px 18px 16px; box-shadow: var(--shadow);
+}
+.stat .v { font-family: "Chivo", sans-serif; font-weight: 800; font-size: 1.9rem; letter-spacing: -.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .l { font-size: .9rem; font-weight: 600; margin-top: 8px; }
+.stat .n { font-family: "IBM Plex Mono", monospace; font-size: .72rem; color: var(--muted); margin-top: 3px; }
+@media (max-width: 860px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---- Platform + diagram ---------------------------------------------------- */
+.diagram-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  padding: 22px; box-shadow: var(--shadow); overflow-x: auto;
+}
+.diagram-card svg { display: block; width: 100%; min-width: 640px; height: auto; }
+.dg-box { fill: var(--surface-2); stroke: var(--line-strong); }
+.dg-box-accent { fill: color-mix(in srgb, var(--accent) 12%, var(--surface-2)); stroke: var(--accent); }
+.dg-bus { fill: color-mix(in srgb, var(--accent) 16%, var(--surface-2)); stroke: var(--accent); }
+.dg-label { fill: var(--text); font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 13px; }
+.dg-sub { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .04em; }
+.dg-bus-label { fill: var(--accent-2); font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 11px; letter-spacing: .1em; }
+.dg-line { stroke: var(--line-strong); stroke-width: 1.6; fill: none; }
+.dg-flow { stroke: var(--accent); stroke-width: 1.6; fill: none; stroke-dasharray: 5 5; animation: flow 1.1s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -20; } }
+@media (prefers-reduced-motion: reduce) { .dg-flow { animation: none; } }
+
+.domains { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; }
+.domain {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+}
+.domain b { font-size: .92rem; font-weight: 600; }
+.domain span { font-family: "IBM Plex Mono", monospace; font-size: .68rem; color: var(--muted); }
+
+/* ---- Projects -------------------------------------------------------------- */
+.projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.project {
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 22px; box-shadow: var(--shadow);
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+}
+.project:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: var(--line-strong); }
+.project-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.project .num { font-family: "IBM Plex Mono", monospace; font-size: .8rem; color: var(--muted); letter-spacing: .1em; }
+.project h3 { font-size: 1.12rem; font-weight: 600; margin: 14px 0 0; line-height: 1.25; letter-spacing: -.01em; }
+.project .skill { font-family: "IBM Plex Mono", monospace; font-size: .7rem; letter-spacing: .06em; color: var(--accent-2); text-transform: uppercase; margin-top: 8px; }
+.project p { color: var(--muted); font-size: .92rem; margin: 12px 0 0; }
+.project-foot { margin-top: auto; padding-top: 18px; display: flex; align-items: center; justify-content: space-between; }
+.project-link { font-size: .85rem; font-weight: 600; color: var(--accent-2); display: inline-flex; align-items: center; gap: 5px; }
+
+.status { display: inline-flex; align-items: center; gap: 7px; font-family: "IBM Plex Mono", monospace; font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; padding: 4px 10px; border-radius: 999px; border: 1px solid; }
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.status.shipped { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.status.designed { color: var(--muted); border-color: var(--line-strong); background: var(--surface-2); }
+
+/* ---- Case studies ---------------------------------------------------------- */
+.cases { display: flex; flex-direction: column; gap: 16px; }
+.case {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.case > summary {
+  list-style: none; cursor: pointer; padding: 24px;
+  display: grid; gap: 12px;
+}
+.case > summary::-webkit-details-marker { display: none; }
+.case-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.case-code { font-family: "IBM Plex Mono", monospace; font-size: .72rem; letter-spacing: .14em; color: var(--accent-2); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 6px; padding: 3px 8px; }
+.case-domain { font-family: "IBM Plex Mono", monospace; font-size: .72rem; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
+.case h3 { font-size: clamp(1.2rem, 2.4vw, 1.6rem); font-weight: 700; margin: 0; letter-spacing: -.02em; }
+.case .hook { color: var(--muted); margin: 0; max-width: 70ch; }
+.case-metrics { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 4px; }
+.case-metric .v { font-family: "Chivo", sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.case-metric .l { font-family: "IBM Plex Mono", monospace; font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.case-expand { display: inline-flex; align-items: center; gap: 7px; font-family: "IBM Plex Mono", monospace; font-size: .74rem; color: var(--accent-2); letter-spacing: .04em; }
+.case-expand svg { width: 15px; height: 15px; transition: transform .2s ease; }
+.case[open] .case-expand svg { transform: rotate(45deg); }
+.case[open] .case-expand .txt::after { content: " — collapse"; }
+
+.case-body { padding: 4px 24px 28px; border-top: 1px solid var(--line); }
+.case-body .cs-section { padding-top: 22px; }
+.case-body h4 { font-family: "IBM Plex Sans", sans-serif; font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: var(--accent-2); margin: 0 0 10px; font-weight: 600; }
+.case-body p { margin: 0 0 10px; max-width: 72ch; }
+.case-body ul { margin: 0; padding-left: 18px; max-width: 72ch; }
+.case-body li { margin-bottom: 8px; color: var(--text); }
+.case-body li::marker { color: var(--accent); }
+.case-body strong { color: var(--text); }
+.case-body em { color: var(--accent-2); font-style: normal; font-weight: 600; }
+.terminal {
+  margin: 4px 0 2px; background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+  font-family: "IBM Plex Mono", monospace; font-size: .8rem; line-height: 1.7; color: var(--text);
+  white-space: pre; tab-size: 2;
+}
+
+/* ---- About ----------------------------------------------------------------- */
+.about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 44px; }
+.about-body p { max-width: 60ch; }
+.about-body em { color: var(--accent-2); font-style: normal; font-weight: 600; }
+.skill-group { margin-bottom: 22px; }
+.skill-group h4 { font-family: "IBM Plex Mono", monospace; font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 10px; font-weight: 500; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { font-size: .82rem; padding: 5px 11px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); color: var(--text); }
+@media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+/* ---- Contact + footer ------------------------------------------------------ */
+.contact-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  padding: 36px; box-shadow: var(--shadow); text-align: center;
+}
+.contact-card h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 8px; letter-spacing: -.02em; }
+.contact-card p { color: var(--muted); margin: 0 auto 24px; max-width: 48ch; }
+.contact-links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+footer { border-top: 1px solid var(--line); padding-block: 30px; }
+.foot-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.foot-inner .mono { font-size: .78rem; color: var(--muted); }
+
+/* ---- Reveal on scroll — content is fully visible at rest; JS only adds a
+   gentle upward settle once, never hiding anything (safe for snapshots). ----- */
+.reveal { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal.armed { transform: translateY(12px); transition: transform .55s ease; }
+  .js .reveal.armed.in { transform: none; }
+}
+
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Endon AI — home">
+      <span class="dot" aria-hidden="true"></span>
+      <span>ENDON<span style="color:var(--accent-2)">·</span>AI</span>
+      <small>SECURITY</small>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#platform">Platform</a>
+      <a href="#projects">Projects</a>
+      <a href="#cases">Case Studies</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" type="button" aria-label="Toggle colour theme" data-theme-toggle>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a class="btn btn-ghost" href="https://github.com/Voyagetechsolutions" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">Cloud Security Engineering Portfolio</p>
+      <h1>Mthokozisi Chaza</h1>
+      <p class="role-line">Cloud Security Engineer · AWS Security · Python · Detection Engineering · Incident Response</p>
+      <p class="thesis">I build cloud security — I don't just study it. <strong>Endon AI</strong> is a platform I built for AWS: automated threat detection and response, IAM privilege-escalation analysis, posture management, data protection, EC2 forensics, multi-account governance and passwordless CI/CD — eight components working as one system. Each starts from a real attack, gets threat-modeled, attack-simulated, and measured — not another tutorial.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#cases">Read the case studies</a>
+        <a class="btn btn-ghost" href="https://github.com/Voyagetechsolutions" target="_blank" rel="noopener">View source on GitHub</a>
+        <span class="chip"><span class="pulse" aria-hidden="true"></span>Preparing for AWS Certified Security – Specialty</span>
+      </div>
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="v">8</div>
+          <div class="l">systems shipped</div>
+          <div class="n">all tested & deployable</div>
+        </div>
+        <div class="stat">
+          <div class="v">337</div>
+          <div class="l">tests passing</div>
+          <div class="n">offline (moto) + CDK synth</div>
+        </div>
+        <div class="stat">
+          <div class="v">26/26</div>
+          <div class="l">benchmark detection</div>
+          <div class="n">0 false positives</div>
+        </div>
+        <div class="stat">
+          <div class="v"><1s</div>
+          <div class="l">detect → contain</div>
+          <div class="n">engine time, offline replay</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM -->
+  <section id="platform">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The platform</p>
+        <h2>One system, not eight tools</h2>
+        <p>Eight projects, one system. Every component speaks the same language — one normalized finding format, one EventBridge security bus, one incident record — so they cooperate instead of sitting in eight unrelated repositories. The posture scanner finds a public bucket; the response engine closes it; the incident shows up in one place.</p>
+      </div>
+      <div class="diagram-card reveal" role="img" aria-label="Endon AI architecture: detection sources and scanners publish findings to the Endon security bus, which feeds a response engine that acts on IAM, EC2, S3 and CloudTrail, records incidents and alerts, and surfaces to a SOC dashboard.">
+<svg viewBox="0 0 880 290" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- flow lines: sources -> bus -->
+  <path class="dg-flow" d="M192 56 H232"/>
+  <path class="dg-flow" d="M192 144 H232"/>
+  <path class="dg-flow" d="M192 232 H232"/>
+  <!-- bus -> response engine -->
+  <path class="dg-flow" d="M258 142 H300"/>
+  <!-- response engine -> outputs -->
+  <path class="dg-line" d="M490 142 C516 142 516 69 540 69"/>
+  <path class="dg-line" d="M490 142 H540"/>
+  <path class="dg-line" d="M490 142 C516 142 516 225 540 225"/>
+  <!-- incidents -> SOC -->
+  <path class="dg-line" d="M716 147 H728"/>
+
+  <!-- source boxes -->
+  <rect class="dg-box-accent" x="16" y="24" width="176" height="64" rx="10"/>
+  <text class="dg-label" x="32" y="52">Detection</text>
+  <text class="dg-sub" x="32" y="70">GuardDuty · Security Hub</text>
+
+  <rect class="dg-box" x="16" y="112" width="176" height="64" rx="10"/>
+  <text class="dg-label" x="32" y="140">IAM Analyzer</text>
+  <text class="dg-sub" x="32" y="158">endon.iam-analyzer</text>
+
+  <rect class="dg-box" x="16" y="200" width="176" height="64" rx="10"/>
+  <text class="dg-label" x="32" y="228">Posture Scanner</text>
+  <text class="dg-sub" x="32" y="246">endon.posture-scanner</text>
+
+  <!-- event bus -->
+  <rect class="dg-bus" x="232" y="16" width="26" height="248" rx="8"/>
+  <text class="dg-bus-label" x="245" y="140" transform="rotate(-90 245 140)" text-anchor="middle">ENDON-SECURITY-BUS</text>
+
+  <!-- response engine -->
+  <rect class="dg-box-accent" x="300" y="90" width="190" height="104" rx="12"/>
+  <text class="dg-label" x="318" y="128" style="font-size:15px">Response Engine</text>
+  <text class="dg-sub" x="318" y="150">Python Lambda</text>
+  <text class="dg-sub" x="318" y="166">playbooks · guardrails</text>
+
+  <!-- outputs -->
+  <rect class="dg-box" x="540" y="40" width="176" height="58" rx="10"/>
+  <text class="dg-label" x="556" y="65">Contain / Remediate</text>
+  <text class="dg-sub" x="556" y="82">IAM · EC2 · S3 · CloudTrail</text>
+
+  <rect class="dg-box" x="540" y="118" width="176" height="58" rx="10"/>
+  <text class="dg-label" x="556" y="143">Incidents + Alerts</text>
+  <text class="dg-sub" x="556" y="160">DynamoDB · SNS</text>
+
+  <rect class="dg-box" x="540" y="196" width="176" height="58" rx="10"/>
+  <text class="dg-label" x="556" y="221">Forensics</text>
+  <text class="dg-sub" x="556" y="238">evidence · Object Lock</text>
+
+  <!-- SOC -->
+  <rect class="dg-box" x="728" y="115" width="140" height="64" rx="10"/>
+  <text class="dg-label" x="744" y="143">SOC Dashboard</text>
+  <text class="dg-sub" x="744" y="161">FastAPI · one view</text>
+</svg>      </div>
+      <div class="domains">
+        <div class="domain"><b>Detection</b><span>Projects 1, 3 & 8</span></div>
+        <div class="domain"><b>Incident Response</b><span>Projects 1 & 4</span></div>
+        <div class="domain"><b>Infrastructure Security</b><span>Projects 1 & 3</span></div>
+        <div class="domain"><b>Identity & Access Management</b><span>Projects 2 & 7</span></div>
+        <div class="domain"><b>Data Protection</b><span>Projects 3 & 5</span></div>
+        <div class="domain"><b>Governance</b><span>Projects 6 & 7</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The build · 8 shipped, one system</p>
+        <h2>Projects</h2>
+        <p>Each maps to a domain of the AWS Security Specialty exam. Every system is tested and
+          deployable, and they share one finding format, one event bus and one incident record —
+          so they work together, not in eight unrelated repositories.</p>
+      </div>
+      <div class="projects">
+        <article class="project">
+          <div class="project-top">
+            <span class="num">01</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Automated Threat Detection & Response</h3>
+          <div class="skill">Detection · Incident Response</div>
+          <p>Stolen AWS credentials get used in minutes. Detection isn't response — someone still has to notice the alert and act.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-detection">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">02</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>IAM Least-Privilege & Escalation Analyzer</h3>
+          <div class="skill">Identity & Access Management</div>
+          <p>The dangerous admin is the one without AdministratorAccess attached — reachable through a permission combination or a role hop.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-iam">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">03</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Cloud Security Posture Scanner</h3>
+          <div class="skill">Detection · Infrastructure Security</div>
+          <p>Most breaches start with a misconfiguration, not an exploit. An open port or public bucket is a state nothing fires an alert for.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-posture">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">04</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>EC2 Incident Response & Forensics</h3>
+          <div class="skill">Incident Response</div>
+          <p>The instinct is to terminate a compromised instance — destroying the memory, disk and network state an investigation needs.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-forensics">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">05</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Data Protection & Secrets Monitor</h3>
+          <div class="skill">Data Protection</div>
+          <p>Secrets in environment variables, sensitive data in the wrong bucket, unencrypted storage, a committed access key.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-dataprotection">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">06</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Secure Multi-Account Landing Zone</h3>
+          <div class="skill">Governance</div>
+          <p>In one account, anyone with enough access can switch off the controls that watch them. Guardrails have to sit above the workloads.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-landingzone">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">07</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Passwordless GitHub → AWS CI/CD</h3>
+          <div class="skill">IAM · DevSecOps</div>
+          <p>Long-lived AWS keys in CI secrets never expire and get copied. OIDC replaces them with short-lived, scoped credentials.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-cicd">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">08</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Security Operations Center Dashboard</h3>
+          <div class="skill">Detection · Security Operations</div>
+          <p>Signals are scattered across GuardDuty, Security Hub, scanners and incidents. Nobody can answer: how exposed are we right now?</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-soc">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section id="cases">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Evidence, not claims</p>
+        <h2>Case studies</h2>
+        <p>Each shipped system, written up the way I build it: the security problem, the threat
+          model, the architecture, the attack, the response, and the measured result — limitations
+          included. Expand a case to read the full write-up.</p>
+      </div>
+      <div class="cases">
+        <details class="case reveal" id="cs-detection" open>
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-01</span>
+              <span class="case-domain">Detection · Incident Response</span>
+            </div>
+            <h3>Containing a Credential Compromise Before the Attacker Finishes</h3>
+            <p class="hook">A leaked CI access key, used within minutes. GuardDuty detects it — then a Python response engine contains it automatically, without destroying evidence or locking out the wrong people.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">5 → 4</div><div class="l">findings auto-contained</div></div>
+              <div class="case-metric"><div class="v"><1s</div><div class="l">engine time to contain</div></div>
+              <div class="case-metric"><div class="v">0</div><div class="l">resources deleted</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>An access key belonging to a CI user leaks — committed to a repo, printed in a build log, copied off a laptop. Within minutes the attacker enumerates S3, creates a second key for persistence, opens SSH to the internet, stops CloudTrail, exposes a customer-data bucket, and starts a cryptominer.</p><p>GuardDuty detects most of it. But detection lands in a console a human has to read. Every minute between the finding and the fix is a minute the attacker keeps working — with logging switched off.</p>            </div>
+            <div class="cs-section">
+              <h4>Threat model</h4>
+<p>Mapped to MITRE ATT&CK: valid-account abuse (T1078.004), additional cloud credentials (T1098.001), disable cloud logs (T1562.008), instance-credential exfiltration (T1552.005), data from cloud storage (T1530), resource hijacking (T1496). The model also covers threats against the responder itself — spoofed findings, self-modification, denial-of-service by over-reaction.</p>            </div>
+            <div class="cs-section">
+              <h4>Architecture</h4>
+<p>GuardDuty and Security Hub findings flow through EventBridge to a Python Lambda. It normalizes each finding, selects a playbook by finding type, source and resource role, runs guarded response actions, and records every step on an incident timeline in DynamoDB. Alerts go out with the outcome; an isolated instance is handed to forensics over the Endon bus.</p>            </div>
+            <div class="cs-section">
+              <h4>Automated response — and where it stops</h4>
+<ul><li>Compromised IAM user: deactivate <em>every</em> access key, attach an explicit deny-all quarantine policy that overrides AdministratorAccess.</li><li>Stolen role credentials: revoke sessions with an <span class='mono'>aws:TokenIssueTime</span> deny — the only way to kill temporary credentials.</li><li>Compromised EC2: move it to a no-traffic security group and enable termination protection — <strong>isolate, never terminate</strong>. Memory and disk are evidence.</li><li>Tampered logging: restart CloudTrail automatically.</li><li>Reconnaissance, root activity and port-probes: <em>alert a human</em>, don't auto-contain. Over-reacting is its own denial-of-service.</li></ul>            </div>
+            <div class="cs-section">
+              <h4>Results — offline attack replay</h4>
+<p>The full kill-chain runs against an emulated AWS account (moto), so it needs no real account. The engine handled 5 GuardDuty findings; 4 were contained automatically and 1 (pure reconnaissance) was alerted. Then the account state was verified through the AWS APIs:</p><div class="terminal">INC-AA5A8FD8  CONTAINED  UnauthorizedAccess:IAMUser/MaliciousIPCaller
+  +0.078s  disable_access_keys   — 2 keys deactivated
+  +0.087s  quarantine_iam_user   — deny-all policy attached
+  +0.087s  contained             — 0.3s after first seen
+
+INC-F6D385D7  CONTAINED  CryptoCurrency:EC2/BitcoinTool.B!DNS
+  +0.412s  isolate_instance      — moved to endon-quarantine SG
+  +0.412s  request_forensics     — instance left running for evidence</div>            </div>
+            <div class="cs-section">
+              <h4>Security decisions</h4>
+<ul><li>Deactivate, never delete — every change is reversible and evidence survives.</li><li>Dry-run by default; automated containment is switched on deliberately.</li><li>Endon's own findings can fix configuration but can never lock out a user or isolate a host — only unforgeable AWS-native detections can.</li><li>The responder cannot modify its own IAM role — an explicit deny stops compromised code from escalating.</li></ul>            </div>
+            <div class="cs-section">
+              <h4>Limitations & lessons</h4>
+<p>"Seconds" is engine time against emulated APIs; real-world latency is GuardDuty's delivery time. Most of the work turned out to be deciding <em>when not to act</em>: containment is a few API calls, but severity gates, source trust, guardrails and idempotency are what make automated response safe enough to leave switched on.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-iam">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-02</span>
+              <span class="case-domain">Identity & Access Management</span>
+            </div>
+            <h3>Finding the Admin Who Didn't Look Like One</h3>
+            <p class="hook">A user with a single permission — sts:AssumeRole — turns out to be an administrator, one role-hop away. A policy reader would never see it. A graph does.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">19</div><div class="l">escalation techniques</div></div>
+              <div class="case-metric"><div class="v">2-hop</div><div class="l">paths, graph-traced</div></div>
+              <div class="case-metric"><div class="v">0</div><div class="l">IAM writes (read-only)</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>IAM drifts toward over-permission. The dangerous risks are the ones you can't see in a single policy: a role with <span class='mono'>iam:PassRole</span> plus <span class='mono'>lambda:CreateFunction</span> is administrator-equivalent; a user who can only assume a role is an admin if that role can attach policies to itself.</p>            </div>
+            <div class="cs-section">
+              <h4>A real evaluation engine, not a policy printer</h4>
+<p>The analyzer pulls the whole account (GetAccountAuthorizationDetails plus the credential report) and evaluates <em>effective</em> permissions the way IAM does: explicit deny wins, then every grant is reduced to three facts — allowed, on any resource, conditional. Those three facts are what separate a real escalation path from a harmless scoped grant.</p>            </div>
+            <div class="cs-section">
+              <h4>The escalation graph</h4>
+<p>Direct techniques (the documented AWS privilege-escalation methods) are one thing. The insight is the graph: an assume-role edge is added only when the caller can assume a role <em>and</em> that role's trust policy admits the caller, then reachability is closed transitively. In the demo account, <span class='mono'>mallory</span> holds one permission:</p><div class="terminal">user mallory: sts:AssumeRole  ─►  role escalation-target-role
+                                    (trust admits mallory)
+                                     └─► iam:AttachUserPolicy  ─►  ADMIN
+
+FINDING  IAM:User/PrivilegeEscalation  [CRITICAL]  mallory
+         via role escalation-target-role (user:mallory → role:…)</div>            </div>
+            <div class="cs-section">
+              <h4>It doesn't cry wolf</h4>
+<p>A scoped, read-only user, an external-trust role gated by an <span class='mono'>sts:ExternalId</span>, and a break-glass admin tagged <span class='mono'>endon:protected</span> all produce the right result — no finding, or a downgraded one. Not raising false alarms is what makes the CRITICAL findings worth reading.</p>            </div>
+            <div class="cs-section">
+              <h4>Security decisions & lessons</h4>
+<ul><li>Read-only — the Lambda role has <em>no</em> IAM write permission, enforced by a test that fails the build if one is ever granted.</li><li>Report, never auto-remediate: findings route to human review, because stripping a permission can break production.</li><li>Confidence is graded (high vs conditional-or-scoped), not a boolean — that's what a human can actually triage.</li><li>The interesting risk is emergent: it lives in the combination of a grant and a reachable target, which is why it needs an engine and a graph.</li></ul>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-posture">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-03</span>
+              <span class="case-domain">Detection · Infrastructure Security</span>
+            </div>
+            <h3>Proving Coverage, Not Claiming It</h3>
+            <p class="hook">A posture scanner is only credible if you can measure what it catches. This one reports its detection rate against an environment whose flaws are known in advance.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">26/26</div><div class="l">planted issues found</div></div>
+              <div class="case-metric"><div class="v">8</div><div class="l">AWS services</div></div>
+              <div class="case-metric"><div class="v">0</div><div class="l">false positives</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>A scanner that prints a long list proves nothing. You can't tell from the output whether it <em>missed</em> something (the dangerous kind of error) or whether half the list is noise. Both are invisible unless you scan something whose correct answer you already know.</p>            </div>
+            <div class="cs-section">
+              <h4>A benchmark with a manifest</h4>
+<p>The scanner ships with a deliberately vulnerable environment built through the real AWS APIs, and a manifest recording exactly which control each planted misconfiguration should trigger — plus intentionally correct resources that must produce no finding. 26 controls across S3, EC2, RDS, CloudTrail, KMS, IAM, GuardDuty and Config.</p><div class="terminal">DETECTION BENCHMARK
+  Planted misconfigurations : 26 controls across 8 services
+  Detected                  : 26/26 (100%)
+  Missed                    : none
+  False positives (clean)   : none</div>            </div>
+            <div class="cs-section">
+              <h4>Public means effectively public</h4>
+<p>The S3 check models Block Public Access as the override it is: a bucket is flagged only when a public ACL or wildcard policy exists <em>and</em> BPA isn't neutralizing it — matching how S3 actually resolves access. A wildcard policy gated by a condition is not treated as public.</p>            </div>
+            <div class="cs-section">
+              <h4>One system</h4>
+<p>The public-bucket finding is where the platform behaves as a whole. Nothing emits an event when a bucket is made public — it's a state, not a behavior. The scanner finds it, publishes <span class='mono'>Posture:S3/BucketPubliclyAccessible</span> to the Endon bus, and the Project 1 response engine re-enables Block Public Access automatically. One tool sees; another closes.</p>            </div>
+            <div class="cs-section">
+              <h4>Security decisions & lessons</h4>
+<ul><li>Read-only across every audited service, enforced by the build.</li><li>Detect broadly, auto-remediate one thing — blindly "fixing" a misconfiguration can break a workload.</li><li>A benchmark changes how you build: once detection rate is a number a test asserts, "I think it works" becomes "it finds 26 of 26, and flags none of the clean resources."</li></ul>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-forensics">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-04</span>
+              <span class="case-domain">Incident Response</span>
+            </div>
+            <h3>Treating a Compromised Instance Like a Crime Scene</h3>
+            <p class="hook">The reflex is to terminate a hacked instance. That destroys the evidence. This collects it in order of volatility, hashes every artifact, and writes an immutable chain of custody — and never terminates the box.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">volatility order</div><div class="l">collection</div></div>
+              <div class="case-metric"><div class="v">SHA-256</div><div class="l">every artifact</div></div>
+              <div class="case-metric"><div class="v">WORM</div><div class="l">chain of custody</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>When an instance is compromised, the instinct is to kill it. But terminating it throws away exactly what an investigation needs: the volatile memory and process state, the disk, the network connections, the instance metadata. Containment and evidence preservation pull in opposite directions unless the response is designed for both.</p>            </div>
+            <div class="cs-section">
+              <h4>Collection in order of volatility</h4>
+<p>Forensics runs when Project 1 isolates a host and publishes <span class='mono'>Endon Forensics Requested</span> to the bus. The collector gathers evidence most-volatile first — live process and network state over SSM, then instance metadata, the console screenshot, recent CloudTrail activity, and finally EBS snapshots of every attached volume — so the fragile, disappearing signal is captured before the durable disk.</p>            </div>
+            <div class="cs-section">
+              <h4>Integrity and chain of custody</h4>
+<p>Every artifact is hashed with SHA-256 as it is collected, and a manifest — what was taken, when, from where, and its hash — is written to an S3 evidence bucket with <strong>Object Lock</strong> in governance mode. The record is write-once: it cannot be altered or deleted for the retention period, so the evidence would stand up to scrutiny.</p>            </div>
+            <div class="cs-section">
+              <h4>Preserve-only by construction</h4>
+<ul><li>The forensics IAM role can snapshot and read, but an explicit deny blocks <span class='mono'>Terminate</span>, <span class='mono'>Stop</span>, <span class='mono'>Delete</span> and <span class='mono'>BypassGovernanceRetention</span> — enforced by a test that fails the build if a destructive permission is ever granted.</li><li>Collection is idempotent: a re-delivered request maps to the same case and does not duplicate evidence.</li><li>Each collector is failure-isolated — if one source is unreachable it is recorded as SKIPPED, and the rest still run.</li></ul>            </div>
+            <div class="cs-section">
+              <h4>Limitations & lessons</h4>
+<p>There is an honest tension: a fully isolated host may be unreachable over SSM, so the most volatile capture can degrade to SKIPPED — the manifest says so rather than pretending. The lesson was that chain-of-custody integrity (hashes + WORM storage) matters more than collecting every last byte: evidence you cannot trust is worse than evidence you are missing.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-dataprotection">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-05</span>
+              <span class="case-domain">Data Protection</span>
+            </div>
+            <h3>A Secret Scanner That Must Never Leak a Secret</h3>
+            <p class="hook">A tool that hunts for exposed credentials is itself a tempting exfiltration path. This one masks every match to edge characters and a hash at the engine boundary, and its role can list secrets but never read their value.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">signatures + entropy</div><div class="l">detection</div></div>
+              <div class="case-metric"><div class="v">0</div><div class="l">plaintext emitted</div></div>
+              <div class="case-metric"><div class="v">List, not Get</div><div class="l">Secrets Manager</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>Credentials leak into places that are easy to forget: a Lambda environment variable, EC2 user data, an object in the wrong bucket. A monitor that finds them has to handle the very thing it is looking for — so if it ever logs, stores, or emits a matched secret, it has become the leak.</p>            </div>
+            <div class="cs-section">
+              <h4>The detection engine</h4>
+<p>Detection combines signatures for known formats (AWS keys, GitHub tokens, Stripe keys, private keys, database connection strings) with a Shannon-entropy check that catches high-entropy strings no signature knows. A placeholder suppressor keeps obvious dummies like <span class='mono'>changeme</span> or <span class='mono'>example</span> from firing, so the findings are worth reading.</p>            </div>
+            <div class="cs-section">
+              <h4>Never handle the plaintext</h4>
+<p>The core rule is that a secret's value never leaves the engine. At the boundary, <span class='mono'>redact()</span> reduces every match to a few edge characters plus a SHA-256 digest — enough to correlate and confirm, never enough to use. A test asserts the monitor never emits or logs a secret's plaintext.</p>            </div>
+            <div class="cs-section">
+              <h4>Least privilege enforced by the build</h4>
+<ul><li>The scanning role holds <span class='mono'>secretsmanager:ListSecrets</span> but <em>not</em> <span class='mono'>GetSecretValue</span> — it can see that a secret exists, never read it — enforced by a synthesis test.</li><li>Inspection permissions across Lambda, EC2 and Macie are read-only; the monitor cannot change a resource.</li></ul>            </div>
+            <div class="cs-section">
+              <h4>One system</h4>
+<p>Amazon Macie findings for publicly reachable sensitive data are normalized to <span class='mono'>DataProtection:S3/SensitiveDataPubliclyAccessible</span> and handed to the Project 1 response engine, which re-closes the bucket. AWS Health exposed-credential events become findings the same way. Detection and response are two components, one platform.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-landingzone">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-06</span>
+              <span class="case-domain">Security Foundations & Governance</span>
+            </div>
+            <h3>The Controls an Administrator Can't Turn Off</h3>
+            <p class="hook">Inside one account, whoever has enough access can switch off the controls that watch them. Service Control Policies sit above the accounts — and an SCP simulator proves a full admin is denied 10 of 10 dangerous actions.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">10/10</div><div class="l">admin actions blocked</div></div>
+              <div class="case-metric"><div class="v">7</div><div class="l">SCP guardrails</div></div>
+              <div class="case-metric"><div class="v">above the account</div><div class="l">enforced</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>In a single account, IAM is both the floor and the ceiling: an administrator can grant themselves anything and disable anything — stop CloudTrail, turn off GuardDuty, make a bucket public. Security that the monitored party can switch off is theatre.</p>            </div>
+            <div class="cs-section">
+              <h4>SCPs as the control plane</h4>
+<p>The non-negotiable rules live in Service Control Policies attached to Organizational Units above the workload accounts. An explicit <span class='mono'>Deny</span> in an SCP cannot be overridden by any IAM policy in the member account — not by an administrator, not by the root user. The guardrails are deny-based over the default allow-all, which is simpler and safer than allow-lists.</p>            </div>
+            <div class="cs-section">
+              <h4>The guardrail proof</h4>
+<p>A landing-zone diagram is easy to get subtly wrong, so the project ships a small SCP evaluation engine and runs the attacker's playbook against the guardrails that apply to the Production account:</p><div class="terminal">GUARDRAIL PROOF — a full admin in the Production account
+  [DENIED ] Stop CloudTrail logging            <- ProtectSecurityLogging
+  [DENIED ] Disable GuardDuty                  <- ProtectDetectionServices
+  [DENIED ] Remove account Block Public Access <- PreventPublicS3
+  [DENIED ] Operate in an unapproved region    <- RegionAllowlist
+  [DENIED ] Modify the Endon response engine   <- ProtectPlatform
+  [DENIED ] Leave the organization             <- PreventLeavingOrg
+
+  10/10 dangerous actions blocked by SCP for a workload administrator.</div>            </div>
+            <div class="cs-section">
+              <h4>Break-glass without holes</h4>
+<p>An over-eager guardrail that blocks the security team gets switched off in week one, so the high-impact guardrails exempt exactly the security admin (and, for the platform's own resources, the deploy pipeline) via <span class='mono'>aws:PrincipalArn</span>. The simulator proves both sides: the attacker is stopped, the break-glass path still works.</p>            </div>
+            <div class="cs-section">
+              <h4>The platform comes full circle</h4>
+<p>Project 1 had one residual risk it couldn't close alone: an account admin disabling the responder. The <span class='mono'>protect-endon-platform</span> SCP closes it — the responder can only be changed by the deploy pipeline. The landing zone is what makes the automated responder trustworthy in a real org.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-cicd">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-07</span>
+              <span class="case-domain">IAM · Governance</span>
+            </div>
+            <h3>A Deploy Key That Can't Leak and Can't Escalate</h3>
+            <p class="hook">No AWS keys in GitHub. OIDC federation scopes trust to one repository and branch, and a permissions boundary contains a compromised pipeline — both proven by red-teaming the trust and the blast radius offline.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">0</div><div class="l">long-lived keys</div></div>
+              <div class="case-metric"><div class="v">5/5</div><div class="l">rogue assumes denied</div></div>
+              <div class="case-metric"><div class="v">6/6</div><div class="l">escalations denied</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>The usual CI pattern — a long-lived access key in repository secrets — fails two ways: the key never expires and gets copied into more places than anyone tracks, and the deploy identity is over-powered, so whoever controls the pipeline controls the account.</p>            </div>
+            <div class="cs-section">
+              <h4>Keyless trust</h4>
+<p>There are no AWS keys in GitHub. The account trusts GitHub's OIDC provider through <span class='mono'>sts:AssumeRoleWithWebIdentity</span>, pinned by two conditions on the token: the audience is AWS STS, and the <span class='mono'>sub</span> is <span class='mono'>repo:owner/repo:ref:refs/heads/main</span>. A fork, a pull request, a feature branch, a tag, or any other repository produces a different subject and is refused by STS. Tokens last minutes, not forever.</p>            </div>
+            <div class="cs-section">
+              <h4>A hard ceiling on the blast radius</h4>
+<p>The deploy role's identity policy grants only <span class='mono'>sts:AssumeRole</span> on the CDK roles. On top, a customer-managed permissions boundary <em>denies</em> the escalation and destruction set — creating users, minting keys, attaching policies, passing roles, deleting buckets. Because an explicit deny wins, the ceiling holds even if the identity policy is later widened to administrator, which is exactly the compromised-pipeline case.</p><div class="terminal">BLAST RADIUS OF A COMPROMISED PIPELINE
+  [ALLOWED] Assume the CDK deploy role
+  [DENIED ] Create an IAM user (persistence)
+  [DENIED ] Attach AdministratorAccess to itself
+  [DENIED ] Pass a privileged role
+  [DENIED ] Delete an S3 bucket (destroy data)
+
+  5/5 unauthorized assume attempts denied.
+  6/6 dangerous pipeline actions denied.</div>            </div>
+            <div class="cs-section">
+              <h4>Gate on your own evidence</h4>
+<p>The pipeline is keyless and bounded — and it refuses to ship an insecure change. Before it deploys it runs Project 2's IAM analyzer (fail on any CRITICAL) and after it deploys, Project 3's posture scanner (fail on any HIGH). The pipeline that ships the platform is guarded by the platform.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-soc">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-08</span>
+              <span class="case-domain">Detection · Security Operations</span>
+            </div>
+            <h3>One Number You Can Actually Trust</h3>
+            <p class="hook">One read-only view over the whole platform, with a security score where every deducted point traces to a finding — and a green board can't hide a switched-off detector.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">read-only</div><div class="l">by construction</div></div>
+              <div class="case-metric"><div class="v">explainable</div><div class="l">security score</div></div>
+              <div class="case-metric"><div class="v">Cognito + MFA</div><div class="l">every route</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>Eight security tools produce plenty of signal and no single answer to the question a lead actually asks: how exposed are we right now? And a dashboard that aggregates every weakness is itself a liability — if it can act, it is a foothold; if it serves unauthenticated, it hands out the map.</p>            </div>
+            <div class="cs-section">
+              <h4>An explainable score</h4>
+<p>The headline number is a pure function with published weights: start at 100, subtract a super-linear weight per open finding (one CRITICAL outranks twenty LOWs), and subtract a penalty for every detective control that is switched off. The board shows the arithmetic, so a security lead can disagree with a weight rather than distrust the whole number.</p><div class="terminal">ENDON AI — SECURITY OPERATIONS CENTER
+  Security Score   28/100   (grade F)
+  -60 findings, -12 blind spots
+  Critical 1   High 2   Medium 2   Low 1
+  GuardDuty ACTIVE   Security Hub INACTIVE   CloudTrail ACTIVE   Config ACTIVE</div>            </div>
+            <div class="cs-section">
+              <h4>Blind spots count against you</h4>
+<p>A findings-only score looks greenest exactly when a detector is off, because a disabled detector produces no findings. So the SOC probes GuardDuty, Security Hub, CloudTrail and Config, and a detector whose state it cannot confirm is treated as a blind spot — never as coverage.</p>            </div>
+            <div class="cs-section">
+              <h4>Read-only and authenticated by construction</h4>
+<ul><li>No route mutates state, and the deploy role has read-only access to the tables (get/query/scan, never put or delete) — enforced by a synthesis test. A dashboard that cannot write cannot be turned into a weapon.</li><li>Every API Gateway route sits behind Amazon Cognito with MFA required; the map of the platform's weaknesses is never served unauthenticated.</li><li>The FastAPI app runs on Lambda through a dependency-free ASGI adapter, keeping the bundle to Endon's own packages plus the runtime's boto3.</li></ul>            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">About</p>
+        <h2>How I work</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-body reveal">
+<p>I'm a cloud security engineer focused on AWS. My approach is the same for every problem: start from a real attack, threat-model it, design the architecture, simulate the attack, detect it, respond, and <em>measure</em> the result — then write it up honestly, limitations included.</p><p>Everything here is Python: the security tooling and Lambda functions, the infrastructure as code (AWS CDK), and the tests. The whole platform runs offline against an emulated AWS account, so it's testable and reproducible without spending a cent — and deploys to a real account with one command.</p><p>I'm preparing for the AWS Certified Security – Specialty certification, and Endon AI is how I turned that study into evidence: all eight components are built, tested and deployable, mapped to the exam's six domains.</p>        </div>
+        <div class="reveal">
+          <div class="skill-group">
+            <h4>AWS security</h4>
+            <div class="tags">
+<span class="tag">GuardDuty</span><span class="tag">Security Hub</span><span class="tag">IAM</span><span class="tag">KMS</span><span class="tag">CloudTrail</span><span class="tag">AWS Config</span><span class="tag">Macie</span><span class="tag">EventBridge</span><span class="tag">Organizations / SCPs</span>            </div>
+          </div>
+          <div class="skill-group">
+            <h4>Engineering</h4>
+            <div class="tags">
+<span class="tag">Python</span><span class="tag">boto3</span><span class="tag">AWS CDK</span><span class="tag">Lambda</span><span class="tag">DynamoDB</span><span class="tag">moto</span><span class="tag">pytest</span>            </div>
+          </div>
+          <div class="skill-group">
+            <h4>Practice</h4>
+            <div class="tags">
+<span class="tag">Detection engineering</span><span class="tag">Incident response</span><span class="tag">Threat modeling (STRIDE / ATT&CK)</span><span class="tag">Least privilege</span><span class="tag">Attack simulation</span><span class="tag">Infrastructure as code</span>            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-card reveal">
+        <p class="eyebrow" style="justify-content:center">Contact</p>
+        <h2>Open to Cloud Security Engineer roles</h2>
+        <p>Happy to walk through the architecture, the threat models, or any design decision in
+          these projects. The full source is on GitHub.</p>
+        <div class="contact-links">
+          <a class="btn btn-primary" href="mailto:mthokochaza@gmail.com">mthokochaza@gmail.com</a>
+          <a class="btn btn-ghost" href="https://github.com/Voyagetechsolutions" target="_blank" rel="noopener">github.com/Voyagetechsolutions</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/mthokozisi-chaza-2bb07a20b" target="_blank" rel="noopener">linkedin.com/in/mthokozisi-chaza-2bb07a20b</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <span class="brand" style="font-size:.95rem"><span class="dot" aria-hidden="true"></span>ENDON<span style="color:var(--accent-2)">·</span>AI</span>
+    <span class="mono">Built with Python · deployed on AWS · © 2026 Mthokozisi Chaza</span>
+    <a class="mono" href="https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio" target="_blank" rel="noopener">Source →</a>
+  </div>
+</footer>
+<script>
+// Progressive enhancement only — the page is fully readable with JS disabled.
+(function () {
+  var root = document.documentElement;
+  root.classList.add("js");
+
+  // --- Theme toggle -------------------------------------------------------
+  var STORAGE_KEY = "endon-theme";
+  function stored() {
+    try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+  }
+  function apply(theme) {
+    if (theme === "light" || theme === "dark") root.setAttribute("data-theme", theme);
+    else root.removeAttribute("data-theme");
+  }
+  apply(stored());
+
+  function currentIsDark() {
+    var t = root.getAttribute("data-theme");
+    if (t) return t === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
+  var toggle = document.querySelector("[data-theme-toggle]");
+  if (toggle) {
+    toggle.addEventListener("click", function () {
+      var next = currentIsDark() ? "light" : "dark";
+      apply(next);
+      try { localStorage.setItem(STORAGE_KEY, next); } catch (e) { /* ignore */ }
+    });
+  }
+
+  // --- Reveal on scroll (from a visible resting state; see CSS) ------------
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  // Only arm the settle animation when we can observe; content is otherwise untouched
+  // and stays exactly where it renders, so snapshots and no-JS views are unaffected.
+  if (!reduce && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add("in"); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    reveals.forEach(function (el) { el.classList.add("armed"); io.observe(el); });
+  }
+
+  // --- Active nav link on scroll ------------------------------------------
+  var links = Array.prototype.slice.call(document.querySelectorAll(".nav-links a"));
+  var sections = links
+    .map(function (a) { return document.querySelector(a.getAttribute("href")); })
+    .filter(Boolean);
+  if ("IntersectionObserver" in window && sections.length) {
+    var navio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = entry.target.id;
+        links.forEach(function (a) {
+          a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    sections.forEach(function (s) { navio.observe(s); });
+  }
+
+  // --- Open a case study when linked to directly --------------------------
+  function openTargetCase() {
+    if (!location.hash) return;
+    var el = document.querySelector(location.hash);
+    if (el && el.tagName === "DETAILS") el.open = true;
+  }
+  window.addEventListener("hashchange", openTargetCase);
+  openTargetCase();
+})();
+
+</script>
+</body>
+</html>
