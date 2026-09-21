@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-landing-zone"
+version = "0.1.0"
+description = "Endon AI secure multi-account AWS landing zone: organization, SCP guardrails and baseline"
+requires-python = ">=3.11"
+dependencies = ["endon-core", "boto3>=1.35"]
+
+[project.scripts]
+endon-landing-zone = "endon_landingzone.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

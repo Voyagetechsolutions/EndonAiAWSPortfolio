@@ -78,6 +78,9 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 |------------|-----------|--------|
 | Infrastructure as code for every resource (AWS CDK, Python) | All | **Built** |
 | Protected-resource tagging convention honoured by automation | Project 1 | **Built** |
-| Multi-account structure: Security, Log Archive, workload OUs | Project 6 | *Planned* |
-| Organization-wide CloudTrail, GuardDuty, Security Hub, Config | Project 6 | *Planned* |
-| SCPs: protect logging, deny unapproved regions, prevent public S3 | Project 6 | *Planned* |
+| Multi-account structure: Security, Log Archive, workload OUs | Project 6 | **Built** |
+| Organization-wide CloudTrail (org trail to Object Lock Log Archive) | Project 6 | **Built** |
+| SCPs: protect logging/detection, deny unapproved regions, prevent public S3, deny root | Project 6 | **Built** |
+| SCP simulator proving guardrails hold against a workload admin | Project 6 | **Built** |
+| SCP protecting the Endon platform from account admins (closes Project 1 residual risk) | Project 6 | **Built** |
+| Org security-services baseline with delegated admin (Config, GuardDuty, Security Hub, Macie) | Project 6 | **Built** |

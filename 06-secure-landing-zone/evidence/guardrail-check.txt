@@ -1,0 +1,40 @@
+ENDON AI - SECURE LANDING ZONE
+==============================
+
+ORGANIZATION
+  Root  [SCPs: EndonProtectSecurityLogging, EndonRegionAllowlist, EndonPreventLeavingOrganization, EndonDenyRootUser]
+    Security  [SCPs: EndonProtectPlatform]
+      * account SecurityTooling: Delegated admin; runs the Endon AI platform
+      LogArchive  [SCPs: -]
+        * account LogArchive: Immutable organization CloudTrail and Config history
+    Workloads  [SCPs: EndonProtectDetectionServices, EndonPreventPublicS3, EndonProtectPlatform]
+      Production  [SCPs: -]
+        * account Production: Production workloads
+      Development  [SCPs: -]
+        * account Development: Development workloads
+    Sandbox  [SCPs: EndonPreventPublicS3]
+      * account Sandbox: Experimentation, tightly guardrailed
+
+SECURITY BASELINE
+-----------------
+  [Governance] CloudTrail: A multi-region organization trail delivering to the Log Archive account's Object Lock bucket.
+  [Governance] AWS Config: Config recorders in every account and region, aggregated to the Security Tooling account. (delegated admin: Security Tooling)
+  [Detection] GuardDuty: GuardDuty enabled org-wide with auto-enrollment of new accounts; findings aggregated to Endon. (delegated admin: Security Tooling)
+  [Detection] Security Hub: Security Hub enabled org-wide with the AWS Foundational Security Best Practices standard. (delegated admin: Security Tooling)
+  [Data Protection] Macie: Amazon Macie enabled org-wide for sensitive-data discovery (feeds Project 5). (delegated admin: Security Tooling)
+  [Data Protection] S3: Account-level S3 Block Public Access enabled everywhere, locked on by SCP.
+
+GUARDRAIL PROOF - a full admin in the Production account
+------------------------------------------------------
+  [DENIED ] Stop CloudTrail logging  <- EndonProtectSecurityLogging
+  [DENIED ] Delete the CloudTrail trail  <- EndonProtectSecurityLogging
+  [DENIED ] Stop the Config recorder  <- EndonProtectSecurityLogging
+  [DENIED ] Disable GuardDuty  <- EndonProtectDetectionServices
+  [DENIED ] Disable Security Hub  <- EndonProtectDetectionServices
+  [DENIED ] Remove account Block Public Access  <- EndonPreventPublicS3
+  [DENIED ] Make a bucket public (ACL)  <- EndonPreventPublicS3
+  [DENIED ] Operate in an unapproved region  <- EndonRegionAllowlist
+  [DENIED ] Modify the Endon response engine  <- EndonProtectPlatform
+  [DENIED ] Leave the organization  <- EndonPreventLeavingOrganization
+
+  10/10 dangerous actions blocked by SCP for a workload administrator.
