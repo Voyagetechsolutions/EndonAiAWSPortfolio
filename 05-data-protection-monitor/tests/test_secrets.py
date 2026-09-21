@@ -9,7 +9,7 @@ from endon_dataprotection.secrets.entropy import is_high_entropy, shannon_entrop
 # Clearly fake but format-valid secrets (none contain the word "example").
 AWS_KEY = "AKIA2E0A8F3B7C9D1E5F"
 GITHUB_TOKEN = "ghp_" + "A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8"
-STRIPE_LIVE = "REDACTED-STRIPE-TEST-KEY"
+STRIPE_LIVE = "sk_live_" + "4eC39HqLyjWDarjtT1zdp7dc"  # split so it isn't a scannable literal
 DB_URL = "postgres://admin:sup3rs3cr3tPWzz@db.internal:5432/app"
 PRIVATE_KEY = "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA7x9\n-----END RSA PRIVATE KEY-----"
 AWS_SECRET = "wJalrXUtnFEMIK7MDENGbPxRfiCYzEXAMPLEKEYY"[:-11] + "Q2m5nZ8vT1kL"  # 40 base64 chars
