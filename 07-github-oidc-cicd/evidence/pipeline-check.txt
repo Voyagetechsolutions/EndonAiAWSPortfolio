@@ -1,0 +1,26 @@
+ENDON AI - PASSWORDLESS CI/CD PIPELINE
+======================================
+Repository: mthokozisi-chaza/endon-ai   Deploy branch: main
+No long-lived AWS keys. GitHub Actions -> OIDC -> STS -> scoped deploy role.
+
+WHO CAN ASSUME THE DEPLOY ROLE (GitHub OIDC trust)
+-------------------------------------------------
+  [ALLOWED] Push to main of our repo
+  [DENIED ] Push to a feature branch
+  [DENIED ] A pull request
+  [DENIED ] A fork / different owner
+  [DENIED ] A different repository
+  [DENIED ] A git tag
+
+BLAST RADIUS OF A COMPROMISED PIPELINE (deploy role + boundary)
+--------------------------------------------------------------
+  [ALLOWED] Assume the CDK deploy role
+  [DENIED ] Create an IAM user (persistence)
+  [DENIED ] Create an access key
+  [DENIED ] Attach AdministratorAccess to itself
+  [DENIED ] Pass a privileged role
+  [DENIED ] Delete an S3 bucket (destroy data)
+  [DENIED ] Leave the organization
+
+  5/5 unauthorized assume attempts denied.
+  6/6 dangerous pipeline actions denied.

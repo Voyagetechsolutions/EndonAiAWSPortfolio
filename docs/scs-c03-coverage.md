@@ -42,7 +42,7 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Network exposure checks (0.0.0.0/0 on admin ports, default SGs) | Project 3 | **Built** |
 | Encryption-at-rest checks (EBS, RDS, S3, KMS rotation) | Project 3 | **Built** |
 | IMDSv2 enforcement check | Project 3 | **Built** |
-| Region and service restrictions through SCPs | Project 6 | *Planned* |
+| Region and service restrictions through SCPs | Project 6 | **Built** |
 
 ## 4. Identity and Access Management
 
@@ -57,7 +57,10 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Dangerous role trust policies (external account, `Principal:"*"`) | Project 2 | **Built** |
 | Credential hygiene: root keys, no-MFA console users, stale/unused keys | Project 2 | **Built** |
 | Least-privilege policy generation from Access Advisor | Project 2 | **Built** |
-| Keyless CI/CD with GitHub OIDC and scoped deployment roles | Project 7 | *Planned* |
+| Keyless CI/CD with GitHub OIDC federation (no long-lived AWS keys) | Project 7 | **Built** |
+| Deploy-role trust pinned to one repo + branch (`sub`/`aud` conditions), proven by a simulator | Project 7 | **Built** |
+| Permissions boundary caps a compromised pipeline (deny-wins escalation containment) | Project 7 | **Built** |
+| Pipeline security gates: IAM analysis (Project 2) + posture scan (Project 3) block insecure deploys | Project 7 | **Built** |
 
 ## 5. Data Protection
 

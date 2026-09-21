@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-pipeline"
+version = "0.1.0"
+description = "Endon AI passwordless GitHub to AWS CI/CD: OIDC trust, scoped deploy role and security gates"
+requires-python = ">=3.11"
+# The pipeline orchestrates the IAM analyzer (Project 2) and posture scanner (Project 3) as gates.
+dependencies = ["endon-core", "endon-iam-analyzer", "endon-posture-scanner", "boto3>=1.35"]
+
+[project.scripts]
+endon-pipeline = "endon_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

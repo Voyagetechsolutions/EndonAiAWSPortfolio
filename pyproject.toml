@@ -12,6 +12,7 @@ testpaths = [
     "04-ec2-incident-response/tests",
     "05-data-protection-monitor/tests",
     "06-secure-landing-zone/tests",
+    "07-github-oidc-cicd/tests",
     "tests",
 ]
 pythonpath = [
@@ -35,6 +36,9 @@ pythonpath = [
     "06-secure-landing-zone/src",
     "06-secure-landing-zone/infrastructure",
     "06-secure-landing-zone/tests",
+    "07-github-oidc-cicd/src",
+    "07-github-oidc-cicd/infrastructure",
+    "07-github-oidc-cicd/tests",
 ]
 
 [tool.ruff]
@@ -56,6 +60,7 @@ known-first-party = [
     "endon_forensics",
     "endon_dataprotection",
     "endon_landingzone",
+    "endon_pipeline",
     "detection_testkit",
     "iam_testkit",
     "posture_testkit",
@@ -69,6 +74,7 @@ known-first-party = [
     "forensics_stack",
     "data_protection_stack",
     "landing_zone_stack",
+    "pipeline_stack",
 ]
 
 [tool.ruff.lint.per-file-ignores]

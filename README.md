@@ -8,10 +8,10 @@ and one incident record. That is what lets them work together: the posture scann
 finds a public bucket, the response engine closes it, and the SOC dashboard shows
 the incident from detection to containment.
 
-> **Status:** the shared platform and **Projects 1–6** (Threat Detection & Response, IAM
-> Analyzer, Posture Scanner, EC2 Forensics, Data Protection Monitor, Secure Landing Zone)
-> are built, tested and deployable. The remaining components are designed and are being
-> built in order. Each component's README states exactly what exists today.
+> **Status:** the shared platform and **Projects 1–7** (Threat Detection & Response, IAM
+> Analyzer, Posture Scanner, EC2 Forensics, Data Protection Monitor, Secure Landing Zone,
+> Passwordless CI/CD) are built, tested and deployable. The remaining component is designed and
+> is being built. Each component's README states exactly what exists today.
 
 ---
 
@@ -69,7 +69,7 @@ flowchart LR
 | 4 | [EC2 Incident Response & Forensics](04-ec2-incident-response/) | Containment that preserves evidence | Incident Response | **Built** |
 | 5 | [Data Protection & Secrets Exposure Monitor](05-data-protection-monitor/) | Exposed secrets, sensitive data and weak encryption | Data Protection | **Built** |
 | 6 | [Secure Multi-Account Landing Zone](06-secure-landing-zone/) | Guardrails that no single account can switch off | Security Foundations and Governance | **Built** |
-| 7 | [Passwordless GitHub → AWS CI/CD](07-github-oidc-cicd/) | Long-lived AWS keys in CI pipelines | IAM, Governance | Planned |
+| 7 | [Passwordless GitHub → AWS CI/CD](07-github-oidc-cicd/) | Long-lived AWS keys in CI pipelines | IAM, Governance | **Built** |
 | 8 | [Cloud Security Operations Center](08-security-operations-center/) | One view of posture, findings and incidents | Detection, Incident Response | Planned |
 
 See [docs/scs-c03-coverage.md](docs/scs-c03-coverage.md) for the capability-by-domain map.

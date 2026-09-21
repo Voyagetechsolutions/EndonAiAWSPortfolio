@@ -1,0 +1,77 @@
+# Endon AI — passwordless deploy to AWS.
+#
+# This is the reference workflow. Copy it to `.github/workflows/` at the REPOSITORY ROOT to
+# activate it (GitHub only runs workflows found there). It uses GitHub OIDC to obtain
+# short-lived AWS credentials — there are NO long-lived AWS keys in repository secrets.
+#
+# Prerequisites (deployed by 07-github-oidc-cicd/infrastructure):
+#   - a GitHub OIDC provider in the AWS account,
+#   - the EndonDeploy-github-actions role, trusting only this repo's main branch.
+# Set repo variables: AWS_DEPLOY_ROLE_ARN (the role ARN) and AWS_REGION.
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege for the GITHUB_TOKEN, plus id-token for OIDC.
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt ruff
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest -q
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    # Only deploy from main — belt-and-braces with the OIDC trust condition.
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          npm install -g aws-cdk
+
+      # Keyless: exchange the GitHub OIDC token for short-lived AWS credentials.
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: endon-deploy-${{ github.run_id }}
+
+      # Gate 1 — IAM analysis (Project 2): fail the build on any CRITICAL IAM finding.
+      - name: IAM security gate
+        run: endon-iam-analyzer scan --region ${{ vars.AWS_REGION }} --fail-on CRITICAL
+
+      - name: Synthesize
+        run: cdk synth --all
+
+      - name: Deploy
+        run: cdk deploy --all --require-approval never
+
+      # Gate 2 — posture scan (Project 3): fail on any HIGH/CRITICAL misconfiguration.
+      - name: Posture security gate
+        run: endon-posture-scanner scan --region ${{ vars.AWS_REGION }} --fail-on HIGH
