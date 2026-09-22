@@ -375,24 +375,24 @@ footer { border-top: 1px solid var(--line); padding-block: 30px; }
       </div>
       <div class="stats reveal">
         <div class="stat">
-          <div class="v">8</div>
+          <div class="v">13</div>
           <div class="l">systems shipped</div>
           <div class="n">all tested & deployable</div>
         </div>
         <div class="stat">
-          <div class="v">337</div>
+          <div class="v">395</div>
           <div class="l">tests passing</div>
-          <div class="n">offline (moto) + CDK synth</div>
+          <div class="n">offline, no cloud account needed</div>
+        </div>
+        <div class="stat">
+          <div class="v">3</div>
+          <div class="l">clouds & platforms</div>
+          <div class="n">AWS · Azure · Kubernetes</div>
         </div>
         <div class="stat">
           <div class="v">26/26</div>
           <div class="l">benchmark detection</div>
           <div class="n">0 false positives</div>
-        </div>
-        <div class="stat">
-          <div class="v"><1s</div>
-          <div class="l">detect → contain</div>
-          <div class="n">engine time, offline replay</div>
         </div>
       </div>
     </div>
@@ -404,7 +404,7 @@ footer { border-top: 1px solid var(--line); padding-block: 30px; }
       <div class="section-head">
         <p class="eyebrow">The platform</p>
         <h2>One system, not eight tools</h2>
-        <p>Eight projects, one system. Every component speaks the same language — one normalized finding format, one EventBridge security bus, one incident record — so they cooperate instead of sitting in eight unrelated repositories. The posture scanner finds a public bucket; the response engine closes it; the incident shows up in one place.</p>
+        <p>Thirteen projects, one system. Every component speaks the same language — one normalized finding format, one EventBridge security bus, one incident record — so an AWS misconfiguration, a Kubernetes RBAC risk, an Azure exposure and a suspicious cost spike all land in the same SOC. They cooperate instead of sitting in thirteen unrelated repositories: the posture scanner finds a public bucket; the response engine closes it; the incident shows up in one place.</p>
       </div>
       <div class="diagram-card reveal" role="img" aria-label="Endon AI architecture: detection sources and scanners publish findings to the Endon security bus, which feeds a response engine that acts on IAM, EC2, S3 and CloudTrail, records incidents and alerts, and surfaces to a SOC dashboard.">
 <svg viewBox="0 0 880 290" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -463,12 +463,12 @@ footer { border-top: 1px solid var(--line); padding-block: 30px; }
   <text class="dg-sub" x="744" y="161">FastAPI · one view</text>
 </svg>      </div>
       <div class="domains">
-        <div class="domain"><b>Detection</b><span>Projects 1, 3 & 8</span></div>
-        <div class="domain"><b>Incident Response</b><span>Projects 1 & 4</span></div>
-        <div class="domain"><b>Infrastructure Security</b><span>Projects 1 & 3</span></div>
-        <div class="domain"><b>Identity & Access Management</b><span>Projects 2 & 7</span></div>
-        <div class="domain"><b>Data Protection</b><span>Projects 3 & 5</span></div>
-        <div class="domain"><b>Governance</b><span>Projects 6 & 7</span></div>
+        <div class="domain"><b>Detection</b><span>Projects 1, 3, 8 & 12</span></div>
+        <div class="domain"><b>Incident Response</b><span>Projects 1, 4 & 13</span></div>
+        <div class="domain"><b>Infrastructure Security</b><span>Projects 3, 9, 10 & 11</span></div>
+        <div class="domain"><b>Identity & Access Management</b><span>Projects 2, 7 & 10</span></div>
+        <div class="domain"><b>Data Protection</b><span>Projects 5, 11 & 13</span></div>
+        <div class="domain"><b>Governance</b><span>Projects 6, 9 & 13</span></div>
       </div>
     </div>
   </section>
@@ -477,11 +477,12 @@ footer { border-top: 1px solid var(--line); padding-block: 30px; }
   <section id="projects">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">The build · 8 shipped, one system</p>
+        <p class="eyebrow">The build · 13 shipped, one system</p>
         <h2>Projects</h2>
-        <p>Each maps to a domain of the AWS Security Specialty exam. Every system is tested and
+        <p>The core eight map to the AWS Security Specialty domains; five more extend the platform
+          to Terraform, Kubernetes, Azure, SIEM detection and FinOps. Every system is tested and
           deployable, and they share one finding format, one event bus and one incident record —
-          so they work together, not in eight unrelated repositories.</p>
+          so they work together, not in thirteen unrelated repositories.</p>
       </div>
       <div class="projects">
         <article class="project">
@@ -592,6 +593,76 @@ footer { border-top: 1px solid var(--line); padding-block: 30px; }
           <p>Signals are scattered across GuardDuty, Security Hub, scanners and incidents. Nobody can answer: how exposed are we right now?</p>
           <div class="project-foot">
             <a class="project-link" href="#cs-soc">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">09</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Terraform IaC Security Scanner</h3>
+          <div class="skill">Infrastructure Security · DevSecOps</div>
+          <p>A public bucket in production is an incident. The same public bucket in a Terraform plan is a failed CI check — catch it before apply.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-terraform">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">10</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Kubernetes Security</h3>
+          <div class="skill">Infrastructure Security · IAM</div>
+          <p>A privileged container is root on the node; a cluster-admin binding is game over. These are YAML, approved in a pull request.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-k8s">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">11</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Azure Posture Scanner</h3>
+          <div class="skill">Data Protection · Multi-cloud</div>
+          <p>Security teams are rarely single-cloud. A posture tool that only speaks AWS is blind to half the estate.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-azure">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">12</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>Log Detection Pipeline (SIEM-lite)</h3>
+          <div class="skill">Detection · Incident Response</div>
+          <p>Plenty of attacks are ordinary API calls that are only suspicious together. The signal is in the correlation over time, not any one record.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-siem">Read the case study
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-top">
+            <span class="num">13</span>
+            <span class="status shipped">Shipped</span>
+          </div>
+          <h3>FinOps + Security-Cost Guardrails</h3>
+          <div class="skill">Governance · Incident Response</div>
+          <p>When an account is cryptomined, the loudest early signal is the invoice — a compute spike hours before anyone reads the detection console.</p>
+          <div class="project-foot">
+            <a class="project-link" href="#cs-finops">Read the case study
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
@@ -909,6 +980,167 @@ FINDING  IAM:User/PrivilegeEscalation  [CRITICAL]  mallory
             <div class="cs-section">
               <h4>Read-only and authenticated by construction</h4>
 <ul><li>No route mutates state, and the deploy role has read-only access to the tables (get/query/scan, never put or delete) — enforced by a synthesis test. A dashboard that cannot write cannot be turned into a weapon.</li><li>Every API Gateway route sits behind Amazon Cognito with MFA required; the map of the platform's weaknesses is never served unauthenticated.</li><li>The FastAPI app runs on Lambda through a dependency-free ASGI adapter, keeping the bundle to Endon's own packages plus the runtime's boto3.</li></ul>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-terraform">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-09</span>
+              <span class="case-domain">Infrastructure Security · DevSecOps</span>
+            </div>
+            <h3>Catching the Public Bucket in the Pull Request</h3>
+            <p class="hook">A public bucket in production is an incident. The same public bucket in a Terraform plan is a failed CI check. This scans the plan — what Terraform will actually create — and blocks the apply.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">13</div><div class="l">IaC controls</div></div>
+              <div class="case-metric"><div class="v">plan, not HCL</div><div class="l">resolved values</div></div>
+              <div class="case-metric"><div class="v">0</div><div class="l">false positives</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>Project 3 finds a public bucket in a <em>running</em> account — after it exists, after it may already have leaked. The cheaper place to catch it is the pull request that introduced it, where the Terraform that will create the bucket is right there, reviewable, before anything is provisioned.</p>            </div>
+            <div class="cs-section">
+              <h4>Scan the plan, not the HCL</h4>
+<p>The scanner reads the JSON that <span class='mono'>terraform show -json</span> emits, not raw <span class='mono'>.tf</span>. That's the right layer: variables, defaults and modules are already resolved, so a rule sees the <em>real</em> value of an attribute — not <span class='mono'>var.acl</span> — and it's plain JSON, so the tests need no Terraform binary.</p>            </div>
+            <div class="cs-section">
+              <h4>Reusing the platform's brain</h4>
+<p>The IAM rules lift the policy JSON out of the plan and run it through <em>Project 2's</em> evaluator — the same deny-wins engine that grades live accounts. An <span class='mono'>Action:* Resource:*</span> policy is administrator-equivalent whether it's live or still a string in a plan, judged by one piece of code in both places.</p>            </div>
+            <div class="cs-section">
+              <h4>Prove it, and gate on it</h4>
+<p>A deliberately insecure stack trips all 13 controls; its hardened twin trips none — a measured benchmark, not a claim. The CLI exits non-zero on any blocking finding, so it drops into the Project 7 pipeline as the pre-apply gate, next to the IAM and posture gates.</p><div class="terminal">ENDON AI - TERRAFORM IaC SECURITY SCAN
+>> [CRITICAL] TF-IAM-001  aws_iam_policy.admin   admin-equivalent policy
+>> [CRITICAL] TF-S3-001   aws_s3_bucket.public   bucket exposed publicly
+   ... 13 more ...
+  Gate (fail-on HIGH): FAILED - 11 blocking</div>            </div>
+            <div class="cs-section">
+              <h4>And it writes Terraform, not just reads it</h4>
+<p>The project re-provisions the Endon platform baseline (KMS, DynamoDB tables, Object Lock evidence bucket) as an idiomatic Terraform module — written to pass its own scanner. The guardrail and the infrastructure it guards agree.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-k8s">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-10</span>
+              <span class="case-domain">Infrastructure Security · IAM</span>
+            </div>
+            <h3>Rejecting the Privileged Pod at the Door</h3>
+            <p class="hook">A privileged container is root on the node; a cluster-admin binding is game over. This scans workloads and RBAC, and — like a real admission webhook — refuses the dangerous pod before it is ever created.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">17</div><div class="l">controls (pod + RBAC)</div></div>
+              <div class="case-metric"><div class="v">admission</div><div class="l">simulator + Kyverno</div></div>
+              <div class="case-metric"><div class="v">0</div><div class="l">false positives</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>The dangerous Kubernetes misconfigurations are configuration, not exploits — a debug pod left <span class='mono'>privileged</span>, a ServiceAccount with <span class='mono'>get secrets</span> cluster-wide. Both are YAML, both get reviewed, both get approved.</p>            </div>
+            <div class="cs-section">
+              <h4>Two tools: workloads and RBAC</h4>
+<p>A pod-security scanner flags privileged containers, host namespaces, <span class='mono'>hostPath</span>, missing limits, dangerous capabilities and mutable images. And RBAC — the cluster's IAM — gets the same treatment as <em>Project 2</em>: wildcard roles, cluster-wide Secret reads, <span class='mono'>bind</span>/<span class='mono'>escalate</span>, and any binding to <span class='mono'>cluster-admin</span>.</p>            </div>
+            <div class="cs-section">
+              <h4>Enforce at admission, prove it offline</h4>
+<p>In a cluster, a validating webhook (Kyverno) rejects a bad pod at creation. This is that decision in Python — deny any pod with a blocking finding, sharing the scanner's rules — so the exact policy can be <strong>unit-tested before it reaches a cluster</strong>. The real Kyverno ClusterPolicies deploy the same intent.</p><div class="terminal">ADMISSION CONTROL (what a validating webhook would do)
+  denied  Deployment/legacy-api: privileged; host namespace; hostPath; runs as root ...
+  admitted Deployment/hardened-api</div>            </div>
+            <div class="cs-section">
+              <h4>Proving coverage</h4>
+<p>A deliberately insecure workload trips all 11 pod controls; insecure RBAC trips all 6; the hardened counterparts trip none. And because a Kubernetes finding is the same <span class='mono'>endon_core.Finding</span> as an AWS one, it lands in the same SOC — so "how exposed are we?" spans the cluster and the cloud.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-azure">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-11</span>
+              <span class="case-domain">Data Protection · Multi-cloud</span>
+            </div>
+            <h3>The Same Risk, in the Other Cloud</h3>
+            <p class="hook">The dangerous states translate across clouds: a public S3 bucket is a Storage account with public blob access. This covers Azure's core CSPM checks in the same finding format as AWS.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">9</div><div class="l">Azure CSPM controls</div></div>
+              <div class="case-metric"><div class="v">1 query</div><div class="l">Resource Graph inventory</div></div>
+              <div class="case-metric"><div class="v">2 clouds</div><div class="l">one SOC</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>Security teams are rarely single-cloud. A company runs its product on AWS and its analytics on Azure, and a posture tool that only speaks AWS is blind to half the estate — green dashboard, exposed data.</p>            </div>
+            <div class="cs-section">
+              <h4>The insight: the risks translate</h4>
+<p>Azure's misconfigurations aren't new risks; they're the same risks with different property names. A public bucket is <span class='mono'>allowBlobPublicAccess = true</span>; a <span class='mono'>0.0.0.0/0</span> security group is an NSG rule sourced from <span class='mono'>Internet</span>; an unencrypted disk is a managed disk with no encryption. Supporting Azure is mapping each cloud's spelling of a hazard to the same control and finding.</p>            </div>
+            <div class="cs-section">
+              <h4>One finding format does the heavy lifting</h4>
+<p>The Azure scanner produces <span class='mono'>AzurePosture:Storage/BlobPublicAccess</span> the way the AWS scanner produces <span class='mono'>Posture:S3/BucketPubliclyAccessible</span>, tags it <span class='mono'>cloud=azure</span>, and it flows into the same SOC and ASFF feed — without a line of SOC-side change.</p>            </div>
+            <div class="cs-section">
+              <h4>Reading Azure like a real CSPM tool</h4>
+<p>The scanner runs on <strong>Azure Resource Graph</strong> — one KQL query that returns every resource's properties, the way production CSPM inventories a subscription. The live Azure SDK is an optional extra; the checks run offline on JSON. An insecure subscription trips all 9 controls; a hardened one trips none.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-siem">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-12</span>
+              <span class="case-domain">Detection · Incident Response</span>
+            </div>
+            <h3>The Attack Made of Ordinary API Calls</h3>
+            <p class="hook">Plenty of attacks are ordinary API calls that are only suspicious together. This SIEM engine correlates CloudTrail over time — a burst of GetObject, repeated failed logins — and maps every detection to MITRE ATT&CK.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">11</div><div class="l">detections</div></div>
+              <div class="case-metric"><div class="v">windowed</div><div class="l">correlation per principal</div></div>
+              <div class="case-metric"><div class="v">Sigma</div><div class="l">portable to any SIEM</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>GuardDuty is great at what it flags, but many attacks are made of ordinary calls that are only suspicious <em>together</em>. One <span class='mono'>GetObject</span> is a download; two hundred in five minutes is exfiltration. The signal is in the correlation across a principal's activity over time — that's continuous monitoring.</p>            </div>
+            <div class="cs-section">
+              <h4>Two kinds of rule, because attacks have two shapes</h4>
+<p>Single-event rules match one record — root usage, <span class='mono'>StopLogging</span>, admin attached, a bucket made public. Correlation rules slide a time window over one principal's activity: a burst of GetObject (exfiltration), repeated failed logins (brute force), a scan of Describe/List calls (reconnaissance), the same credentials from two IPs.</p>            </div>
+            <div class="cs-section">
+              <h4>Every finding names the adversary's move</h4>
+<p>Each detection carries a MITRE ATT&CK technique — T1530 for the mass download, T1110 for the brute force — so the output isn't "something fired," it's "this principal is exfiltrating data," which is what an analyst or an automated responder prioritises on.</p><div class="terminal">>> 10:05:40 [HIGH]     SIEM-101  mallory  (T1530)  Mass S3 download (exfiltration)
+>> 10:06:45 [HIGH]     SIEM-102  admin    (T1110)  Console login brute force
+  11 detections on the attack log   -   0 on a benign day</div>            </div>
+            <div class="cs-section">
+              <h4>Portable by design</h4>
+<p>The single-event detections also ship as <strong>Sigma</strong> — the vendor-neutral rule format that converts to Splunk and Elastic. The engine proves the logic offline in the platform's finding format; Sigma carries the same logic into whatever SIEM the company already runs.</p>            </div>
+          </div>
+        </details>
+        <details class="case reveal" id="cs-finops">
+          <summary>
+            <div class="case-meta">
+              <span class="case-code">CASE-13</span>
+              <span class="case-domain">Governance · Incident Response</span>
+            </div>
+            <h3>The Compromise That Showed Up on the Invoice First</h3>
+            <p class="hook">When an account is cryptomined, the first signal is often the invoice — compute spikes 16x overnight. This treats the bill as a detector, and flags ordinary waste in the same pass.</p>
+            <div class="case-metrics">
+              <div class="case-metric"><div class="v">16x</div><div class="l">compute spike caught</div></div>
+              <div class="case-metric"><div class="v">cost = detector</div><div class="l">FinOps + security</div></div>
+              <div class="case-metric"><div class="v">read-only</div><div class="l">no extra tooling</div></div>
+            </div>
+            <span class="case-expand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="txt">Read the full case study</span></span>
+          </summary>
+          <div class="case-body">
+            <div class="cs-section">
+              <h4>The problem</h4>
+<p>When an attacker mines cryptocurrency in a compromised account, the loudest early signal isn't a GuardDuty finding — it's the bill. Compute cost jumps 16x overnight in a region nobody uses; exfiltration spikes data-transfer-out. Finance sees a scary number and files a ticket about "unexpected AWS spend," and nobody connects it to security for days.</p>            </div>
+            <div class="cs-section">
+              <h4>The bill is a detector</h4>
+<p>The analyzer builds daily cost series and flags spikes — compute (cryptomining), data-transfer-out (exfiltration), spend in a region never used before — and in the same pass flags waste: untagged spend, money paid for idle Elastic IPs. FinOps and security fall out of the same data.</p>            </div>
+            <div class="cs-section">
+              <h4>Explainable over clever</h4>
+<p>Nobody actions a black-box "anomaly score" on an invoice. Every finding shows its arithmetic — <span class='mono'>compute $683.60 (16x baseline)</span>, <span class='mono'>$380 first appeared in ap-south-1</span> — and dollar floors keep cheap variance from ever crying wolf.</p>            </div>
+            <div class="cs-section">
+              <h4>It corroborates the whole platform</h4>
+<p>A compute-spike finding is now an <span class='mono'>endon_core.Finding</span>, so it lands in the same SOC as the GuardDuty cryptomining finding (Project 1) and the CloudTrail detections (Project 12) for the same incident. Three independent signals — a detector, a log correlation and the bill — pointing at the same instance, on one screen.</p>            </div>
           </div>
         </details>
       </div>

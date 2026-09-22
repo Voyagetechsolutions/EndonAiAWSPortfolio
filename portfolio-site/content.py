@@ -41,27 +41,29 @@ PROFILE = {
 
 # Hero status strip — honest headline metrics.
 STATS = [
-    ("8", "systems shipped", "all tested & deployable"),
-    ("337", "tests passing", "offline (moto) + CDK synth"),
+    ("13", "systems shipped", "all tested & deployable"),
+    ("395", "tests passing", "offline, no cloud account needed"),
+    ("3", "clouds & platforms", "AWS · Azure · Kubernetes"),
     ("26/26", "benchmark detection", "0 false positives"),
-    ("<1s", "detect → contain", "engine time, offline replay"),
 ]
 
 # The six AWS Security Specialty (SCS-C03) content domains and where each is covered.
 DOMAINS = [
-    ("Detection", "Projects 1, 3 & 8"),
-    ("Incident Response", "Projects 1 & 4"),
-    ("Infrastructure Security", "Projects 1 & 3"),
-    ("Identity & Access Management", "Projects 2 & 7"),
-    ("Data Protection", "Projects 3 & 5"),
-    ("Governance", "Projects 6 & 7"),
+    ("Detection", "Projects 1, 3, 8 & 12"),
+    ("Incident Response", "Projects 1, 4 & 13"),
+    ("Infrastructure Security", "Projects 3, 9, 10 & 11"),
+    ("Identity & Access Management", "Projects 2, 7 & 10"),
+    ("Data Protection", "Projects 5, 11 & 13"),
+    ("Governance", "Projects 6, 9 & 13"),
 ]
 
 PLATFORM_INTRO = (
-    "Eight projects, one system. Every component speaks the same language — one normalized "
-    "finding format, one EventBridge security bus, one incident record — so they cooperate "
-    "instead of sitting in eight unrelated repositories. The posture scanner finds a public "
-    "bucket; the response engine closes it; the incident shows up in one place."
+    "Thirteen projects, one system. Every component speaks the same language — one normalized "
+    "finding format, one EventBridge security bus, one incident record — so an AWS "
+    "misconfiguration, a Kubernetes RBAC risk, an Azure exposure and a suspicious cost spike all "
+    "land in the same SOC. They cooperate instead of sitting in thirteen unrelated repositories: "
+    "the posture scanner finds a public bucket; the response engine closes it; the incident shows "
+    "up in one place."
 )
 
 PROJECTS = [
@@ -136,6 +138,51 @@ PROJECTS = [
         "incidents. Nobody can answer: how exposed are we right now?",
         "status": "shipped",
         "case": "cs-soc",
+    },
+    {
+        "num": "09",
+        "title": "Terraform IaC Security Scanner",
+        "skill": "Infrastructure Security · DevSecOps",
+        "problem": "A public bucket in production is an incident. The same public bucket in a "
+        "Terraform plan is a failed CI check — catch it before apply.",
+        "status": "shipped",
+        "case": "cs-terraform",
+    },
+    {
+        "num": "10",
+        "title": "Kubernetes Security",
+        "skill": "Infrastructure Security · IAM",
+        "problem": "A privileged container is root on the node; a cluster-admin binding is game "
+        "over. These are YAML, approved in a pull request.",
+        "status": "shipped",
+        "case": "cs-k8s",
+    },
+    {
+        "num": "11",
+        "title": "Azure Posture Scanner",
+        "skill": "Data Protection · Multi-cloud",
+        "problem": "Security teams are rarely single-cloud. A posture tool that only speaks AWS "
+        "is blind to half the estate.",
+        "status": "shipped",
+        "case": "cs-azure",
+    },
+    {
+        "num": "12",
+        "title": "Log Detection Pipeline (SIEM-lite)",
+        "skill": "Detection · Incident Response",
+        "problem": "Plenty of attacks are ordinary API calls that are only suspicious together. "
+        "The signal is in the correlation over time, not any one record.",
+        "status": "shipped",
+        "case": "cs-siem",
+    },
+    {
+        "num": "13",
+        "title": "FinOps + Security-Cost Guardrails",
+        "skill": "Governance · Incident Response",
+        "problem": "When an account is cryptomined, the loudest early signal is the invoice — a "
+        "compute spike hours before anyone reads the detection console.",
+        "status": "shipped",
+        "case": "cs-finops",
     },
 ]
 
@@ -715,6 +762,298 @@ CASE_STUDIES = [
                     "map of the platform's weaknesses is never served unauthenticated.",
                     "The FastAPI app runs on Lambda through a dependency-free ASGI adapter, "
                     "keeping the bundle to Endon's own packages plus the runtime's boto3.",
+                ],
+            },
+        ],
+    },
+    {
+        "id": "cs-terraform",
+        "code": "CASE-09",
+        "title": "Catching the Public Bucket in the Pull Request",
+        "domain": "Infrastructure Security · DevSecOps",
+        "hook": "A public bucket in production is an incident. The same public bucket in a "
+        "Terraform plan is a failed CI check. This scans the plan — what Terraform will actually "
+        "create — and blocks the apply.",
+        "metrics": [
+            ("13", "IaC controls"),
+            ("plan, not HCL", "resolved values"),
+            ("0", "false positives"),
+        ],
+        "sections": [
+            {
+                "h": "The problem",
+                "body": [
+                    "Project 3 finds a public bucket in a <em>running</em> account — after it "
+                    "exists, after it may already have leaked. The cheaper place to catch it is "
+                    "the pull request that introduced it, where the Terraform that will create the "
+                    "bucket is right there, reviewable, before anything is provisioned.",
+                ],
+            },
+            {
+                "h": "Scan the plan, not the HCL",
+                "body": [
+                    "The scanner reads the JSON that <span class='mono'>terraform show -json</span> "
+                    "emits, not raw <span class='mono'>.tf</span>. That's the right layer: "
+                    "variables, defaults and modules are already resolved, so a rule sees the "
+                    "<em>real</em> value of an attribute — not <span class='mono'>var.acl</span> — "
+                    "and it's plain JSON, so the tests need no Terraform binary.",
+                ],
+            },
+            {
+                "h": "Reusing the platform's brain",
+                "body": [
+                    "The IAM rules lift the policy JSON out of the plan and run it through "
+                    "<em>Project 2's</em> evaluator — the same deny-wins engine that grades live "
+                    "accounts. An <span class='mono'>Action:* Resource:*</span> policy is "
+                    "administrator-equivalent whether it's live or still a string in a plan, judged "
+                    "by one piece of code in both places.",
+                ],
+            },
+            {
+                "h": "Prove it, and gate on it",
+                "body": [
+                    "A deliberately insecure stack trips all 13 controls; its hardened twin trips "
+                    "none — a measured benchmark, not a claim. The CLI exits non-zero on any "
+                    "blocking finding, so it drops into the Project 7 pipeline as the pre-apply "
+                    "gate, next to the IAM and posture gates.",
+                ],
+                "pre": "ENDON AI - TERRAFORM IaC SECURITY SCAN\n"
+                ">> [CRITICAL] TF-IAM-001  aws_iam_policy.admin   admin-equivalent policy\n"
+                ">> [CRITICAL] TF-S3-001   aws_s3_bucket.public   bucket exposed publicly\n"
+                "   ... 13 more ...\n"
+                "  Gate (fail-on HIGH): FAILED - 11 blocking",
+            },
+            {
+                "h": "And it writes Terraform, not just reads it",
+                "body": [
+                    "The project re-provisions the Endon platform baseline (KMS, DynamoDB tables, "
+                    "Object Lock evidence bucket) as an idiomatic Terraform module — written to "
+                    "pass its own scanner. The guardrail and the infrastructure it guards agree.",
+                ],
+            },
+        ],
+    },
+    {
+        "id": "cs-k8s",
+        "code": "CASE-10",
+        "title": "Rejecting the Privileged Pod at the Door",
+        "domain": "Infrastructure Security · IAM",
+        "hook": "A privileged container is root on the node; a cluster-admin binding is game over. "
+        "This scans workloads and RBAC, and — like a real admission webhook — refuses the "
+        "dangerous pod before it is ever created.",
+        "metrics": [
+            ("17", "controls (pod + RBAC)"),
+            ("admission", "simulator + Kyverno"),
+            ("0", "false positives"),
+        ],
+        "sections": [
+            {
+                "h": "The problem",
+                "body": [
+                    "The dangerous Kubernetes misconfigurations are configuration, not exploits — a "
+                    "debug pod left <span class='mono'>privileged</span>, a ServiceAccount with "
+                    "<span class='mono'>get secrets</span> cluster-wide. Both are YAML, both get "
+                    "reviewed, both get approved.",
+                ],
+            },
+            {
+                "h": "Two tools: workloads and RBAC",
+                "body": [
+                    "A pod-security scanner flags privileged containers, host namespaces, "
+                    "<span class='mono'>hostPath</span>, missing limits, dangerous capabilities and "
+                    "mutable images. And RBAC — the cluster's IAM — gets the same treatment as "
+                    "<em>Project 2</em>: wildcard roles, cluster-wide Secret reads, "
+                    "<span class='mono'>bind</span>/<span class='mono'>escalate</span>, and any "
+                    "binding to <span class='mono'>cluster-admin</span>.",
+                ],
+            },
+            {
+                "h": "Enforce at admission, prove it offline",
+                "body": [
+                    "In a cluster, a validating webhook (Kyverno) rejects a bad pod at creation. "
+                    "This is that decision in Python — deny any pod with a blocking finding, "
+                    "sharing the scanner's rules — so the exact policy can be <strong>unit-tested "
+                    "before it reaches a cluster</strong>. The real Kyverno ClusterPolicies deploy "
+                    "the same intent.",
+                ],
+                "pre": "ADMISSION CONTROL (what a validating webhook would do)\n"
+                "  denied  Deployment/legacy-api: privileged; host namespace; hostPath; runs as root ...\n"
+                "  admitted Deployment/hardened-api",
+            },
+            {
+                "h": "Proving coverage",
+                "body": [
+                    "A deliberately insecure workload trips all 11 pod controls; insecure RBAC "
+                    "trips all 6; the hardened counterparts trip none. And because a Kubernetes "
+                    "finding is the same <span class='mono'>endon_core.Finding</span> as an AWS "
+                    "one, it lands in the same SOC — so \"how exposed are we?\" spans the cluster "
+                    "and the cloud.",
+                ],
+            },
+        ],
+    },
+    {
+        "id": "cs-azure",
+        "code": "CASE-11",
+        "title": "The Same Risk, in the Other Cloud",
+        "domain": "Data Protection · Multi-cloud",
+        "hook": "The dangerous states translate across clouds: a public S3 bucket is a Storage "
+        "account with public blob access. This covers Azure's core CSPM checks in the same "
+        "finding format as AWS.",
+        "metrics": [
+            ("9", "Azure CSPM controls"),
+            ("1 query", "Resource Graph inventory"),
+            ("2 clouds", "one SOC"),
+        ],
+        "sections": [
+            {
+                "h": "The problem",
+                "body": [
+                    "Security teams are rarely single-cloud. A company runs its product on AWS and "
+                    "its analytics on Azure, and a posture tool that only speaks AWS is blind to "
+                    "half the estate — green dashboard, exposed data.",
+                ],
+            },
+            {
+                "h": "The insight: the risks translate",
+                "body": [
+                    "Azure's misconfigurations aren't new risks; they're the same risks with "
+                    "different property names. A public bucket is <span class='mono'>"
+                    "allowBlobPublicAccess = true</span>; a <span class='mono'>0.0.0.0/0</span> "
+                    "security group is an NSG rule sourced from <span class='mono'>Internet</span>; "
+                    "an unencrypted disk is a managed disk with no encryption. Supporting Azure is "
+                    "mapping each cloud's spelling of a hazard to the same control and finding.",
+                ],
+            },
+            {
+                "h": "One finding format does the heavy lifting",
+                "body": [
+                    "The Azure scanner produces <span class='mono'>AzurePosture:Storage/"
+                    "BlobPublicAccess</span> the way the AWS scanner produces "
+                    "<span class='mono'>Posture:S3/BucketPubliclyAccessible</span>, tags it "
+                    "<span class='mono'>cloud=azure</span>, and it flows into the same SOC and ASFF "
+                    "feed — without a line of SOC-side change.",
+                ],
+            },
+            {
+                "h": "Reading Azure like a real CSPM tool",
+                "body": [
+                    "The scanner runs on <strong>Azure Resource Graph</strong> — one KQL query "
+                    "that returns every resource's properties, the way production CSPM inventories "
+                    "a subscription. The live Azure SDK is an optional extra; the checks run "
+                    "offline on JSON. An insecure subscription trips all 9 controls; a hardened one "
+                    "trips none.",
+                ],
+            },
+        ],
+    },
+    {
+        "id": "cs-siem",
+        "code": "CASE-12",
+        "title": "The Attack Made of Ordinary API Calls",
+        "domain": "Detection · Incident Response",
+        "hook": "Plenty of attacks are ordinary API calls that are only suspicious together. This "
+        "SIEM engine correlates CloudTrail over time — a burst of GetObject, repeated failed "
+        "logins — and maps every detection to MITRE ATT&CK.",
+        "metrics": [
+            ("11", "detections"),
+            ("windowed", "correlation per principal"),
+            ("Sigma", "portable to any SIEM"),
+        ],
+        "sections": [
+            {
+                "h": "The problem",
+                "body": [
+                    "GuardDuty is great at what it flags, but many attacks are made of ordinary "
+                    "calls that are only suspicious <em>together</em>. One "
+                    "<span class='mono'>GetObject</span> is a download; two hundred in five minutes "
+                    "is exfiltration. The signal is in the correlation across a principal's "
+                    "activity over time — that's continuous monitoring.",
+                ],
+            },
+            {
+                "h": "Two kinds of rule, because attacks have two shapes",
+                "body": [
+                    "Single-event rules match one record — root usage, "
+                    "<span class='mono'>StopLogging</span>, admin attached, a bucket made public. "
+                    "Correlation rules slide a time window over one principal's activity: a burst "
+                    "of GetObject (exfiltration), repeated failed logins (brute force), a scan of "
+                    "Describe/List calls (reconnaissance), the same credentials from two IPs.",
+                ],
+            },
+            {
+                "h": "Every finding names the adversary's move",
+                "body": [
+                    "Each detection carries a MITRE ATT&CK technique — T1530 for the mass "
+                    "download, T1110 for the brute force — so the output isn't \"something fired,\" "
+                    "it's \"this principal is exfiltrating data,\" which is what an analyst or an "
+                    "automated responder prioritises on.",
+                ],
+                "pre": ">> 10:05:40 [HIGH]     SIEM-101  mallory  (T1530)  Mass S3 download (exfiltration)\n"
+                ">> 10:06:45 [HIGH]     SIEM-102  admin    (T1110)  Console login brute force\n"
+                "  11 detections on the attack log   -   0 on a benign day",
+            },
+            {
+                "h": "Portable by design",
+                "body": [
+                    "The single-event detections also ship as <strong>Sigma</strong> — the "
+                    "vendor-neutral rule format that converts to Splunk and Elastic. The engine "
+                    "proves the logic offline in the platform's finding format; Sigma carries the "
+                    "same logic into whatever SIEM the company already runs.",
+                ],
+            },
+        ],
+    },
+    {
+        "id": "cs-finops",
+        "code": "CASE-13",
+        "title": "The Compromise That Showed Up on the Invoice First",
+        "domain": "Governance · Incident Response",
+        "hook": "When an account is cryptomined, the first signal is often the invoice — compute "
+        "spikes 16x overnight. This treats the bill as a detector, and flags ordinary waste in "
+        "the same pass.",
+        "metrics": [
+            ("16x", "compute spike caught"),
+            ("cost = detector", "FinOps + security"),
+            ("read-only", "no extra tooling"),
+        ],
+        "sections": [
+            {
+                "h": "The problem",
+                "body": [
+                    "When an attacker mines cryptocurrency in a compromised account, the loudest "
+                    "early signal isn't a GuardDuty finding — it's the bill. Compute cost jumps "
+                    "16x overnight in a region nobody uses; exfiltration spikes data-transfer-out. "
+                    "Finance sees a scary number and files a ticket about \"unexpected AWS spend,\" "
+                    "and nobody connects it to security for days.",
+                ],
+            },
+            {
+                "h": "The bill is a detector",
+                "body": [
+                    "The analyzer builds daily cost series and flags spikes — compute "
+                    "(cryptomining), data-transfer-out (exfiltration), spend in a region never used "
+                    "before — and in the same pass flags waste: untagged spend, money paid for "
+                    "idle Elastic IPs. FinOps and security fall out of the same data.",
+                ],
+            },
+            {
+                "h": "Explainable over clever",
+                "body": [
+                    "Nobody actions a black-box \"anomaly score\" on an invoice. Every finding "
+                    "shows its arithmetic — <span class='mono'>compute $683.60 (16x baseline)</span>, "
+                    "<span class='mono'>$380 first appeared in ap-south-1</span> — and dollar floors "
+                    "keep cheap variance from ever crying wolf.",
+                ],
+            },
+            {
+                "h": "It corroborates the whole platform",
+                "body": [
+                    "A compute-spike finding is now an <span class='mono'>endon_core.Finding</span>, "
+                    "so it lands in the same SOC as the GuardDuty cryptomining finding (Project 1) "
+                    "and the CloudTrail detections (Project 12) for the same incident. Three "
+                    "independent signals — a detector, a log correlation and the bill — pointing at "
+                    "the same instance, on one screen.",
                 ],
             },
         ],
