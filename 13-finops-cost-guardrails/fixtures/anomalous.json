@@ -1,0 +1,53 @@
+{
+  "granularity": "DAILY",
+  "rows": [
+    {"date": "2026-09-14", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:c5.large", "region": "us-east-1", "amount": 40.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-14", "service": "AWS Data Transfer", "usage_type": "USE1-DataTransfer-Out-Bytes", "region": "us-east-1", "amount": 10.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-14", "service": "Amazon Simple Storage Service", "usage_type": "TimedStorage-ByteHrs", "region": "us-east-1", "amount": 20.00, "tags": {"team": "data"}},
+    {"date": "2026-09-14", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "ElasticIP:IdleAddress", "region": "us-east-1", "amount": 3.60, "tags": {"team": "platform"}},
+    {"date": "2026-09-14", "service": "AWS Lambda", "usage_type": "Lambda-GB-Second", "region": "us-east-1", "amount": 8.00, "tags": {}},
+
+    {"date": "2026-09-15", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:c5.large", "region": "us-east-1", "amount": 41.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-15", "service": "AWS Data Transfer", "usage_type": "USE1-DataTransfer-Out-Bytes", "region": "us-east-1", "amount": 9.50, "tags": {"team": "platform"}},
+    {"date": "2026-09-15", "service": "Amazon Simple Storage Service", "usage_type": "TimedStorage-ByteHrs", "region": "us-east-1", "amount": 20.00, "tags": {"team": "data"}},
+    {"date": "2026-09-15", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "ElasticIP:IdleAddress", "region": "us-east-1", "amount": 3.60, "tags": {"team": "platform"}},
+    {"date": "2026-09-15", "service": "AWS Lambda", "usage_type": "Lambda-GB-Second", "region": "us-east-1", "amount": 8.00, "tags": {}},
+
+    {"date": "2026-09-16", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:c5.large", "region": "us-east-1", "amount": 39.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-16", "service": "AWS Data Transfer", "usage_type": "USE1-DataTransfer-Out-Bytes", "region": "us-east-1", "amount": 10.50, "tags": {"team": "platform"}},
+    {"date": "2026-09-16", "service": "Amazon Simple Storage Service", "usage_type": "TimedStorage-ByteHrs", "region": "us-east-1", "amount": 20.00, "tags": {"team": "data"}},
+    {"date": "2026-09-16", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "ElasticIP:IdleAddress", "region": "us-east-1", "amount": 3.60, "tags": {"team": "platform"}},
+    {"date": "2026-09-16", "service": "AWS Lambda", "usage_type": "Lambda-GB-Second", "region": "us-east-1", "amount": 8.00, "tags": {}},
+
+    {"date": "2026-09-17", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:c5.large", "region": "us-east-1", "amount": 40.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-17", "service": "AWS Data Transfer", "usage_type": "USE1-DataTransfer-Out-Bytes", "region": "us-east-1", "amount": 10.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-17", "service": "Amazon Simple Storage Service", "usage_type": "TimedStorage-ByteHrs", "region": "us-east-1", "amount": 20.00, "tags": {"team": "data"}},
+    {"date": "2026-09-17", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "ElasticIP:IdleAddress", "region": "us-east-1", "amount": 3.60, "tags": {"team": "platform"}},
+    {"date": "2026-09-17", "service": "AWS Lambda", "usage_type": "Lambda-GB-Second", "region": "us-east-1", "amount": 8.00, "tags": {}},
+
+    {"date": "2026-09-18", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:c5.large", "region": "us-east-1", "amount": 40.50, "tags": {"team": "platform"}},
+    {"date": "2026-09-18", "service": "AWS Data Transfer", "usage_type": "USE1-DataTransfer-Out-Bytes", "region": "us-east-1", "amount": 10.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-18", "service": "Amazon Simple Storage Service", "usage_type": "TimedStorage-ByteHrs", "region": "us-east-1", "amount": 20.00, "tags": {"team": "data"}},
+    {"date": "2026-09-18", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "ElasticIP:IdleAddress", "region": "us-east-1", "amount": 3.60, "tags": {"team": "platform"}},
+    {"date": "2026-09-18", "service": "AWS Lambda", "usage_type": "Lambda-GB-Second", "region": "us-east-1", "amount": 8.00, "tags": {}},
+
+    {"date": "2026-09-19", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:c5.large", "region": "us-east-1", "amount": 40.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-19", "service": "AWS Data Transfer", "usage_type": "USE1-DataTransfer-Out-Bytes", "region": "us-east-1", "amount": 10.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-19", "service": "Amazon Simple Storage Service", "usage_type": "TimedStorage-ByteHrs", "region": "us-east-1", "amount": 20.00, "tags": {"team": "data"}},
+    {"date": "2026-09-19", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "ElasticIP:IdleAddress", "region": "us-east-1", "amount": 3.60, "tags": {"team": "platform"}},
+    {"date": "2026-09-19", "service": "AWS Lambda", "usage_type": "Lambda-GB-Second", "region": "us-east-1", "amount": 8.00, "tags": {}},
+
+    {"date": "2026-09-20", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:c5.large", "region": "us-east-1", "amount": 40.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-20", "service": "AWS Data Transfer", "usage_type": "USE1-DataTransfer-Out-Bytes", "region": "us-east-1", "amount": 10.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-20", "service": "Amazon Simple Storage Service", "usage_type": "TimedStorage-ByteHrs", "region": "us-east-1", "amount": 20.00, "tags": {"team": "data"}},
+    {"date": "2026-09-20", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "ElasticIP:IdleAddress", "region": "us-east-1", "amount": 3.60, "tags": {"team": "platform"}},
+    {"date": "2026-09-20", "service": "AWS Lambda", "usage_type": "Lambda-GB-Second", "region": "us-east-1", "amount": 8.00, "tags": {}},
+
+    {"date": "2026-09-21", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:p3.8xlarge", "region": "us-east-1", "amount": 600.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-21", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "BoxUsage:p3.8xlarge", "region": "ap-south-1", "amount": 80.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-21", "service": "AWS Data Transfer", "usage_type": "APS3-DataTransfer-Out-Bytes", "region": "ap-south-1", "amount": 300.00, "tags": {"team": "platform"}},
+    {"date": "2026-09-21", "service": "Amazon Simple Storage Service", "usage_type": "TimedStorage-ByteHrs", "region": "us-east-1", "amount": 20.00, "tags": {"team": "data"}},
+    {"date": "2026-09-21", "service": "Amazon Elastic Compute Cloud - Compute", "usage_type": "ElasticIP:IdleAddress", "region": "us-east-1", "amount": 3.60, "tags": {"team": "platform"}},
+    {"date": "2026-09-21", "service": "AWS Lambda", "usage_type": "Lambda-GB-Second", "region": "us-east-1", "amount": 8.00, "tags": {}}
+  ]
+}

@@ -1,0 +1,18 @@
+ENDON AI - FINOPS + SECURITY-COST GUARDRAILS
+============================================
+
+>> [HIGH    ] FIN-101   EC2
+       Compute cost spike (possible cryptomining) — compute $683.6 on 2026-09-21 (16x baseline).
+>> [HIGH    ] FIN-102   DataTransfer-Out
+       Data-transfer-out spike (possible exfiltration) — egress $300.0 on 2026-09-21 (30x baseline).
+   [MEDIUM  ] FIN-103   ap-south-1
+       Spend appeared in an unused region — $380.0 first appeared in ap-south-1 on 2026-09-21.
+   [MEDIUM  ] FIN-003   total
+       Daily cost anomaly (budget) — $1011.6 on 2026-09-21 vs $81.6 baseline.
+   [MEDIUM  ] FIN-001   account
+       Significant untagged spend — $64.0 of spend has no 'team' tag over the period.
+   [LOW     ] FIN-002   ElasticIP:IdleAddress
+       Paying for idle resources — $28.8 paid for idle ElasticIP:IdleAddress.
+
+  6 finding(s)   HIGH 2  MEDIUM 3  LOW 1
+  Gate (fail-on HIGH): FAILED — 2 blocking

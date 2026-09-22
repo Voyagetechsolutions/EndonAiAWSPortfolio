@@ -18,6 +18,7 @@ testpaths = [
     "10-kubernetes-security/tests",
     "11-azure-posture/tests",
     "12-log-detection-pipeline/tests",
+    "13-finops-cost-guardrails/tests",
     "tests",
 ]
 pythonpath = [
@@ -55,6 +56,8 @@ pythonpath = [
     "11-azure-posture/tests",
     "12-log-detection-pipeline/src",
     "12-log-detection-pipeline/tests",
+    "13-finops-cost-guardrails/src",
+    "13-finops-cost-guardrails/tests",
 ]
 
 [tool.ruff]
@@ -81,6 +84,8 @@ known-first-party = [
     "endon_tfscan",
     "endon_k8s",
     "endon_azure",
+    "endon_siem",
+    "endon_finops",
     "detection_testkit",
     "iam_testkit",
     "posture_testkit",

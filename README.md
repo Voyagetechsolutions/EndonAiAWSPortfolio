@@ -8,11 +8,12 @@ and one incident record. That is what lets them work together: the posture scann
 finds a public bucket, the response engine closes it, and the SOC dashboard shows
 the incident from detection to containment.
 
-> **Status:** the shared platform and **the core eight projects** (Threat Detection & Response,
-> IAM Analyzer, Posture Scanner, EC2 Forensics, Data Protection Monitor, Secure Landing Zone,
-> Passwordless CI/CD, Security Operations Center) are built, tested and deployable, and the
-> platform is being **extended** with the skills the market asks for most — starting with
-> Project 9 (Terraform IaC scanning). Each component's README states exactly what exists today.
+> **Status:** all **13 components** are built, tested and deployable — the core eight (Threat
+> Detection & Response, IAM Analyzer, Posture Scanner, EC2 Forensics, Data Protection Monitor,
+> Secure Landing Zone, Passwordless CI/CD, Security Operations Center) plus five market-driven
+> extensions (Terraform IaC scanning, Kubernetes security, Azure multi-cloud posture, a
+> CloudTrail SIEM, and FinOps + security-cost guardrails). Each component's README states exactly
+> what exists today.
 
 ---
 
@@ -76,6 +77,7 @@ flowchart LR
 | 10 | [Kubernetes Security](10-kubernetes-security/) | Pod-spec + RBAC scanning and admission control | Infrastructure Security, IAM | **Built** |
 | 11 | [Azure Posture Scanner](11-azure-posture/) | Multi-cloud: Azure CSPM in one finding format | Data Protection, Infrastructure Security | **Built** |
 | 12 | [Log Detection Pipeline (SIEM-lite)](12-log-detection-pipeline/) | CloudTrail correlation detections + Sigma rules | Detection, Incident Response | **Built** |
+| 13 | [FinOps + Security-Cost Guardrails](13-finops-cost-guardrails/) | Cost spikes as a compromise signal + waste | Governance, Incident Response | **Built** |
 
 See [docs/scs-c03-coverage.md](docs/scs-c03-coverage.md) for the capability-by-domain map.
 

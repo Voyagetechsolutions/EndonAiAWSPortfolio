@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-finops"
+version = "0.1.0"
+description = "Endon AI FinOps + security-cost guardrails: detect waste and cost anomalies that signal compromise"
+requires-python = ">=3.11"
+dependencies = ["endon-core"]
+
+[project.scripts]
+endon-finops = "endon_finops.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

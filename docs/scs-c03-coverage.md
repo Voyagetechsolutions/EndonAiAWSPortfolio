@@ -99,3 +99,5 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | SCP simulator proving guardrails hold against a workload admin | Project 6 | **Built** |
 | SCP protecting the Endon platform from account admins (closes Project 1 residual risk) | Project 6 | **Built** |
 | Org security-services baseline with delegated admin (Config, GuardDuty, Security Hub, Macie) | Project 6 | **Built** |
+| Cost-allocation tagging + waste guardrails (untagged spend, idle resources, budget anomaly) | Project 13 | **Built** |
+| Security-cost detection: compute/egress spikes as cryptomining/exfiltration signals | Project 13 | **Built** |
