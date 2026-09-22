@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-k8s"
+version = "0.1.0"
+description = "Endon AI Kubernetes security: pod-spec scanner, RBAC analyzer and an admission-control simulator"
+requires-python = ">=3.11"
+dependencies = ["endon-core", "pyyaml>=6.0"]
+
+[project.scripts]
+endon-k8s = "endon_k8s.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

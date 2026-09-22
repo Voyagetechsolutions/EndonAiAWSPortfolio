@@ -1,0 +1,49 @@
+ENDON AI - KUBERNETES SECURITY SCAN
+===================================
+
+>> [CRITICAL] K8S-POD-001  Deployment/default/legacy-api
+       Container runs privileged
+>> [CRITICAL] K8S-RBAC-005 ClusterRoleBinding/default/give-everyone-admin
+       Binding grants cluster-admin
+>> [CRITICAL] K8S-RBAC-004 ClusterRole/default/rbac-escalator
+       Role can bind or escalate RBAC
+>> [CRITICAL] K8S-RBAC-001 ClusterRole/default/god-mode
+       Role grants wildcard verbs on wildcard resources
+>> [HIGH    ] K8S-POD-002  Deployment/default/legacy-api
+       Container allows privilege escalation
+>> [HIGH    ] K8S-POD-007  Deployment/default/legacy-api
+       Container adds dangerous Linux capabilities
+>> [HIGH    ] K8S-POD-005  Deployment/default/legacy-api
+       Pod shares a host namespace
+>> [HIGH    ] K8S-POD-004  Deployment/default/legacy-api
+       Pod mounts a hostPath volume
+>> [HIGH    ] K8S-POD-011  Deployment/default/legacy-api
+       Container binds a host port
+>> [HIGH    ] K8S-POD-003  Deployment/default/legacy-api
+       Container may run as root
+>> [HIGH    ] K8S-RBAC-002 ClusterRole/default/god-mode
+       Role can read Secrets
+>> [HIGH    ] K8S-RBAC-002 ClusterRole/default/secret-reader
+       Role can read Secrets
+>> [HIGH    ] K8S-RBAC-003 ClusterRole/default/god-mode
+       Role can create Pods
+>> [HIGH    ] K8S-RBAC-003 ClusterRole/default/pod-launcher
+       Role can create Pods
+>> [HIGH    ] K8S-RBAC-006 Role/default/debugger
+       Role can exec into Pods
+   [MEDIUM  ] K8S-POD-009  Deployment/default/legacy-api
+       Container image is not pinned
+   [MEDIUM  ] K8S-POD-006  Deployment/default/legacy-api
+       Container has no CPU/memory limits
+   [MEDIUM  ] K8S-POD-010  Deployment/default/legacy-api
+       Service-account token is auto-mounted
+   [MEDIUM  ] K8S-POD-008  Deployment/default/legacy-api
+       Container root filesystem is writable
+
+  19 finding(s)   CRITICAL 4  HIGH 11  MEDIUM 4
+  Gate (fail-on HIGH): FAILED — 15 blocking
+
+ADMISSION CONTROL (what a validating webhook would do)
+----------------------------------------------------
+  denied Deployment/default/legacy-api: K8S-POD-001 Container runs privileged; K8S-POD-002 Container allows privilege escalation; K8S-POD-007 Container adds dangerous Linux capabilities; K8S-POD-005 Pod shares a host namespace; K8S-POD-004 Pod mounts a hostPath volume; K8S-POD-011 Container binds a host port; K8S-POD-003 Container may run as root
+  admitted Deployment/default/hardened-api

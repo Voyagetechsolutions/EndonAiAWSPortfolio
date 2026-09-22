@@ -15,6 +15,7 @@ testpaths = [
     "07-github-oidc-cicd/tests",
     "08-security-operations-center/tests",
     "09-terraform-iac-scanner/tests",
+    "10-kubernetes-security/tests",
     "tests",
 ]
 pythonpath = [
@@ -46,6 +47,8 @@ pythonpath = [
     "08-security-operations-center/tests",
     "09-terraform-iac-scanner/src",
     "09-terraform-iac-scanner/tests",
+    "10-kubernetes-security/src",
+    "10-kubernetes-security/tests",
 ]
 
 [tool.ruff]
@@ -70,6 +73,7 @@ known-first-party = [
     "endon_pipeline",
     "endon_soc",
     "endon_tfscan",
+    "endon_k8s",
     "detection_testkit",
     "iam_testkit",
     "posture_testkit",

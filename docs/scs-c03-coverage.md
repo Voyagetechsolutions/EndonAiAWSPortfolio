@@ -49,6 +49,8 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Terraform plan security scanning (13 controls) — shift misconfig detection into the PR | Project 9 | **Built** |
 | Insecure IaC blocked pre-apply as a CI gate (public S3, open SG, unencrypted EBS/RDS) | Project 9 | **Built** |
 | Terraform authoring: the platform baseline provisioned in HCL | Project 9 | **Built** |
+| Kubernetes pod-security scanning (privileged, host namespaces, capabilities, limits) | Project 10 | **Built** |
+| Kubernetes admission control (Kyverno policies + a tested webhook simulator) | Project 10 | **Built** |
 
 ## 4. Identity and Access Management
 
@@ -67,6 +69,7 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Deploy-role trust pinned to one repo + branch (`sub`/`aud` conditions), proven by a simulator | Project 7 | **Built** |
 | Permissions boundary caps a compromised pipeline (deny-wins escalation containment) | Project 7 | **Built** |
 | Pipeline security gates: IAM analysis (Project 2) + posture scan (Project 3) block insecure deploys | Project 7 | **Built** |
+| Kubernetes RBAC over-permission analysis (wildcards, cluster-admin bindings, escalation, exec) | Project 10 | **Built** |
 
 ## 5. Data Protection
 

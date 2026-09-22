@@ -16,5 +16,8 @@ jinja2>=3.1
 fastapi>=0.110
 httpx>=0.27
 
+# Kubernetes security (Project 10) parses manifests
+pyyaml>=6.0
+
 # Linting
 ruff>=0.8

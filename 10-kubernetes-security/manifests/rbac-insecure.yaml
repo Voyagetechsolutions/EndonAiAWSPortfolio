@@ -1,0 +1,59 @@
+# Over-permissioned RBAC — every RBAC control fires.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: god-mode          # K8S-RBAC-001 (wildcard verbs on wildcard resources)
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: secret-reader     # K8S-RBAC-002 (reads Secrets cluster-wide)
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pod-launcher      # K8S-RBAC-003 (can create Pods)
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["create", "get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: rbac-escalator    # K8S-RBAC-004 (bind/escalate on RBAC)
+rules:
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["clusterroles", "clusterrolebindings"]
+    verbs: ["bind", "escalate", "create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: debugger          # K8S-RBAC-006 (exec into pods)
+  namespace: default
+rules:
+  - apiGroups: [""]
+    resources: ["pods/exec", "pods/attach"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: give-everyone-admin   # K8S-RBAC-005 (binds cluster-admin)
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: default

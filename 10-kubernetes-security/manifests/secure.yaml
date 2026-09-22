@@ -1,0 +1,41 @@
+# The hardened counterpart to insecure.yaml — the scanner reports nothing, and the admission
+# simulator admits it. This is the baseline every workload should meet.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hardened-api
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hardened-api
+  template:
+    metadata:
+      labels:
+        app: hardened-api
+    spec:
+      hostNetwork: false
+      hostPID: false
+      hostIPC: false
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: api
+          image: nginx@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop: ["ALL"]

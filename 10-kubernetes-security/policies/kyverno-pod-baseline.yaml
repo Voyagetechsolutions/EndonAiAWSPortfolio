@@ -1,0 +1,100 @@
+# Kyverno ClusterPolicies — the real, in-cluster version of the admission rules the Python
+# simulator (src/endon_k8s/admission.py) enforces offline. Apply with:
+#   kubectl apply -f kyverno-pod-baseline.yaml
+# In `enforce` mode Kyverno rejects any pod that violates these at creation time, exactly as
+# the simulator predicts. Test the intent offline first: `endon-k8s admit <manifest>`.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-privileged-and-escalation
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: no-privileged
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: "Privileged containers are not allowed (K8S-POD-001)."
+        pattern:
+          spec:
+            =(ephemeralContainers):
+              - =(securityContext):
+                  =(privileged): "false"
+            =(initContainers):
+              - =(securityContext):
+                  =(privileged): "false"
+            containers:
+              - =(securityContext):
+                  =(privileged): "false"
+    - name: no-privilege-escalation
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: "allowPrivilegeEscalation must be false (K8S-POD-002)."
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  allowPrivilegeEscalation: "false"
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-run-as-nonroot
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: run-as-non-root
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: "Containers must run as non-root (K8S-POD-003)."
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  runAsNonRoot: "true"
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-host-namespaces-and-hostpath
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: no-host-namespaces
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: "Host namespaces are not allowed (K8S-POD-005)."
+        pattern:
+          spec:
+            =(hostNetwork): "false"
+            =(hostPID): "false"
+            =(hostIPC): "false"
+    - name: no-host-path
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: "hostPath volumes are not allowed (K8S-POD-004)."
+        foreach:
+          - list: "request.object.spec.volumes[]"
+            deny:
+              conditions:
+                any:
+                  - key: "{{ element.keys(@) }}"
+                    operator: AnyIn
+                    value: ["hostPath"]

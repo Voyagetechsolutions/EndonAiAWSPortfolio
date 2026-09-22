@@ -1,0 +1,37 @@
+# A deliberately insecure Deployment — the scanner's target. Every pod-security control fires.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: legacy-api
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: legacy-api
+  template:
+    metadata:
+      labels:
+        app: legacy-api
+    spec:
+      hostNetwork: true            # K8S-POD-005 (host namespace)
+      hostPID: true                # K8S-POD-005
+      # automountServiceAccountToken not set -> defaults to true (K8S-POD-010)
+      volumes:
+        - name: host-root
+          hostPath:                # K8S-POD-004 (hostPath volume)
+            path: /
+      containers:
+        - name: api
+          image: nginx:latest      # K8S-POD-009 (mutable image tag)
+          ports:
+            - containerPort: 8080
+              hostPort: 8080       # K8S-POD-011 (host port)
+          securityContext:
+            privileged: true       # K8S-POD-001
+            allowPrivilegeEscalation: true   # K8S-POD-002
+            readOnlyRootFilesystem: false    # K8S-POD-008
+            # no runAsNonRoot / runAsUser -> K8S-POD-003 (runs as root)
+            capabilities:
+              add: ["SYS_ADMIN", "NET_ADMIN"]  # K8S-POD-007
+          # no resources.limits -> K8S-POD-006

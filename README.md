@@ -73,6 +73,7 @@ flowchart LR
 | 7 | [Passwordless GitHub → AWS CI/CD](07-github-oidc-cicd/) | Long-lived AWS keys in CI pipelines | IAM, Governance | **Built** |
 | 8 | [Cloud Security Operations Center](08-security-operations-center/) | One view of posture, findings and incidents | Detection, Incident Response | **Built** |
 | 9 | [Terraform IaC Security Scanner](09-terraform-iac-scanner/) | Insecure Terraform caught in the plan, before apply | Infrastructure Security, IAM | **Built** |
+| 10 | [Kubernetes Security](10-kubernetes-security/) | Pod-spec + RBAC scanning and admission control | Infrastructure Security, IAM | **Built** |
 
 See [docs/scs-c03-coverage.md](docs/scs-c03-coverage.md) for the capability-by-domain map.
 
