@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-tfscan"
+version = "0.1.0"
+description = "Endon AI Terraform IaC security scanner: catch insecure infrastructure in the plan, before apply"
+requires-python = ">=3.11"
+# Reuses Project 2's policy engine to grade IAM policies embedded in Terraform.
+dependencies = ["endon-core", "endon-iam-analyzer"]
+
+[project.scripts]
+endon-tfscan = "endon_tfscan.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

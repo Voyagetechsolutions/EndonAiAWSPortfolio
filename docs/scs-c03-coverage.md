@@ -46,6 +46,9 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Encryption-at-rest checks (EBS, RDS, S3, KMS rotation) | Project 3 | **Built** |
 | IMDSv2 enforcement check | Project 3 | **Built** |
 | Region and service restrictions through SCPs | Project 6 | **Built** |
+| Terraform plan security scanning (13 controls) — shift misconfig detection into the PR | Project 9 | **Built** |
+| Insecure IaC blocked pre-apply as a CI gate (public S3, open SG, unencrypted EBS/RDS) | Project 9 | **Built** |
+| Terraform authoring: the platform baseline provisioned in HCL | Project 9 | **Built** |
 
 ## 4. Identity and Access Management
 

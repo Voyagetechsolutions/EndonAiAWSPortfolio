@@ -1,0 +1,36 @@
+ENDON AI - TERRAFORM IaC SECURITY SCAN
+======================================
+
+>> [CRITICAL] TF-IAM-001  aws_iam_policy.admin
+       IAM policy grants administrator-equivalent access
+>> [CRITICAL] TF-RDS-002  aws_db_instance.db
+       RDS instance is publicly accessible
+>> [CRITICAL] TF-S3-001   aws_s3_bucket.public
+       S3 bucket is exposed publicly
+>> [CRITICAL] TF-S3-001   aws_s3_bucket_public_access_block.weak
+       S3 bucket is exposed publicly
+>> [HIGH    ] TF-LOG-001  aws_cloudtrail.trail
+       CloudTrail is single-region or unencrypted
+>> [HIGH    ] TF-EBS-001  aws_ebs_volume.data
+       EBS volume is not encrypted at rest
+>> [HIGH    ] TF-EC2-001  aws_security_group.open
+       Security group opens SSH/RDP to the internet
+>> [HIGH    ] TF-IAM-002  aws_iam_policy.admin
+       IAM policy allows iam:PassRole on any role
+>> [HIGH    ] TF-IAM-002  aws_iam_policy.passrole
+       IAM policy allows iam:PassRole on any role
+>> [HIGH    ] TF-RDS-001  aws_db_instance.db
+       RDS instance storage is not encrypted
+>> [HIGH    ] TF-S3-002   aws_s3_bucket.public
+       S3 bucket has no server-side encryption
+   [MEDIUM  ] TF-EC2-003  aws_instance.legacy
+       EC2 instance does not enforce IMDSv2
+   [MEDIUM  ] TF-EC2-002  aws_security_group.open
+       Security group allows ingress from 0.0.0.0/0
+   [MEDIUM  ] TF-KMS-001  aws_kms_key.key
+       KMS key does not have rotation enabled
+   [MEDIUM  ] TF-S3-003   aws_s3_bucket.public
+       S3 bucket versioning is disabled
+
+  15 finding(s)   CRITICAL 4  HIGH 7  MEDIUM 4
+  Gate (fail-on HIGH): FAILED — 11 blocking

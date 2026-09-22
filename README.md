@@ -8,10 +8,11 @@ and one incident record. That is what lets them work together: the posture scann
 finds a public bucket, the response engine closes it, and the SOC dashboard shows
 the incident from detection to containment.
 
-> **Status:** the shared platform and **all eight projects** (Threat Detection & Response, IAM
-> Analyzer, Posture Scanner, EC2 Forensics, Data Protection Monitor, Secure Landing Zone,
-> Passwordless CI/CD, Security Operations Center) are built, tested and deployable. Each
-> component's README states exactly what exists today.
+> **Status:** the shared platform and **the core eight projects** (Threat Detection & Response,
+> IAM Analyzer, Posture Scanner, EC2 Forensics, Data Protection Monitor, Secure Landing Zone,
+> Passwordless CI/CD, Security Operations Center) are built, tested and deployable, and the
+> platform is being **extended** with the skills the market asks for most — starting with
+> Project 9 (Terraform IaC scanning). Each component's README states exactly what exists today.
 
 ---
 
@@ -71,6 +72,7 @@ flowchart LR
 | 6 | [Secure Multi-Account Landing Zone](06-secure-landing-zone/) | Guardrails that no single account can switch off | Security Foundations and Governance | **Built** |
 | 7 | [Passwordless GitHub → AWS CI/CD](07-github-oidc-cicd/) | Long-lived AWS keys in CI pipelines | IAM, Governance | **Built** |
 | 8 | [Cloud Security Operations Center](08-security-operations-center/) | One view of posture, findings and incidents | Detection, Incident Response | **Built** |
+| 9 | [Terraform IaC Security Scanner](09-terraform-iac-scanner/) | Insecure Terraform caught in the plan, before apply | Infrastructure Security, IAM | **Built** |
 
 See [docs/scs-c03-coverage.md](docs/scs-c03-coverage.md) for the capability-by-domain map.
 
