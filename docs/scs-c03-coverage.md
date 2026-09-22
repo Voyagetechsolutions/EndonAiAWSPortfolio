@@ -17,6 +17,8 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Detect misconfigurations across S3, EC2, RDS, CloudTrail, KMS, IAM (26 controls) | Project 3 | **Built** |
 | Detection-rate benchmark against a known-vulnerable environment | Project 3 | **Built** |
 | Detect disabled detective controls (GuardDuty, Config) | Project 3 | **Built** |
+| CloudTrail correlation detections (exfiltration, brute force, recon, multi-IP) mapped to ATT&CK | Project 12 | **Built** |
+| Portable Sigma rules (convert to Splunk/Elastic) for the single-event detections | Project 12 | **Built** |
 | Central SOC view of findings and incidents (one read-only console) | Project 8 | **Built** |
 | Explainable security score from open findings + detective-control health | Project 8 | **Built** |
 | Live detective-control health panel, fail-safe (unconfirmed = blind spot) | Project 8 | **Built** |

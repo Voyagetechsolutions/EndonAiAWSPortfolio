@@ -1,0 +1,9 @@
+{
+  "Records": [
+    {"eventTime": "2026-09-21T09:00:00Z", "eventName": "DescribeInstances", "eventSource": "ec2.amazonaws.com", "awsRegion": "us-east-1", "sourceIPAddress": "10.0.5.4", "recipientAccountId": "123456789012", "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::123456789012:assumed-role/ci-runner/ci", "accountId": "123456789012"}},
+    {"eventTime": "2026-09-21T09:00:30Z", "eventName": "DescribeSecurityGroups", "eventSource": "ec2.amazonaws.com", "awsRegion": "us-east-1", "sourceIPAddress": "10.0.5.4", "recipientAccountId": "123456789012", "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::123456789012:assumed-role/ci-runner/ci", "accountId": "123456789012"}},
+    {"eventTime": "2026-09-21T09:01:00Z", "eventName": "GetObject", "eventSource": "s3.amazonaws.com", "awsRegion": "us-east-1", "sourceIPAddress": "10.0.5.4", "recipientAccountId": "123456789012", "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::123456789012:assumed-role/ci-runner/ci", "accountId": "123456789012"}, "requestParameters": {"bucketName": "acme-artifacts", "key": "build.zip"}},
+    {"eventTime": "2026-09-21T09:02:00Z", "eventName": "GetObject", "eventSource": "s3.amazonaws.com", "awsRegion": "us-east-1", "sourceIPAddress": "10.0.5.4", "recipientAccountId": "123456789012", "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::123456789012:assumed-role/ci-runner/ci", "accountId": "123456789012"}, "requestParameters": {"bucketName": "acme-artifacts", "key": "deps.zip"}},
+    {"eventTime": "2026-09-21T09:05:00Z", "eventName": "ConsoleLogin", "eventSource": "signin.amazonaws.com", "awsRegion": "us-east-1", "sourceIPAddress": "198.51.100.50", "recipientAccountId": "123456789012", "userIdentity": {"type": "IAMUser", "arn": "arn:aws:iam::123456789012:user/alice", "userName": "alice", "accountId": "123456789012"}}
+  ]
+}

@@ -1,0 +1,61 @@
+# Sigma rules — the portable, SIEM-agnostic version of the single-event detections the engine
+# runs. Sigma is the generic detection format that converts to Splunk SPL, Elastic EQL, etc.
+# (`sigma convert -t splunk cloudtrail-detections.yml`). The engine and these rules are the same
+# logic in two forms: the engine proves it offline, Sigma deploys it into a real SIEM.
+---
+title: AWS Root Account Activity
+id: 1a2b3c00-0001-4000-8000-endon00000001
+status: stable
+description: Any API call made by the AWS account root user (mapped to Endon SIEM-001).
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    userIdentity.type: Root
+  condition: selection
+level: critical
+tags:
+  - attack.initial_access
+  - attack.t1078.004
+---
+title: CloudTrail Logging Tampered
+id: 1a2b3c00-0002-4000-8000-endon00000002
+status: stable
+description: CloudTrail logging stopped or a trail deleted — defense evasion (Endon SIEM-002).
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventSource: cloudtrail.amazonaws.com
+    eventName:
+      - StopLogging
+      - DeleteTrail
+  condition: selection
+level: high
+tags:
+  - attack.defense_evasion
+  - attack.t1562.008
+---
+title: S3 Bucket Made Public
+id: 1a2b3c00-0006-4000-8000-endon00000006
+status: stable
+description: A bucket ACL or policy opened to AllUsers/public (Endon SIEM-006).
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventName:
+      - PutBucketAcl
+      - PutBucketPolicy
+  grantee:
+    requestParameters|contains:
+      - AllUsers
+      - '"Principal":"*"'
+  condition: selection and grantee
+level: high
+tags:
+  - attack.collection
+  - attack.t1530

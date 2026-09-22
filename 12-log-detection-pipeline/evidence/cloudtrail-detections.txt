@@ -1,0 +1,28 @@
+ENDON AI - CLOUDTRAIL DETECTION
+===============================
+
+>> 10:08:00 [CRITICAL] SIEM-001  root:123456789012  (T1078.004)
+          Root account activity
+>> 10:02:30 [HIGH    ] SIEM-005  mallory  (T1098)
+          Administrator policy attached
+>> 10:03:00 [HIGH    ] SIEM-002  mallory  (T1562.008)
+          CloudTrail logging tampered
+>> 10:03:30 [HIGH    ] SIEM-003  mallory  (T1562.001)
+          Detective service disabled
+>> 10:04:30 [HIGH    ] SIEM-006  mallory  (T1530)
+          S3 bucket made public
+>> 10:05:00 [HIGH    ] SIEM-104  mallory  (T1078)
+          Credentials used from multiple IPs
+>> 10:05:40 [HIGH    ] SIEM-101  mallory  (T1530)
+          Mass S3 download (possible exfiltration)
+>> 10:06:45 [HIGH    ] SIEM-102  admin  (T1110)
+          Console login brute force
+   10:01:10 [MEDIUM  ] SIEM-103  mallory  (T1580)
+          Reconnaissance burst
+   10:02:00 [MEDIUM  ] SIEM-004  mallory  (T1098.001)
+          New access key created
+   10:04:00 [MEDIUM  ] SIEM-007  mallory  (T1562.007)
+          Security group opened to the internet
+
+  11 detection(s)   CRITICAL 1  HIGH 7  MEDIUM 3
+  Alert (>= HIGH): 8 alerting

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-siem"
+version = "0.1.0"
+description = "Endon AI log detection pipeline: SIEM-style single-event and correlation detections over CloudTrail"
+requires-python = ">=3.11"
+dependencies = ["endon-core"]
+
+[project.scripts]
+endon-siem = "endon_siem.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

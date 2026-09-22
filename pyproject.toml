@@ -17,6 +17,7 @@ testpaths = [
     "09-terraform-iac-scanner/tests",
     "10-kubernetes-security/tests",
     "11-azure-posture/tests",
+    "12-log-detection-pipeline/tests",
     "tests",
 ]
 pythonpath = [
@@ -52,6 +53,8 @@ pythonpath = [
     "10-kubernetes-security/tests",
     "11-azure-posture/src",
     "11-azure-posture/tests",
+    "12-log-detection-pipeline/src",
+    "12-log-detection-pipeline/tests",
 ]
 
 [tool.ruff]
