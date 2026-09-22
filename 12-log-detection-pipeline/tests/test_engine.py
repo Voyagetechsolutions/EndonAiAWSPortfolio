@@ -4,11 +4,10 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
+from endon_core.findings import Severity
 from endon_siem import cli, detections
 from endon_siem.engine import detect
 from endon_siem.events import Event
-
-from endon_core.findings import Severity
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
 

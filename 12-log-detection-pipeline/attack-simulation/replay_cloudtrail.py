@@ -14,10 +14,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / "endon-core" / "src"), str(ROOT / "12-log-detection-pipeline" / "src")]
 
+from endon_core.findings import Severity  # noqa: E402
 from endon_siem import report  # noqa: E402
 from endon_siem.engine import detect_file  # noqa: E402
-
-from endon_core.findings import Severity  # noqa: E402
 
 FIXTURES = ROOT / "12-log-detection-pipeline" / "fixtures"
 EVIDENCE = ROOT / "12-log-detection-pipeline" / "evidence"

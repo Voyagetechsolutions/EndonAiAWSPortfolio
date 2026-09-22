@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pytest
+
 from endon_siem.events import Event, load_file
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
