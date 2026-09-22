@@ -16,6 +16,7 @@ testpaths = [
     "08-security-operations-center/tests",
     "09-terraform-iac-scanner/tests",
     "10-kubernetes-security/tests",
+    "11-azure-posture/tests",
     "tests",
 ]
 pythonpath = [
@@ -49,6 +50,8 @@ pythonpath = [
     "09-terraform-iac-scanner/tests",
     "10-kubernetes-security/src",
     "10-kubernetes-security/tests",
+    "11-azure-posture/src",
+    "11-azure-posture/tests",
 ]
 
 [tool.ruff]
@@ -74,6 +77,7 @@ known-first-party = [
     "endon_soc",
     "endon_tfscan",
     "endon_k8s",
+    "endon_azure",
     "detection_testkit",
     "iam_testkit",
     "posture_testkit",

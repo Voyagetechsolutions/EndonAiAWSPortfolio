@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "endon-azure"
+version = "0.1.0"
+description = "Endon AI Azure posture: CSPM checks over Azure resources, one finding format with the AWS platform"
+requires-python = ">=3.11"
+dependencies = ["endon-core"]
+
+[project.optional-dependencies]
+# Only needed to collect live from a subscription; the checks and tests need none of it.
+live = ["azure-identity>=1.16", "azure-mgmt-resourcegraph>=8.0"]
+
+[project.scripts]
+endon-azure = "endon_azure.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

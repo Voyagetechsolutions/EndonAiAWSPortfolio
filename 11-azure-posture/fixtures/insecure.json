@@ -1,0 +1,73 @@
+[
+  {
+    "id": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Storage/storageAccounts/acmepublic",
+    "name": "acmepublic",
+    "type": "Microsoft.Storage/storageAccounts",
+    "location": "eastus",
+    "resourceGroup": "acme",
+    "properties": {
+      "allowBlobPublicAccess": true,
+      "supportsHttpsTrafficOnly": false,
+      "networkAcls": { "defaultAction": "Allow" }
+    }
+  },
+  {
+    "id": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Network/networkSecurityGroups/acme-nsg",
+    "name": "acme-nsg",
+    "type": "Microsoft.Network/networkSecurityGroups",
+    "location": "eastus",
+    "resourceGroup": "acme",
+    "properties": {
+      "securityRules": [
+        {
+          "name": "allow-ssh",
+          "properties": {
+            "direction": "Inbound",
+            "access": "Allow",
+            "sourceAddressPrefix": "Internet",
+            "destinationPortRange": "22"
+          }
+        },
+        {
+          "name": "allow-app",
+          "properties": {
+            "direction": "Inbound",
+            "access": "Allow",
+            "sourceAddressPrefix": "Internet",
+            "destinationPortRange": "8080"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Compute/disks/acme-data",
+    "name": "acme-data",
+    "type": "Microsoft.Compute/disks",
+    "location": "eastus",
+    "resourceGroup": "acme",
+    "properties": {
+      "diskSizeGB": 128,
+      "encryptionSettingsCollection": { "enabled": false }
+    }
+  },
+  {
+    "id": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.KeyVault/vaults/acme-kv",
+    "name": "acme-kv",
+    "type": "Microsoft.KeyVault/vaults",
+    "location": "eastus",
+    "resourceGroup": "acme",
+    "properties": {
+      "enableSoftDelete": true,
+      "publicNetworkAccess": "Enabled"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000/providers/Microsoft.Security/pricings/StorageAccounts",
+    "name": "StorageAccounts",
+    "type": "Microsoft.Security/pricings",
+    "location": "global",
+    "resourceGroup": "",
+    "properties": { "pricingTier": "Free" }
+  }
+]

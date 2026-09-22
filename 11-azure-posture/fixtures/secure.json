@@ -1,0 +1,65 @@
+[
+  {
+    "id": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Storage/storageAccounts/acmeprivate",
+    "name": "acmeprivate",
+    "type": "Microsoft.Storage/storageAccounts",
+    "location": "eastus",
+    "resourceGroup": "acme",
+    "properties": {
+      "allowBlobPublicAccess": false,
+      "supportsHttpsTrafficOnly": true,
+      "networkAcls": { "defaultAction": "Deny" }
+    }
+  },
+  {
+    "id": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Network/networkSecurityGroups/acme-nsg",
+    "name": "acme-nsg",
+    "type": "Microsoft.Network/networkSecurityGroups",
+    "location": "eastus",
+    "resourceGroup": "acme",
+    "properties": {
+      "securityRules": [
+        {
+          "name": "allow-internal-https",
+          "properties": {
+            "direction": "Inbound",
+            "access": "Allow",
+            "sourceAddressPrefix": "10.0.0.0/8",
+            "destinationPortRange": "443"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Compute/disks/acme-data",
+    "name": "acme-data",
+    "type": "Microsoft.Compute/disks",
+    "location": "eastus",
+    "resourceGroup": "acme",
+    "properties": {
+      "diskSizeGB": 128,
+      "encryption": { "type": "EncryptionAtRestWithPlatformKey" }
+    }
+  },
+  {
+    "id": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.KeyVault/vaults/acme-kv",
+    "name": "acme-kv",
+    "type": "Microsoft.KeyVault/vaults",
+    "location": "eastus",
+    "resourceGroup": "acme",
+    "properties": {
+      "enableSoftDelete": true,
+      "enablePurgeProtection": true,
+      "publicNetworkAccess": "Disabled"
+    }
+  },
+  {
+    "id": "/subscriptions/00000000/providers/Microsoft.Security/pricings/StorageAccounts",
+    "name": "StorageAccounts",
+    "type": "Microsoft.Security/pricings",
+    "location": "global",
+    "resourceGroup": "",
+    "properties": { "pricingTier": "Standard" }
+  }
+]

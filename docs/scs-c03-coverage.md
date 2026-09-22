@@ -83,6 +83,7 @@ Status key: **Built** = implemented and tested · *Planned* = designed, not yet 
 | Macie sensitive-data findings; public sensitive data auto-remediated via Project 1 | Project 5 | **Built** |
 | AWS Health exposed-credential events normalized to findings | Project 5 | **Built** |
 | Monitor never reads or emits a secret's plaintext (enforced by tests) | Project 5 | **Built** |
+| Multi-cloud: Azure CSPM (public Storage, unencrypted disks, Key Vault, NSG) in one finding format | Project 11 | **Built** |
 
 ## 6. Security Foundations and Governance
 

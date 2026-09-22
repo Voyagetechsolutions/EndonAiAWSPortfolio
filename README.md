@@ -74,6 +74,7 @@ flowchart LR
 | 8 | [Cloud Security Operations Center](08-security-operations-center/) | One view of posture, findings and incidents | Detection, Incident Response | **Built** |
 | 9 | [Terraform IaC Security Scanner](09-terraform-iac-scanner/) | Insecure Terraform caught in the plan, before apply | Infrastructure Security, IAM | **Built** |
 | 10 | [Kubernetes Security](10-kubernetes-security/) | Pod-spec + RBAC scanning and admission control | Infrastructure Security, IAM | **Built** |
+| 11 | [Azure Posture Scanner](11-azure-posture/) | Multi-cloud: Azure CSPM in one finding format | Data Protection, Infrastructure Security | **Built** |
 
 See [docs/scs-c03-coverage.md](docs/scs-c03-coverage.md) for the capability-by-domain map.
 

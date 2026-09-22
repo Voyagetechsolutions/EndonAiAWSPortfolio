@@ -1,0 +1,24 @@
+ENDON AI - AZURE POSTURE SCAN
+=============================
+
+>> [CRITICAL] AZ-STG-001  acmepublic
+       Storage account allows public blob access
+>> [HIGH    ] AZ-DISK-001 acme-data
+       Managed disk is not encrypted
+>> [HIGH    ] AZ-KV-001   acme-kv
+       Key Vault does not have purge protection
+>> [HIGH    ] AZ-NSG-001  acme-nsg
+       NSG allows SSH/RDP inbound from the Internet
+>> [HIGH    ] AZ-STG-002  acmepublic
+       Storage account allows unencrypted HTTP
+   [MEDIUM  ] AZ-DEF-001  StorageAccounts
+       Microsoft Defender for Cloud plan is not enabled
+   [MEDIUM  ] AZ-KV-002   acme-kv
+       Key Vault is reachable from public networks
+   [MEDIUM  ] AZ-NSG-002  acme-nsg
+       NSG allows inbound from the Internet
+   [MEDIUM  ] AZ-STG-003  acmepublic
+       Storage account is reachable from all networks
+
+  9 finding(s)   CRITICAL 1  HIGH 4  MEDIUM 4
+  Gate (fail-on HIGH): FAILED — 5 blocking
