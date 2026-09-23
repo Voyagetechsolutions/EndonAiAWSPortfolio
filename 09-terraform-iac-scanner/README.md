@@ -96,6 +96,15 @@ IAM and posture gates:
 - run: terraform apply plan.out
 ```
 
+**`--sarif` for GitHub code scanning.** `endon-tfscan scan plan.json --sarif` emits
+[SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html) — the format the
+GitHub Security tab, Azure DevOps and the VS Code SARIF viewer ingest. So the same finding that
+opens a Security Hub ticket in AWS (via ASFF) also raises a code-scanning alert on the pull
+request that introduced it. The renderer is shared platform-wide
+([`endon_core.sarif`](../endon-core/src/endon_core/sarif.py)); the repo-root
+[`security-scan.yml`](../.github/workflows/security-scan.yml) workflow runs every scanner and
+uploads the results.
+
 ## Real Terraform, too
 
 This project doesn't just *scan* Terraform — it *writes* it.

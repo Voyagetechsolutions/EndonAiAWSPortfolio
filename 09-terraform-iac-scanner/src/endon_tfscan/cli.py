@@ -13,6 +13,7 @@ import argparse
 import sys
 
 from endon_core.findings import Severity
+from endon_core.sarif import render_sarif
 from endon_tfscan import report
 from endon_tfscan.plan import Plan
 from endon_tfscan.scanner import scan
@@ -32,6 +33,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="minimum severity that fails the gate (default HIGH)",
     )
     scan_cmd.add_argument("--json", action="store_true", help="emit JSON instead of a table")
+    scan_cmd.add_argument(
+        "--sarif",
+        action="store_true",
+        help="emit SARIF 2.1.0 for GitHub code scanning / any SARIF consumer",
+    )
     return parser
 
 
@@ -43,7 +49,9 @@ def main(argv: list[str] | None = None) -> int:
     findings = scan(Plan.from_file(args.plan))
     result = report.evaluate_gate(findings, Severity(args.fail_on))
 
-    if args.json:
+    if args.sarif:
+        print(render_sarif(result.findings, tool_name="endon-tfscan"))
+    elif args.json:
         print(report.render_json(result))
     else:
         print(report.render_console(result))

@@ -1,0 +1,569 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "endon-siem",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+          "rules": [
+            {
+              "id": "SIEM-001",
+              "name": "DetectionCloudtrailSiem001",
+              "shortDescription": {
+                "text": "Root account activity"
+              },
+              "fullDescription": {
+                "text": "Root account activity \u2014 ConsoleLogin by root:123456789012 (ATT&CK T1078.004)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Incident Response"
+                ]
+              },
+              "help": {
+                "text": "Root should never be used for API calls; investigate and rotate root credentials."
+              }
+            },
+            {
+              "id": "SIEM-005",
+              "name": "DetectionCloudtrailSiem005",
+              "shortDescription": {
+                "text": "Administrator policy attached"
+              },
+              "fullDescription": {
+                "text": "Administrator policy attached \u2014 AttachUserPolicy by arn:aws:iam::123456789012:user/mallory (ATT&CK T1098)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Confirm the grant; attaching AdministratorAccess is a common escalation step."
+              }
+            },
+            {
+              "id": "SIEM-002",
+              "name": "DetectionCloudtrailSiem002",
+              "shortDescription": {
+                "text": "CloudTrail logging tampered"
+              },
+              "fullDescription": {
+                "text": "CloudTrail logging tampered \u2014 StopLogging by arn:aws:iam::123456789012:user/mallory (ATT&CK T1562.008)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Detection"
+                ]
+              },
+              "help": {
+                "text": "Re-enable the trail and alert; log tampering precedes most attacks."
+              }
+            },
+            {
+              "id": "SIEM-003",
+              "name": "DetectionCloudtrailSiem003",
+              "shortDescription": {
+                "text": "Detective service disabled"
+              },
+              "fullDescription": {
+                "text": "Detective service disabled \u2014 DeleteDetector by arn:aws:iam::123456789012:user/mallory (ATT&CK T1562.001)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Detection"
+                ]
+              },
+              "help": {
+                "text": "Re-enable GuardDuty/Config/Security Hub and investigate who disabled it."
+              }
+            },
+            {
+              "id": "SIEM-006",
+              "name": "DetectionCloudtrailSiem006",
+              "shortDescription": {
+                "text": "S3 bucket made public"
+              },
+              "fullDescription": {
+                "text": "S3 bucket made public \u2014 PutBucketAcl by arn:aws:iam::123456789012:user/mallory (ATT&CK T1530)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Re-enable Block Public Access; a public bucket is a data-exposure path."
+              }
+            },
+            {
+              "id": "SIEM-104",
+              "name": "DetectionCloudtrailSiem104",
+              "shortDescription": {
+                "text": "Credentials used from multiple IPs"
+              },
+              "fullDescription": {
+                "text": "Credentials used from multiple IPs \u2014 15 events for arn:aws:iam::123456789012:user/mallory within the window (ATT&CK T1078)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Incident Response"
+                ]
+              },
+              "help": {
+                "text": "The same credentials from two IPs in a short window suggests theft; revoke and rotate."
+              }
+            },
+            {
+              "id": "SIEM-101",
+              "name": "DetectionCloudtrailSiem101",
+              "shortDescription": {
+                "text": "Mass S3 download (possible exfiltration)"
+              },
+              "fullDescription": {
+                "text": "Mass S3 download (possible exfiltration) \u2014 5 events for arn:aws:iam::123456789012:user/mallory within the window (ATT&CK T1530)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Investigate the principal; a burst of GetObject is exfiltration until proven otherwise."
+              }
+            },
+            {
+              "id": "SIEM-102",
+              "name": "DetectionCloudtrailSiem102",
+              "shortDescription": {
+                "text": "Console login brute force"
+              },
+              "fullDescription": {
+                "text": "Console login brute force \u2014 4 events for arn:aws:iam::123456789012:user/admin within the window (ATT&CK T1110)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Incident Response"
+                ]
+              },
+              "help": {
+                "text": "Lock the account and require MFA; repeated failed logins are a brute-force attempt."
+              }
+            },
+            {
+              "id": "SIEM-103",
+              "name": "DetectionCloudtrailSiem103",
+              "shortDescription": {
+                "text": "Reconnaissance burst"
+              },
+              "fullDescription": {
+                "text": "Reconnaissance burst \u2014 8 events for arn:aws:iam::123456789012:user/mallory within the window (ATT&CK T1580)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Detection"
+                ]
+              },
+              "help": {
+                "text": "A scan of Describe/List calls maps the account; correlate with the principal's other activity."
+              }
+            },
+            {
+              "id": "SIEM-004",
+              "name": "DetectionCloudtrailSiem004",
+              "shortDescription": {
+                "text": "New access key created"
+              },
+              "fullDescription": {
+                "text": "New access key created \u2014 CreateAccessKey by arn:aws:iam::123456789012:user/mallory (ATT&CK T1098.001)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Confirm the key was expected; attackers create keys for persistence."
+              }
+            },
+            {
+              "id": "SIEM-007",
+              "name": "DetectionCloudtrailSiem007",
+              "shortDescription": {
+                "text": "Security group opened to the internet"
+              },
+              "fullDescription": {
+                "text": "Security group opened to the internet \u2014 AuthorizeSecurityGroupIngress by arn:aws:iam::123456789012:user/mallory (ATT&CK T1562.007)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "detection",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Scope the ingress rule; 0.0.0.0/0 is an entry point."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "SIEM-001",
+          "level": "error",
+          "message": {
+            "text": "Root account activity \u2014 ConsoleLogin by root:123456789012 (ATT&CK T1078.004)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "0e80dde2fbbda57250f86bda06d23eac"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "Detection:CloudTrail/SIEM-001"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "root:123456789012",
+                  "name": "123456789012",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-005",
+          "level": "error",
+          "message": {
+            "text": "Administrator policy attached \u2014 AttachUserPolicy by arn:aws:iam::123456789012:user/mallory (ATT&CK T1098)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "0cdaa8ed94a3fde3b57f1b1209d7ac7a"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "Detection:CloudTrail/SIEM-005"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-002",
+          "level": "error",
+          "message": {
+            "text": "CloudTrail logging tampered \u2014 StopLogging by arn:aws:iam::123456789012:user/mallory (ATT&CK T1562.008)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "2b3c2bf21436943055d591791511497b"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "Detection:CloudTrail/SIEM-002"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-003",
+          "level": "error",
+          "message": {
+            "text": "Detective service disabled \u2014 DeleteDetector by arn:aws:iam::123456789012:user/mallory (ATT&CK T1562.001)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "46894d63edcfe14b9c827d4eb2d3d3cc"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "Detection:CloudTrail/SIEM-003"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-006",
+          "level": "error",
+          "message": {
+            "text": "S3 bucket made public \u2014 PutBucketAcl by arn:aws:iam::123456789012:user/mallory (ATT&CK T1530)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "f3aa8a3571459f60838a0bc0988521b7"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "Detection:CloudTrail/SIEM-006"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-104",
+          "level": "error",
+          "message": {
+            "text": "Credentials used from multiple IPs \u2014 15 events for arn:aws:iam::123456789012:user/mallory within the window (ATT&CK T1078)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "4f132c00f59251a577022bb6ccb33aa6"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "Detection:CloudTrail/SIEM-104"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-101",
+          "level": "error",
+          "message": {
+            "text": "Mass S3 download (possible exfiltration) \u2014 5 events for arn:aws:iam::123456789012:user/mallory within the window (ATT&CK T1530)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "5da8f4cb8ed5b73054e39c5376c43524"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "Detection:CloudTrail/SIEM-101"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-102",
+          "level": "error",
+          "message": {
+            "text": "Console login brute force \u2014 4 events for arn:aws:iam::123456789012:user/admin within the window (ATT&CK T1110)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "66ab87e1db00a5161cef97003586820f"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "Detection:CloudTrail/SIEM-102"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/admin",
+                  "name": "admin",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-103",
+          "level": "warning",
+          "message": {
+            "text": "Reconnaissance burst \u2014 8 events for arn:aws:iam::123456789012:user/mallory within the window (ATT&CK T1580)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "ab7740cb749d627e46067c312e6266e4"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "Detection:CloudTrail/SIEM-103"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-004",
+          "level": "warning",
+          "message": {
+            "text": "New access key created \u2014 CreateAccessKey by arn:aws:iam::123456789012:user/mallory (ATT&CK T1098.001)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "424f1e717f1b1f34d4013a130f885f81"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "Detection:CloudTrail/SIEM-004"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "SIEM-007",
+          "level": "warning",
+          "message": {
+            "text": "Security group opened to the internet \u2014 AuthorizeSecurityGroupIngress by arn:aws:iam::123456789012:user/mallory (ATT&CK T1562.007)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "e126adb7cd5455ae20e5b8430b4cf7d4"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "Detection:CloudTrail/SIEM-007"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "arn:aws:iam::123456789012:user/mallory",
+                  "name": "mallory",
+                  "kind": "CloudTrailPrincipal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,469 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "endon-azure",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+          "rules": [
+            {
+              "id": "AZ-STG-001",
+              "name": "AzurepostureStorageBlobpublicaccess",
+              "shortDescription": {
+                "text": "Storage account allows public blob access"
+              },
+              "fullDescription": {
+                "text": "Storage account allows public blob access (acmepublic)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Set allowBlobPublicAccess = false on the storage account."
+              }
+            },
+            {
+              "id": "AZ-DISK-001",
+              "name": "AzurepostureComputeDisknotencrypted",
+              "shortDescription": {
+                "text": "Managed disk is not encrypted"
+              },
+              "fullDescription": {
+                "text": "Managed disk is not encrypted (acme-data)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Enable encryption at rest (platform-managed or customer-managed key)."
+              }
+            },
+            {
+              "id": "AZ-KV-001",
+              "name": "AzurepostureKeyvaultNopurgeprotection",
+              "shortDescription": {
+                "text": "Key Vault does not have purge protection"
+              },
+              "fullDescription": {
+                "text": "Key Vault does not have purge protection (acme-kv)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Enable enablePurgeProtection so keys/secrets cannot be permanently deleted early."
+              }
+            },
+            {
+              "id": "AZ-NSG-001",
+              "name": "AzurepostureNetworkAdminportfrominternet",
+              "shortDescription": {
+                "text": "NSG allows SSH/RDP inbound from the Internet"
+              },
+              "fullDescription": {
+                "text": "NSG allows SSH/RDP inbound from the Internet (acme-nsg)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Remove Internet-sourced inbound rules on 22/3389; use a bastion or JIT access."
+              }
+            },
+            {
+              "id": "AZ-STG-002",
+              "name": "AzurepostureStorageHttpallowed",
+              "shortDescription": {
+                "text": "Storage account allows unencrypted HTTP"
+              },
+              "fullDescription": {
+                "text": "Storage account allows unencrypted HTTP (acmepublic)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Set supportsHttpsTrafficOnly = true."
+              }
+            },
+            {
+              "id": "AZ-DEF-001",
+              "name": "AzurepostureDefenderDefenderplanfree",
+              "shortDescription": {
+                "text": "Microsoft Defender for Cloud plan is not enabled"
+              },
+              "fullDescription": {
+                "text": "Microsoft Defender for Cloud plan is not enabled (StorageAccounts)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Detection"
+                ]
+              },
+              "help": {
+                "text": "Set the Defender pricing tier to Standard for this resource type."
+              }
+            },
+            {
+              "id": "AZ-KV-002",
+              "name": "AzurepostureKeyvaultPublicnetworkaccess",
+              "shortDescription": {
+                "text": "Key Vault is reachable from public networks"
+              },
+              "fullDescription": {
+                "text": "Key Vault is reachable from public networks (acme-kv)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Set publicNetworkAccess = Disabled and use private endpoints."
+              }
+            },
+            {
+              "id": "AZ-NSG-002",
+              "name": "AzurepostureNetworkOpeningress",
+              "shortDescription": {
+                "text": "NSG allows inbound from the Internet"
+              },
+              "fullDescription": {
+                "text": "NSG allows inbound from the Internet (acme-nsg)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Scope inbound rules to known source prefixes."
+              }
+            },
+            {
+              "id": "AZ-STG-003",
+              "name": "AzurepostureStorageOpennetworkaccess",
+              "shortDescription": {
+                "text": "Storage account is reachable from all networks"
+              },
+              "fullDescription": {
+                "text": "Storage account is reachable from all networks (acmepublic)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "azureposture",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set networkAcls.defaultAction = Deny and allow only known VNets/IPs."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "AZ-STG-001",
+          "level": "error",
+          "message": {
+            "text": "Storage account allows public blob access (acmepublic)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "2d2ba73bad42074ec1b03fb66ad2ddce"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "AzurePosture:Storage/BlobPublicAccess"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Storage/storageAccounts/acmepublic",
+                  "name": "acmepublic",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "AZ-DISK-001",
+          "level": "error",
+          "message": {
+            "text": "Managed disk is not encrypted (acme-data)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "ababed720149342afceb9d76609ecdda"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "AzurePosture:Compute/DiskNotEncrypted"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Compute/disks/acme-data",
+                  "name": "acme-data",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "AZ-KV-001",
+          "level": "error",
+          "message": {
+            "text": "Key Vault does not have purge protection (acme-kv)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "283e9db1c87cca3c2d0fc4ef9bb63e1d"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "AzurePosture:KeyVault/NoPurgeProtection"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.KeyVault/vaults/acme-kv",
+                  "name": "acme-kv",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "AZ-NSG-001",
+          "level": "error",
+          "message": {
+            "text": "NSG allows SSH/RDP inbound from the Internet (acme-nsg)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "124334641e93c24e55a4c160cca7ef43"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "AzurePosture:Network/AdminPortFromInternet"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Network/networkSecurityGroups/acme-nsg",
+                  "name": "acme-nsg",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "AZ-STG-002",
+          "level": "error",
+          "message": {
+            "text": "Storage account allows unencrypted HTTP (acmepublic)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "64393f68ad84753298fcfa9ea52c9060"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "AzurePosture:Storage/HttpAllowed"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Storage/storageAccounts/acmepublic",
+                  "name": "acmepublic",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "AZ-DEF-001",
+          "level": "warning",
+          "message": {
+            "text": "Microsoft Defender for Cloud plan is not enabled (StorageAccounts)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "cf44c7cfa62ff6a5333aed4bedc89355"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "AzurePosture:Defender/DefenderPlanFree"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/providers/Microsoft.Security/pricings/StorageAccounts",
+                  "name": "StorageAccounts",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "AZ-KV-002",
+          "level": "warning",
+          "message": {
+            "text": "Key Vault is reachable from public networks (acme-kv)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "d56d10a260ef0a5a24cb0662153e52fd"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "AzurePosture:KeyVault/PublicNetworkAccess"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.KeyVault/vaults/acme-kv",
+                  "name": "acme-kv",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "AZ-NSG-002",
+          "level": "warning",
+          "message": {
+            "text": "NSG allows inbound from the Internet (acme-nsg)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "f1f1401a24f0e6edf4c39d489199c8c9"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "AzurePosture:Network/OpenIngress"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Network/networkSecurityGroups/acme-nsg",
+                  "name": "acme-nsg",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "AZ-STG-003",
+          "level": "warning",
+          "message": {
+            "text": "Storage account is reachable from all networks (acmepublic)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "d6c0375b2ecc132fac61d7b11628cbdb"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "AzurePosture:Storage/OpenNetworkAccess"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "/subscriptions/00000000/resourceGroups/acme/providers/Microsoft.Storage/storageAccounts/acmepublic",
+                  "name": "acmepublic",
+                  "kind": "AzureResource"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

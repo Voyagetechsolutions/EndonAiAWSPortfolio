@@ -117,8 +117,15 @@ Hardened subscription: 0 finding(s) — gate PASSED
 python 11-azure-posture/attack-simulation/scan_insecure_subscription.py   # scan + proof
 pytest 11-azure-posture/tests                                             # tests (8)
 endon-azure scan 11-azure-posture/fixtures/insecure.json --fail-on HIGH
+endon-azure scan 11-azure-posture/fixtures/insecure.json --sarif    # SARIF for code scanning
 pip install -e '11-azure-posture[live]' && endon-azure scan --live --subscription <id>
 ```
+
+**SARIF output.** `--sarif` emits [SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
+from the shared [`endon_core.sarif`](../endon-core/src/endon_core/sarif.py) renderer, so Azure CSPM
+findings land in the GitHub Security tab alongside the AWS scanners — one finding model, one format,
+two clouds. The repo-root [`security-scan.yml`](../.github/workflows/security-scan.yml) workflow runs
+every scanner and uploads the results.
 
 ## Project Layout
 

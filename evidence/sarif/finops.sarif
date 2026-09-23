@@ -1,0 +1,319 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "endon-finops",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+          "rules": [
+            {
+              "id": "FIN-101",
+              "name": "FinopsSecurityComputespike",
+              "shortDescription": {
+                "text": "Compute cost spike (possible cryptomining)"
+              },
+              "fullDescription": {
+                "text": "Compute cost spike (possible cryptomining) \u2014 compute $683.6 on 2026-09-21 (16x baseline)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "finops",
+                  "Incident Response"
+                ]
+              },
+              "help": {
+                "text": "Investigate the account for unauthorized instances (cryptomining); correlate with GuardDuty."
+              }
+            },
+            {
+              "id": "FIN-102",
+              "name": "FinopsSecurityEgressspike",
+              "shortDescription": {
+                "text": "Data-transfer-out spike (possible exfiltration)"
+              },
+              "fullDescription": {
+                "text": "Data-transfer-out spike (possible exfiltration) \u2014 egress $300.0 on 2026-09-21 (30x baseline)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "finops",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Investigate the source of the egress; a surge in transfer-out can be data exfiltration."
+              }
+            },
+            {
+              "id": "FIN-103",
+              "name": "FinopsSecurityNewregionspend",
+              "shortDescription": {
+                "text": "Spend appeared in an unused region"
+              },
+              "fullDescription": {
+                "text": "Spend appeared in an unused region \u2014 $380.0 first appeared in ap-south-1 on 2026-09-21."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "finops",
+                  "Incident Response"
+                ]
+              },
+              "help": {
+                "text": "Confirm the region is expected; attackers launch resources in regions you do not use."
+              }
+            },
+            {
+              "id": "FIN-003",
+              "name": "FinopsWasteCostanomaly",
+              "shortDescription": {
+                "text": "Daily cost anomaly (budget)"
+              },
+              "fullDescription": {
+                "text": "Daily cost anomaly (budget) \u2014 $1011.6 on 2026-09-21 vs $81.6 baseline."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "finops",
+                  "Security Foundations and Governance"
+                ]
+              },
+              "help": {
+                "text": "Investigate the cost spike; confirm it is expected before it recurs."
+              }
+            },
+            {
+              "id": "FIN-001",
+              "name": "FinopsWasteUntaggedspend",
+              "shortDescription": {
+                "text": "Significant untagged spend"
+              },
+              "fullDescription": {
+                "text": "Significant untagged spend \u2014 $64.0 of spend has no 'team' tag over the period."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "finops",
+                  "Security Foundations and Governance"
+                ]
+              },
+              "help": {
+                "text": "Enforce a cost-allocation tag (e.g. team) so every dollar has an owner."
+              }
+            },
+            {
+              "id": "FIN-002",
+              "name": "FinopsWasteIdleresource",
+              "shortDescription": {
+                "text": "Paying for idle resources"
+              },
+              "fullDescription": {
+                "text": "Paying for idle resources \u2014 $28.8 paid for idle ElasticIP:IdleAddress."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "security-severity": "2.0",
+                "tags": [
+                  "security",
+                  "finops",
+                  "Security Foundations and Governance"
+                ]
+              },
+              "help": {
+                "text": "Release idle Elastic IPs and clean up unattached resources."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FIN-101",
+          "level": "error",
+          "message": {
+            "text": "Compute cost spike (possible cryptomining) \u2014 compute $683.6 on 2026-09-21 (16x baseline)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "cbde0fbd3086fac13fb27dd3afa6df53"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "FinOps:Security/ComputeSpike"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "EC2",
+                  "name": "EC2",
+                  "kind": "CostDimension"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "FIN-102",
+          "level": "error",
+          "message": {
+            "text": "Data-transfer-out spike (possible exfiltration) \u2014 egress $300.0 on 2026-09-21 (30x baseline)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "c3e6a775723cd5c2a1f9cfc8024bc257"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "FinOps:Security/EgressSpike"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "DataTransfer-Out",
+                  "name": "DataTransfer-Out",
+                  "kind": "CostDimension"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "FIN-103",
+          "level": "warning",
+          "message": {
+            "text": "Spend appeared in an unused region \u2014 $380.0 first appeared in ap-south-1 on 2026-09-21."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "c3759451c728160fa9a080ee96d6dde2"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "FinOps:Security/NewRegionSpend"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ap-south-1",
+                  "name": "ap-south-1",
+                  "kind": "CostDimension"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "FIN-003",
+          "level": "warning",
+          "message": {
+            "text": "Daily cost anomaly (budget) \u2014 $1011.6 on 2026-09-21 vs $81.6 baseline."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "dd4e50bdf14022ae0580bc75d7b80201"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "FinOps:Waste/CostAnomaly"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "total",
+                  "name": "total",
+                  "kind": "CostDimension"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "FIN-001",
+          "level": "warning",
+          "message": {
+            "text": "Significant untagged spend \u2014 $64.0 of spend has no 'team' tag over the period."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "88325cc6c08cc1562f9fe8156aee262f"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "FinOps:Waste/UntaggedSpend"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "account",
+                  "name": "account",
+                  "kind": "CostDimension"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "FIN-002",
+          "level": "note",
+          "message": {
+            "text": "Paying for idle resources \u2014 $28.8 paid for idle ElasticIP:IdleAddress."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "193a66a9f32089b6cf37e58d4e6278dd"
+          },
+          "properties": {
+            "severity": "LOW",
+            "endon/type": "FinOps:Waste/IdleResource"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ElasticIP:IdleAddress",
+                  "name": "IdleAddress",
+                  "kind": "CostDimension"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

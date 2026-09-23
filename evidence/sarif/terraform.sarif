@@ -1,0 +1,719 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "endon-tfscan",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+          "rules": [
+            {
+              "id": "TF-IAM-001",
+              "name": "IacIamAdministratorpolicy",
+              "shortDescription": {
+                "text": "IAM policy grants administrator-equivalent access"
+              },
+              "fullDescription": {
+                "text": "IAM policy grants administrator-equivalent access (aws_iam_policy.admin) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Replace Action \"*\" on Resource \"*\" with the specific actions the workload needs."
+              }
+            },
+            {
+              "id": "TF-RDS-002",
+              "name": "IacRdsInstancepubliclyaccessible",
+              "shortDescription": {
+                "text": "RDS instance is publicly accessible"
+              },
+              "fullDescription": {
+                "text": "RDS instance is publicly accessible (aws_db_instance.db) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set publicly_accessible = false and place the instance in private subnets."
+              }
+            },
+            {
+              "id": "TF-S3-001",
+              "name": "IacS3Bucketpubliclyaccessible",
+              "shortDescription": {
+                "text": "S3 bucket is exposed publicly"
+              },
+              "fullDescription": {
+                "text": "S3 bucket is exposed publicly (aws_s3_bucket.public) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Set the ACL to private and enable a Block Public Access block with all four flags true."
+              }
+            },
+            {
+              "id": "TF-LOG-001",
+              "name": "IacCloudtrailTrailnothardened",
+              "shortDescription": {
+                "text": "CloudTrail is single-region or unencrypted"
+              },
+              "fullDescription": {
+                "text": "CloudTrail is single-region or unencrypted (aws_cloudtrail.trail) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Detection"
+                ]
+              },
+              "help": {
+                "text": "Set is_multi_region_trail = true and a kms_key_id so the audit log is complete and encrypted."
+              }
+            },
+            {
+              "id": "TF-EBS-001",
+              "name": "IacEbsVolumenotencrypted",
+              "shortDescription": {
+                "text": "EBS volume is not encrypted at rest"
+              },
+              "fullDescription": {
+                "text": "EBS volume is not encrypted at rest (aws_ebs_volume.data) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Set encrypted = true (ideally with a customer-managed KMS key)."
+              }
+            },
+            {
+              "id": "TF-EC2-001",
+              "name": "IacEc2Unrestrictedadminport",
+              "shortDescription": {
+                "text": "Security group opens SSH/RDP to the internet"
+              },
+              "fullDescription": {
+                "text": "Security group opens SSH/RDP to the internet (aws_security_group.open) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Restrict ingress on 22/3389 to known CIDRs or a bastion, never 0.0.0.0/0."
+              }
+            },
+            {
+              "id": "TF-IAM-002",
+              "name": "IacIamUnscopedpassrole",
+              "shortDescription": {
+                "text": "IAM policy allows iam:PassRole on any role"
+              },
+              "fullDescription": {
+                "text": "IAM policy allows iam:PassRole on any role (aws_iam_policy.admin) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Scope iam:PassRole to specific role ARNs; a wildcard is a privilege-escalation path."
+              }
+            },
+            {
+              "id": "TF-RDS-001",
+              "name": "IacRdsInstancenotencrypted",
+              "shortDescription": {
+                "text": "RDS instance storage is not encrypted"
+              },
+              "fullDescription": {
+                "text": "RDS instance storage is not encrypted (aws_db_instance.db) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Set storage_encrypted = true with a KMS key."
+              }
+            },
+            {
+              "id": "TF-S3-002",
+              "name": "IacS3Bucketencryptiondisabled",
+              "shortDescription": {
+                "text": "S3 bucket has no server-side encryption"
+              },
+              "fullDescription": {
+                "text": "S3 bucket has no server-side encryption (aws_s3_bucket.public) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Add a server_side_encryption_configuration (aws:kms or AES256)."
+              }
+            },
+            {
+              "id": "TF-EC2-003",
+              "name": "IacEc2Imdsv2Notenforced",
+              "shortDescription": {
+                "text": "EC2 instance does not enforce IMDSv2"
+              },
+              "fullDescription": {
+                "text": "EC2 instance does not enforce IMDSv2 (aws_instance.legacy) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set metadata_options.http_tokens = \"required\" to block SSRF credential theft."
+              }
+            },
+            {
+              "id": "TF-EC2-002",
+              "name": "IacEc2Unrestrictedingress",
+              "shortDescription": {
+                "text": "Security group allows ingress from 0.0.0.0/0"
+              },
+              "fullDescription": {
+                "text": "Security group allows ingress from 0.0.0.0/0 (aws_security_group.open) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Scope ingress CIDRs to what actually needs access."
+              }
+            },
+            {
+              "id": "TF-KMS-001",
+              "name": "IacKmsKeyrotationdisabled",
+              "shortDescription": {
+                "text": "KMS key does not have rotation enabled"
+              },
+              "fullDescription": {
+                "text": "KMS key does not have rotation enabled (aws_kms_key.key) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Set enable_key_rotation = true on customer-managed keys."
+              }
+            },
+            {
+              "id": "TF-S3-003",
+              "name": "IacS3Bucketversioningdisabled",
+              "shortDescription": {
+                "text": "S3 bucket versioning is disabled"
+              },
+              "fullDescription": {
+                "text": "S3 bucket versioning is disabled (aws_s3_bucket.public) \u2014 flagged in the Terraform plan before apply."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "iac",
+                  "Data Protection"
+                ]
+              },
+              "help": {
+                "text": "Enable versioning so objects can be recovered after deletion or overwrite."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "TF-IAM-001",
+          "level": "error",
+          "message": {
+            "text": "IAM policy grants administrator-equivalent access (aws_iam_policy.admin) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "45f498ec97e8ed4a9d9f79330869a9c0"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "IaC:IAM/AdministratorPolicy"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_iam_policy.admin",
+                  "name": "aws_iam_policy.admin",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-RDS-002",
+          "level": "error",
+          "message": {
+            "text": "RDS instance is publicly accessible (aws_db_instance.db) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "ac6449c482614429bf95062ea97c8293"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "IaC:RDS/InstancePubliclyAccessible"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_db_instance.db",
+                  "name": "aws_db_instance.db",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-S3-001",
+          "level": "error",
+          "message": {
+            "text": "S3 bucket is exposed publicly (aws_s3_bucket.public) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "0909c166f2854f9a0461408571784498"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "IaC:S3/BucketPubliclyAccessible"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_s3_bucket.public",
+                  "name": "aws_s3_bucket.public",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-S3-001",
+          "level": "error",
+          "message": {
+            "text": "S3 bucket is exposed publicly (aws_s3_bucket_public_access_block.weak) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "f301851454653a05a986d9f27bef68df"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "IaC:S3/BucketPubliclyAccessible"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_s3_bucket_public_access_block.weak",
+                  "name": "aws_s3_bucket_public_access_block.weak",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-LOG-001",
+          "level": "error",
+          "message": {
+            "text": "CloudTrail is single-region or unencrypted (aws_cloudtrail.trail) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "101d349905a1127c0e264f23e4f63dae"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "IaC:CloudTrail/TrailNotHardened"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_cloudtrail.trail",
+                  "name": "aws_cloudtrail.trail",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-EBS-001",
+          "level": "error",
+          "message": {
+            "text": "EBS volume is not encrypted at rest (aws_ebs_volume.data) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "7fc4a973e8db1639919955321006c835"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "IaC:EBS/VolumeNotEncrypted"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_ebs_volume.data",
+                  "name": "aws_ebs_volume.data",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-EC2-001",
+          "level": "error",
+          "message": {
+            "text": "Security group opens SSH/RDP to the internet (aws_security_group.open) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "f2280db1d55e515b2ac30eb99f789b14"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "IaC:EC2/UnrestrictedAdminPort"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_security_group.open",
+                  "name": "aws_security_group.open",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-IAM-002",
+          "level": "error",
+          "message": {
+            "text": "IAM policy allows iam:PassRole on any role (aws_iam_policy.admin) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "0dcf1e9271e2fa0973cd835744f3bacc"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "IaC:IAM/UnscopedPassRole"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_iam_policy.admin",
+                  "name": "aws_iam_policy.admin",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-IAM-002",
+          "level": "error",
+          "message": {
+            "text": "IAM policy allows iam:PassRole on any role (aws_iam_policy.passrole) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "5fdaee1013753aae4001ebaff112f8d2"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "IaC:IAM/UnscopedPassRole"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_iam_policy.passrole",
+                  "name": "aws_iam_policy.passrole",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-RDS-001",
+          "level": "error",
+          "message": {
+            "text": "RDS instance storage is not encrypted (aws_db_instance.db) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "b48b83e1ae3ba4ab13a372a8482a0a49"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "IaC:RDS/InstanceNotEncrypted"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_db_instance.db",
+                  "name": "aws_db_instance.db",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-S3-002",
+          "level": "error",
+          "message": {
+            "text": "S3 bucket has no server-side encryption (aws_s3_bucket.public) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "ba23d59267096e6670037559e1ba12a2"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "IaC:S3/BucketEncryptionDisabled"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_s3_bucket.public",
+                  "name": "aws_s3_bucket.public",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-EC2-003",
+          "level": "warning",
+          "message": {
+            "text": "EC2 instance does not enforce IMDSv2 (aws_instance.legacy) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "9491d39ae238b6215092d7a284ed717a"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "IaC:EC2/Imdsv2NotEnforced"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_instance.legacy",
+                  "name": "aws_instance.legacy",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-EC2-002",
+          "level": "warning",
+          "message": {
+            "text": "Security group allows ingress from 0.0.0.0/0 (aws_security_group.open) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "a6f2f391c9f1892ac5c54824b8f48cf1"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "IaC:EC2/UnrestrictedIngress"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_security_group.open",
+                  "name": "aws_security_group.open",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-KMS-001",
+          "level": "warning",
+          "message": {
+            "text": "KMS key does not have rotation enabled (aws_kms_key.key) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "33e6d2b313e6c70a83c04b9b438f4218"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "IaC:KMS/KeyRotationDisabled"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_kms_key.key",
+                  "name": "aws_kms_key.key",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "TF-S3-003",
+          "level": "warning",
+          "message": {
+            "text": "S3 bucket versioning is disabled (aws_s3_bucket.public) \u2014 flagged in the Terraform plan before apply."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "3ff5b01a7a18b9e3fe324aad75f0aabd"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "IaC:S3/BucketVersioningDisabled"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "aws_s3_bucket.public",
+                  "name": "aws_s3_bucket.public",
+                  "kind": "TerraformResource"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

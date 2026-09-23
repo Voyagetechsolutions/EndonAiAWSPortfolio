@@ -1,0 +1,919 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "endon-k8s",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+          "rules": [
+            {
+              "id": "K8S-POD-001",
+              "name": "K8SPodPrivilegedcontainer",
+              "shortDescription": {
+                "text": "Container runs privileged"
+              },
+              "fullDescription": {
+                "text": "Container runs privileged (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Remove securityContext.privileged; grant only the capabilities needed."
+              }
+            },
+            {
+              "id": "K8S-RBAC-005",
+              "name": "K8SRbacClusteradminbinding",
+              "shortDescription": {
+                "text": "Binding grants cluster-admin"
+              },
+              "fullDescription": {
+                "text": "Binding grants cluster-admin (ClusterRoleBinding/default/give-everyone-admin)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Bind a least-privilege role instead of cluster-admin."
+              }
+            },
+            {
+              "id": "K8S-RBAC-004",
+              "name": "K8SRbacRbacescalation",
+              "shortDescription": {
+                "text": "Role can bind or escalate RBAC"
+              },
+              "fullDescription": {
+                "text": "Role can bind or escalate RBAC (ClusterRole/default/rbac-escalator)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Remove bind/escalate on roles/clusterroles; it lets a subject grant itself more."
+              }
+            },
+            {
+              "id": "K8S-RBAC-001",
+              "name": "K8SRbacWildcardpermission",
+              "shortDescription": {
+                "text": "Role grants wildcard verbs on wildcard resources"
+              },
+              "fullDescription": {
+                "text": "Role grants wildcard verbs on wildcard resources (ClusterRole/default/god-mode)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Replace '*' with the specific verbs and resources the workload needs."
+              }
+            },
+            {
+              "id": "K8S-POD-002",
+              "name": "K8SPodAllowsprivilegeescalation",
+              "shortDescription": {
+                "text": "Container allows privilege escalation"
+              },
+              "fullDescription": {
+                "text": "Container allows privilege escalation (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set securityContext.allowPrivilegeEscalation = false."
+              }
+            },
+            {
+              "id": "K8S-POD-007",
+              "name": "K8SPodDangerouscapabilities",
+              "shortDescription": {
+                "text": "Container adds dangerous Linux capabilities"
+              },
+              "fullDescription": {
+                "text": "Container adds dangerous Linux capabilities (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Drop ALL capabilities and add back only what is required."
+              }
+            },
+            {
+              "id": "K8S-POD-005",
+              "name": "K8SPodHostnamespace",
+              "shortDescription": {
+                "text": "Pod shares a host namespace"
+              },
+              "fullDescription": {
+                "text": "Pod shares a host namespace (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set hostNetwork/hostPID/hostIPC to false."
+              }
+            },
+            {
+              "id": "K8S-POD-004",
+              "name": "K8SPodHostpathvolume",
+              "shortDescription": {
+                "text": "Pod mounts a hostPath volume"
+              },
+              "fullDescription": {
+                "text": "Pod mounts a hostPath volume (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Remove hostPath mounts; use a proper volume type."
+              }
+            },
+            {
+              "id": "K8S-POD-011",
+              "name": "K8SPodHostportexposed",
+              "shortDescription": {
+                "text": "Container binds a host port"
+              },
+              "fullDescription": {
+                "text": "Container binds a host port (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Remove hostPort; expose the pod through a Service instead."
+              }
+            },
+            {
+              "id": "K8S-POD-003",
+              "name": "K8SPodRunsasroot",
+              "shortDescription": {
+                "text": "Container may run as root"
+              },
+              "fullDescription": {
+                "text": "Container may run as root (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set runAsNonRoot = true (and a non-zero runAsUser)."
+              }
+            },
+            {
+              "id": "K8S-RBAC-002",
+              "name": "K8SRbacClustersecretsaccess",
+              "shortDescription": {
+                "text": "Role can read Secrets"
+              },
+              "fullDescription": {
+                "text": "Role can read Secrets (ClusterRole/default/god-mode)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Scope secret access to a namespace and specific secret names."
+              }
+            },
+            {
+              "id": "K8S-RBAC-003",
+              "name": "K8SRbacPodcreate",
+              "shortDescription": {
+                "text": "Role can create Pods"
+              },
+              "fullDescription": {
+                "text": "Role can create Pods (ClusterRole/default/god-mode)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "Pod creation allows running privileged/host-mounting pods; grant only where needed."
+              }
+            },
+            {
+              "id": "K8S-RBAC-006",
+              "name": "K8SRbacPodexec",
+              "shortDescription": {
+                "text": "Role can exec into Pods"
+              },
+              "fullDescription": {
+                "text": "Role can exec into Pods (Role/default/debugger)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "security-severity": "7.5",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Identity and Access Management"
+                ]
+              },
+              "help": {
+                "text": "pods/exec and pods/attach give shell access to running containers; restrict it."
+              }
+            },
+            {
+              "id": "K8S-POD-009",
+              "name": "K8SPodMutableimagetag",
+              "shortDescription": {
+                "text": "Container image is not pinned"
+              },
+              "fullDescription": {
+                "text": "Container image is not pinned (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Pin the image by digest (@sha256:...) instead of :latest or a floating tag."
+              }
+            },
+            {
+              "id": "K8S-POD-006",
+              "name": "K8SPodNoresourcelimits",
+              "shortDescription": {
+                "text": "Container has no CPU/memory limits"
+              },
+              "fullDescription": {
+                "text": "Container has no CPU/memory limits (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set resources.limits for cpu and memory to bound a compromised container."
+              }
+            },
+            {
+              "id": "K8S-POD-010",
+              "name": "K8SPodServiceaccounttokenmounted",
+              "shortDescription": {
+                "text": "Service-account token is auto-mounted"
+              },
+              "fullDescription": {
+                "text": "Service-account token is auto-mounted (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set automountServiceAccountToken = false unless the pod calls the API."
+              }
+            },
+            {
+              "id": "K8S-POD-008",
+              "name": "K8SPodWritablerootfilesystem",
+              "shortDescription": {
+                "text": "Container root filesystem is writable"
+              },
+              "fullDescription": {
+                "text": "Container root filesystem is writable (Deployment/default/legacy-api)."
+              },
+              "helpUri": "https://github.com/Voyagetechsolutions/EndonAiAWSPortfolio",
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "security-severity": "5.0",
+                "tags": [
+                  "security",
+                  "k8s",
+                  "Infrastructure Security"
+                ]
+              },
+              "help": {
+                "text": "Set readOnlyRootFilesystem = true."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "K8S-POD-001",
+          "level": "error",
+          "message": {
+            "text": "Container runs privileged (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "a3b0b57025d2fb6d151ad0d8c8cf740f"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "K8s:Pod/PrivilegedContainer"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-RBAC-005",
+          "level": "error",
+          "message": {
+            "text": "Binding grants cluster-admin (ClusterRoleBinding/default/give-everyone-admin)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "d3f1361ee5a7747e2d982570b3ced18c"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "K8s:RBAC/ClusterAdminBinding"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ClusterRoleBinding/default/give-everyone-admin",
+                  "name": "give-everyone-admin",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-RBAC-004",
+          "level": "error",
+          "message": {
+            "text": "Role can bind or escalate RBAC (ClusterRole/default/rbac-escalator)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "46524696403b32d284c5565cbbee236b"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "K8s:RBAC/RbacEscalation"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ClusterRole/default/rbac-escalator",
+                  "name": "rbac-escalator",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-RBAC-001",
+          "level": "error",
+          "message": {
+            "text": "Role grants wildcard verbs on wildcard resources (ClusterRole/default/god-mode)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "05561e8fff06989c213866bda951b767"
+          },
+          "properties": {
+            "severity": "CRITICAL",
+            "endon/type": "K8s:RBAC/WildcardPermission"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ClusterRole/default/god-mode",
+                  "name": "god-mode",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-002",
+          "level": "error",
+          "message": {
+            "text": "Container allows privilege escalation (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "c30970da87c1d4f6d82b78fdf704a573"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:Pod/AllowsPrivilegeEscalation"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-007",
+          "level": "error",
+          "message": {
+            "text": "Container adds dangerous Linux capabilities (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "b95dd53084912214a782df1de5088e8d"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:Pod/DangerousCapabilities"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-005",
+          "level": "error",
+          "message": {
+            "text": "Pod shares a host namespace (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "79054401d89d87a267560456ceab65db"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:Pod/HostNamespace"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-004",
+          "level": "error",
+          "message": {
+            "text": "Pod mounts a hostPath volume (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "81c4568a0ed25fc895390c01a2605d4a"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:Pod/HostPathVolume"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-011",
+          "level": "error",
+          "message": {
+            "text": "Container binds a host port (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "74896698e298858e7e06d1997dce51f0"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:Pod/HostPortExposed"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-003",
+          "level": "error",
+          "message": {
+            "text": "Container may run as root (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "739c868181c7d1b13ef68646220ba515"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:Pod/RunsAsRoot"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-RBAC-002",
+          "level": "error",
+          "message": {
+            "text": "Role can read Secrets (ClusterRole/default/god-mode)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "ec9d7bfca85612f124ec0d17237db67b"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:RBAC/ClusterSecretsAccess"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ClusterRole/default/god-mode",
+                  "name": "god-mode",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-RBAC-002",
+          "level": "error",
+          "message": {
+            "text": "Role can read Secrets (ClusterRole/default/secret-reader)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "027a177b99da4abaf0405125d946574c"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:RBAC/ClusterSecretsAccess"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ClusterRole/default/secret-reader",
+                  "name": "secret-reader",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-RBAC-003",
+          "level": "error",
+          "message": {
+            "text": "Role can create Pods (ClusterRole/default/god-mode)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "0fafdc1092dd6bc6e21d129a342fdeff"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:RBAC/PodCreate"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ClusterRole/default/god-mode",
+                  "name": "god-mode",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-RBAC-003",
+          "level": "error",
+          "message": {
+            "text": "Role can create Pods (ClusterRole/default/pod-launcher)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "a95751744398e5d6e599d66d6894c896"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:RBAC/PodCreate"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "ClusterRole/default/pod-launcher",
+                  "name": "pod-launcher",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-RBAC-006",
+          "level": "error",
+          "message": {
+            "text": "Role can exec into Pods (Role/default/debugger)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "f6739e813ee36b5581753ce899a00e1f"
+          },
+          "properties": {
+            "severity": "HIGH",
+            "endon/type": "K8s:RBAC/PodExec"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Role/default/debugger",
+                  "name": "debugger",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-009",
+          "level": "warning",
+          "message": {
+            "text": "Container image is not pinned (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "c196a8f51b13ef84414435dd5007c4f7"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "K8s:Pod/MutableImageTag"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-006",
+          "level": "warning",
+          "message": {
+            "text": "Container has no CPU/memory limits (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "34afd644c66ff7bcffaa593d6cfe4127"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "K8s:Pod/NoResourceLimits"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-010",
+          "level": "warning",
+          "message": {
+            "text": "Service-account token is auto-mounted (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "78362802e78c5062d8ed6bd35725865f"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "K8s:Pod/ServiceAccountTokenMounted"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "K8S-POD-008",
+          "level": "warning",
+          "message": {
+            "text": "Container root filesystem is writable (Deployment/default/legacy-api)."
+          },
+          "partialFingerprints": {
+            "endonFindingId/v1": "e79c29e3b85c47dccc9209c1d65f8d37"
+          },
+          "properties": {
+            "severity": "MEDIUM",
+            "endon/type": "K8s:Pod/WritableRootFilesystem"
+          },
+          "locations": [
+            {
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "Deployment/default/legacy-api",
+                  "name": "legacy-api",
+                  "kind": "KubernetesObject"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

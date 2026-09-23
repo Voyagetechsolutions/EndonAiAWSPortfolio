@@ -14,6 +14,7 @@ from endon_core.incidents import (
     IncidentStatus,
     TimelineEntry,
 )
+from endon_core.sarif import render_sarif, to_sarif
 
 __version__ = "0.1.0"
 
@@ -28,4 +29,6 @@ __all__ = [
     "Resource",
     "Severity",
     "TimelineEntry",
+    "render_sarif",
+    "to_sarif",
 ]

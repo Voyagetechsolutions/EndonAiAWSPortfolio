@@ -119,7 +119,15 @@ Steady-state bill: 0 finding(s) — gate PASSED
 python 13-finops-cost-guardrails/attack-simulation/analyze_cryptomining_spike.py   # analysis + proof
 pytest 13-finops-cost-guardrails/tests                                             # tests (7)
 endon-finops analyze 13-finops-cost-guardrails/fixtures/anomalous.json --fail-on HIGH
+endon-finops analyze 13-finops-cost-guardrails/fixtures/anomalous.json --sarif   # SARIF for code scanning
 ```
+
+**SARIF output.** `--sarif` emits [SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
+from the shared [`endon_core.sarif`](../endon-core/src/endon_core/sarif.py) renderer, so a cost anomaly
+that signals a security event (a cryptomining spike, an exfiltration egress bill) can raise a
+code-scanning alert like any other finding. The repo-root
+[`security-scan.yml`](../.github/workflows/security-scan.yml) workflow runs every scanner and uploads
+the results.
 
 ## Project Layout
 

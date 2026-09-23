@@ -120,7 +120,14 @@ detection.
 python 12-log-detection-pipeline/attack-simulation/replay_cloudtrail.py   # replay + proof
 pytest 12-log-detection-pipeline/tests                                    # tests (7)
 endon-siem detect 12-log-detection-pipeline/fixtures/attack.json --alert-on HIGH
+endon-siem detect 12-log-detection-pipeline/fixtures/attack.json --sarif   # SARIF for code scanning
 ```
+
+**SARIF output.** `--sarif` emits [SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
+from the shared [`endon_core.sarif`](../endon-core/src/endon_core/sarif.py) renderer, carrying each
+detection's rule and severity so alerts can be published to the GitHub Security tab. The repo-root
+[`security-scan.yml`](../.github/workflows/security-scan.yml) workflow runs every scanner and uploads
+the results.
 
 ## Project Layout
 

@@ -11,6 +11,7 @@ import argparse
 import sys
 
 from endon_core.findings import Severity
+from endon_core.sarif import render_sarif
 from endon_siem import report
 from endon_siem.engine import detect_file
 
@@ -26,6 +27,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--alert-on", choices=[s.value for s in Severity], default=Severity.HIGH.value
     )
     detect.add_argument("--json", action="store_true")
+    detect.add_argument(
+        "--sarif",
+        action="store_true",
+        help="emit SARIF 2.1.0 for GitHub code scanning / any SARIF consumer",
+    )
     return parser
 
 
@@ -35,7 +41,10 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     result = report.evaluate(detect_file(args.path), Severity(args.alert_on))
-    print(report.render_json(result) if args.json else report.render_console(result))
+    if args.sarif:
+        print(render_sarif(result.findings, tool_name="endon-siem"))
+    else:
+        print(report.render_json(result) if args.json else report.render_console(result))
     if not result.passed:
         print(
             f"ALERTS: {result.alerting} detection(s) at or above {args.alert_on}.", file=sys.stderr

@@ -87,7 +87,9 @@ Every component depends on [`endon-core`](endon-core/), a small standard-library
 package that defines the platform's contracts:
 
 - **`Finding`**: one normalized finding for every source, convertible to the AWS
-  Security Finding Format (ASFF) for Security Hub.
+  Security Finding Format (ASFF) for Security Hub *and* to
+  [SARIF 2.1.0](docs/IMPROVEMENTS.md) for GitHub code scanning — one model, the two
+  industry formats, so a single finding reaches both the AWS console and the pull request.
 - **`Incident`**: what happened, which playbook ran, each action taken, and a
   timestamped timeline.
 - **Events**: components never call each other directly. They publish to the
@@ -136,7 +138,12 @@ python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\act
 pip install -r requirements-dev.txt
 pytest
 python 01-threat-detection-response/attack-simulation/offline_replay.py
+python tools/scan_all.py                            # run every scanner, write SARIF
 ```
+
+Every scanner also emits SARIF with `--sarif`, and the repo-root
+[`.github/workflows/security-scan.yml`](.github/workflows/security-scan.yml) publishes those
+results to GitHub code scanning on each push. See [docs/IMPROVEMENTS.md](docs/IMPROVEMENTS.md).
 
 **Deploy to AWS.** AWS CDK for Python.
 

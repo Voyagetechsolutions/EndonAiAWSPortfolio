@@ -117,8 +117,15 @@ exactly that.
 python 10-kubernetes-security/attack-simulation/deploy_bad_pod.py   # scan + admission proof
 pytest 10-kubernetes-security/tests                                 # tests (17)
 endon-k8s scan 10-kubernetes-security/manifests --fail-on HIGH
+endon-k8s scan 10-kubernetes-security/manifests --sarif             # SARIF for code scanning
 endon-k8s admit 10-kubernetes-security/manifests/insecure.yaml      # simulate the webhook
 ```
+
+**SARIF output.** `--sarif` emits [SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
+from the shared [`endon_core.sarif`](../endon-core/src/endon_core/sarif.py) renderer, so pod-security
+and RBAC findings surface in the GitHub Security tab like any static-analysis tool. The repo-root
+[`security-scan.yml`](../.github/workflows/security-scan.yml) workflow runs every scanner and uploads
+the results.
 
 ## Project Layout
 

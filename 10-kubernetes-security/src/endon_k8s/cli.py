@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 from endon_core.findings import Severity
+from endon_core.sarif import render_sarif
 from endon_k8s import report
 from endon_k8s.admission import review
 from endon_k8s.manifests import load_file, pod_specs
@@ -28,6 +29,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--fail-on", choices=[s.value for s in Severity], default=Severity.HIGH.value
     )
     scan_cmd.add_argument("--json", action="store_true")
+    scan_cmd.add_argument(
+        "--sarif",
+        action="store_true",
+        help="emit SARIF 2.1.0 for GitHub code scanning / any SARIF consumer",
+    )
 
     admit_cmd = sub.add_parser("admit", help="simulate admission control on the pods in a manifest")
     admit_cmd.add_argument("path", help="a manifest file")
@@ -53,7 +59,10 @@ def main(argv: list[str] | None = None) -> int:
 def _scan(args: argparse.Namespace) -> int:
     objects = [o for path in _manifest_paths(args.path) for o in load_file(path)]
     result = report.evaluate_gate(scan(objects), Severity(args.fail_on))
-    print(report.render_json(result) if args.json else report.render_console(result))
+    if args.sarif:
+        print(render_sarif(result.findings, tool_name="endon-k8s"))
+    else:
+        print(report.render_json(result) if args.json else report.render_console(result))
     if not result.passed:
         print(
             f"GATE FAILED: {result.blocking} finding(s) at or above {args.fail_on}.",

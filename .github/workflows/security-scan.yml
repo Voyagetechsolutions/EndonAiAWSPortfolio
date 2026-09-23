@@ -1,0 +1,62 @@
+# Endon AI — continuous security scanning.
+#
+# Runs the platform's offline scanners on every push and pull request and uploads their
+# findings to GitHub code scanning (the Security tab). Each scanner emits SARIF 2.1.0 from
+# the shared finding model, so Terraform, Kubernetes, Azure, CloudTrail and cost findings
+# all land in one place — the same findings that map to AWS Security Hub via ASFF.
+#
+# The scanners run against the committed example fixtures so the integration is visible with
+# no cloud account. To make this a MERGE GATE on your own infrastructure, point a scanner at
+# your real plan/manifests and drop `continue-on-error` — its non-zero exit (fail-on HIGH)
+# then blocks the pull request.
+
+name: security-scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write # required to upload SARIF to code scanning
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt ruff
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest -q
+
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # One pass over every scanner -> evidence/sarif/*.sarif. Reporting run, always exits 0.
+      - name: Run Endon scanners (SARIF)
+        run: python tools/scan_all.py --out sarif-results
+
+      - name: Upload results to code scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() # publish findings even when a gate step later fails the build
+        with:
+          sarif_file: sarif-results

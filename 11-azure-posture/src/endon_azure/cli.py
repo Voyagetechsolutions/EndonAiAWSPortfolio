@@ -13,6 +13,7 @@ from endon_azure import report
 from endon_azure.resources import load, load_file
 from endon_azure.scanner import scan
 from endon_core.findings import Severity
+from endon_core.sarif import render_sarif
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -32,6 +33,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--fail-on", choices=[s.value for s in Severity], default=Severity.HIGH.value
     )
     scan_cmd.add_argument("--json", action="store_true")
+    scan_cmd.add_argument(
+        "--sarif",
+        action="store_true",
+        help="emit SARIF 2.1.0 for GitHub code scanning / any SARIF consumer",
+    )
     return parser
 
 
@@ -51,7 +57,10 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     result = report.evaluate_gate(scan(resources), Severity(args.fail_on))
-    print(report.render_json(result) if args.json else report.render_console(result))
+    if args.sarif:
+        print(render_sarif(result.findings, tool_name="endon-azure"))
+    else:
+        print(report.render_json(result) if args.json else report.render_console(result))
     if not result.passed:
         print(
             f"GATE FAILED: {result.blocking} finding(s) at or above {args.fail_on}.",

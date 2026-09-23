@@ -10,6 +10,7 @@ import argparse
 import sys
 
 from endon_core.findings import Severity
+from endon_core.sarif import render_sarif
 from endon_finops import report
 from endon_finops.engine import analyze_file
 
@@ -25,6 +26,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--fail-on", choices=[s.value for s in Severity], default=Severity.HIGH.value
     )
     analyze.add_argument("--json", action="store_true")
+    analyze.add_argument(
+        "--sarif",
+        action="store_true",
+        help="emit SARIF 2.1.0 for GitHub code scanning / any SARIF consumer",
+    )
     return parser
 
 
@@ -34,7 +40,10 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     result = report.evaluate(analyze_file(args.path), Severity(args.fail_on))
-    print(report.render_json(result) if args.json else report.render_console(result))
+    if args.sarif:
+        print(render_sarif(result.findings, tool_name="endon-finops"))
+    else:
+        print(report.render_json(result) if args.json else report.render_console(result))
     if not result.passed:
         print(
             f"GATE FAILED: {result.blocking} finding(s) at or above {args.fail_on}.",
